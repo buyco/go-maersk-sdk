@@ -1,14 +1,19 @@
 openapi: 3.0.0
 info:
-  description: "Retrieve Track & Trace Events based on DCSA Interface standard v.2.2\n\
-    \nThis service provides shippers and consignees visibility to Shipment, Equipment\
-    \ and Transport events for shipments booked with A.P. Moller-Maersk A/S\nusing\
-    \ standards set by the Digital Container Shipping Association.\\\n<https://dcsa.org/>\n"
+  description: |
+    Retrieve Track & Trace Events based on DCSA Interface standard v.2.2
+
+    This service provides shippers and consignees visibility to Shipment, Equipment and Transport events for shipments booked with A.P. Moller-Maersk A/S
+    using standards set by the Digital Container Shipping Association.\
+    <https://dcsa.org/>
   title: Track & Trace Events
   version: 1.1.1
-  x-release-notes: "Production Release Date: 2020-XX-XX\n# Version     Date     Notes\n\
-    # 1.0.0                Initial draft\n# 1.1.0    2022-02-01  upgrated to meet\
-    \ DCSA V.2.2\n# 1.1.1    2022-04-08  fixed examples\n"
+  x-release-notes: |
+    Production Release Date: 2020-XX-XX
+    # Version     Date     Notes
+    # 1.0.0                Initial draft
+    # 1.1.0    2022-02-01  upgrated to meet DCSA V.2.2
+    # 1.1.1    2022-04-08  fixed examples
 servers:
 - description: Production Environment
   url: https://api.maersk.com/track-and-trace
@@ -22,14 +27,15 @@ tags:
 paths:
   /public-events:
     get:
-      description: "Returns all events filtered by the queryParameters.  This endpoint\
-        \ requires **at least one** of the following input parameters:\n\n* carrierBookingReference\n\
-        * transportDocumentReference\n* equipmentReference\n\nNote:  It is possible\
-        \ to combine queryParameters. When combining queryParameters be aware that\
-        \ it is also possible to make combinations that are mutually contradicting.\\\
-        \nFor example, shipmentEventTypeCode=DRFT and equipmentEventTypeCode=GTIN;\
-        \ since there is no event that can be a ShipmentEvent and an EquipmentEvent\
-        \ at the same time this will return an empty list.\n"
+      description: |
+        Returns all events filtered by the queryParameters.  This endpoint requires **at least one** of the following input parameters:
+
+        * carrierBookingReference
+        * transportDocumentReference
+        * equipmentReference
+
+        Note:  It is possible to combine queryParameters. When combining queryParameters be aware that it is also possible to make combinations that are mutually contradicting.\
+        For example, shipmentEventTypeCode=DRFT and equipmentEventTypeCode=GTIN; since there is no event that can be a ShipmentEvent and an EquipmentEvent at the same time this will return an empty list.
       parameters:
       - description: |
           A set of unique characters provided by carrier to identify a booking.
@@ -63,10 +69,9 @@ paths:
           pattern: "[a-zA-Z0-9]{9}"
           type: string
         style: form
-      - description: "Will filter by the unique identifier for the equipment, which\
-          \ should follow the BIC ISO Container Identification Number where possible.\n\
-          Specifying this filter will only return events related to this particular\
-          \ equipmentReference\n"
+      - description: |
+          Will filter by the unique identifier for the equipment, which should follow the BIC ISO Container Identification Number where possible.
+          Specifying this filter will only return events related to this particular equipmentReference
         explode: true
         in: query
         name: equipmentReference
@@ -77,12 +82,14 @@ paths:
           pattern: "[a-zA-Z0-9]{11}"
           type: string
         style: form
-      - description: "The type of event(s) to filter by. Possible values are\n- SHIPMENT\
-          \ (Shipment events)\n- TRANSPORT (Transport events)\n- EQUIPMENT (Equipment\
-          \ events)\n\nIt is possible to select multiple values by comma (,) separating\
-          \ them. For multiple values the OR operator is used. For example, [eventType=SHIPMENT,EQUIPMENT]\
-          \ matches both Shipment and Equipment events.\\\nDefault value is all event\
-          \ types.\n"
+      - description: |
+          The type of event(s) to filter by. Possible values are
+          - SHIPMENT (Shipment events)
+          - TRANSPORT (Transport events)
+          - EQUIPMENT (Equipment events)
+
+          It is possible to select multiple values by comma (,) separating them. For multiple values the OR operator is used. For example, [eventType=SHIPMENT,EQUIPMENT] matches both Shipment and Equipment events.\
+          Default value is all event types.
         example:
         - SHIPMENT
         - TRANSPORT
@@ -104,15 +111,18 @@ paths:
             type: string
           type: array
         style: form
-      - description: "Limit the result based on a UTC date. It is possible to use\
-          \ operators on this query parameter. This is done by adding an operator\
-          \ at the beginning of the value followed by a colon:\\\neventCreatedDateTime\
-          \ = **gte**:2021-04-01T00:00:00Z\\\nwould result in all events created >=\
-          \ 2021-04-01T00:00:00Z\\\nThe following operators are supported\n- gte:\
-          \ (>= Greater than or equal)\n- gt: (> Greater than)\n- lte: (<= Less than\
-          \ or equal)\n- lt: (< Less than)\n- eq: (= Equal to)\n\nIf no operator is\
-          \ provided, a **strictly equal** is used (this is equivalent to **eq:**\
-          \ operator).\n"
+      - description: |
+          Limit the result based on a UTC date. It is possible to use operators on this query parameter. This is done by adding an operator at the beginning of the value followed by a colon:\
+          eventCreatedDateTime = **gte**:2021-04-01T00:00:00Z\
+          would result in all events created >= 2021-04-01T00:00:00Z\
+          The following operators are supported
+          - gte: (>= Greater than or equal)
+          - gt: (> Greater than)
+          - lte: (<= Less than or equal)
+          - lt: (< Less than)
+          - eq: (= Equal to)
+
+          If no operator is provided, a **strictly equal** is used (this is equivalent to **eq:** operator).
         explode: true
         in: query
         name: eventCreatedDateTime
@@ -121,18 +131,29 @@ paths:
           example: gte:2022-01-01T00:00:00Z
           type: string
         style: form
-      - description: "The status of the document in the process to filter by. Possible\
-          \ values are\n- RECE (Received)\n- DRFT (Drafted)\n- PENA (Pending Approval)\n\
-          - PENU (Pending Update)\n- REJE (Rejected)\n- APPR (Approved)\n- ISSU (Issued)\n\
-          - SURR (Surrendered)\n- SUBM (Submitted)\n- VOID (Void)\n- CONF (Confirmed)\n\
-          - REQS (Requested)\n- CMPL (Completed)\n- HOLD (On Hold)\n- RELS (Released)\n\
-          \nIt is possible to select multiple values by comma (,) separating them.\
-          \ For multiple values the OR-operator is used. For example, [shipmentEventTypeCode=RECE,DRFT]\
-          \ matches **both** Received (RECE) and Drafted (DRFT) shipment events.\\\
-          \nDefault is all shipmentEventTypeCodes.\\\nThis filter is only relevant\
-          \ when filtering on ShipmentEvents\n\n**Note: Version 1.1 replaces CONF\
-          \ (Confirmed) for RELS (Released) for documentTypeCode SRM (Shipment Release\
-          \ Message).**\n"
+      - description: |
+          The status of the document in the process to filter by. Possible values are
+          - RECE (Received)
+          - DRFT (Drafted)
+          - PENA (Pending Approval)
+          - PENU (Pending Update)
+          - REJE (Rejected)
+          - APPR (Approved)
+          - ISSU (Issued)
+          - SURR (Surrendered)
+          - SUBM (Submitted)
+          - VOID (Void)
+          - CONF (Confirmed)
+          - REQS (Requested)
+          - CMPL (Completed)
+          - HOLD (On Hold)
+          - RELS (Released)
+
+          It is possible to select multiple values by comma (,) separating them. For multiple values the OR-operator is used. For example, [shipmentEventTypeCode=RECE,DRFT] matches **both** Received (RECE) and Drafted (DRFT) shipment events.\
+          Default is all shipmentEventTypeCodes.\
+          This filter is only relevant when filtering on ShipmentEvents
+
+          **Note: Version 1.1 replaces CONF (Confirmed) for RELS (Released) for documentTypeCode SRM (Shipment Release Message).**
         explode: false
         in: query
         name: shipmentEventTypeCode
@@ -186,12 +207,14 @@ paths:
             type: string
           type: array
         style: form
-      - description: "Identifier for type of Transport event to filter by\n- ARRI\
-          \ (Arrived)\n- DEPA (Departed)\n\nIt is possible to select multiple values\
-          \ by comma (,) separating them. For multiple values the OR operator is used.\
-          \ For example, [transportEventTypeCode=ARRI,DEPA} matches **both** Arrived\
-          \ (ARRI) and Departed (DEPA) transport events.\\\nDefault is all transportEventTypeCodes.\\\
-          \nThis filter is only relevant when filtering on TransportEvents\n"
+      - description: |
+          Identifier for type of Transport event to filter by
+          - ARRI (Arrived)
+          - DEPA (Departed)
+
+          It is possible to select multiple values by comma (,) separating them. For multiple values the OR operator is used. For example, [transportEventTypeCode=ARRI,DEPA} matches **both** Arrived (ARRI) and Departed (DEPA) transport events.\
+          Default is all transportEventTypeCodes.\
+          This filter is only relevant when filtering on TransportEvents
         explode: false
         in: query
         name: transportEventTypeCode
@@ -207,15 +230,23 @@ paths:
             type: string
           type: array
         style: form
-      - description: "Unique identifier for equipmentEventTypeCode.\n* LOAD (Loaded)\n\
-          * DISC (Discharged)\n* GTIN (Gated in)\n* GTOT (Gated out)\n* STUF (Stuffed)\n\
-          * STRP (Stripped)\n* PICK (Pick-up)\n* DROP (Drop-off)\n* RSEA (Resealed)\n\
-          * RMVD (Removed)\n* INSP (Inspected)\n\nIt is possible to select multiple\
-          \ values by comma (,) separating them. For multiple values the OR operator\
-          \ is used. For example, [equipmentEventTypeCode=GTIN,GTOT] matches **both**\
-          \ Gated in (GTIN) and Gated out (GTOT) equipment events.\\\nDefault is all\
-          \ equipmentEventTypeCodes.\\\nThis filter is only relevant when filtering\
-          \ on EquipmentEvents\n"
+      - description: |
+          Unique identifier for equipmentEventTypeCode.
+          * LOAD (Loaded)
+          * DISC (Discharged)
+          * GTIN (Gated in)
+          * GTOT (Gated out)
+          * STUF (Stuffed)
+          * STRP (Stripped)
+          * PICK (Pick-up)
+          * DROP (Drop-off)
+          * RSEA (Resealed)
+          * RMVD (Removed)
+          * INSP (Inspected)
+
+          It is possible to select multiple values by comma (,) separating them. For multiple values the OR operator is used. For example, [equipmentEventTypeCode=GTIN,GTOT] matches **both** Gated in (GTIN) and Gated out (GTOT) equipment events.\
+          Default is all equipmentEventTypeCodes.\
+          This filter is only relevant when filtering on EquipmentEvents
         explode: false
         in: query
         name: equipmentEventTypeCode
@@ -502,8 +533,11 @@ components:
           format: date-time
           type: string
         eventClassifierCode:
-          description: "Code for the event classifier, either PLN, ACT or EST.\n*\
-            \ PLN - Planned\n* ACT - Actual\n* EST - Estimated\n"
+          description: |
+            Code for the event classifier, either PLN, ACT or EST.
+            * PLN - Planned
+            * ACT - Actual
+            * EST - Estimated
           example: ACT
           type: string
       required:
@@ -764,13 +798,25 @@ components:
           nullable: false
           type: string
         shipmentEventTypeCode:
-          description: "The status of the document in the process. Possible values\
-            \ are\n- RECE (Received)\n- DRFT (Drafted)\n- PENA (Pending Approval)\n\
-            - PENU (Pending Update)\n- REJE (Rejected)\n- APPR (Approved)\n- ISSU\
-            \ (Issued)\n- SURR (Surrendered)\n- SUBM (Submitted)\n- VOID (Void)\n\
-            - CONF (Confirmed)\n- REQS (Requested)\n- CMPL (Completed)\n- HOLD (On\
-            \ Hold)\n- RELS (Released)\n\nNote: Version 1.1 replaces CONF (Confirmed)\
-            \ for RELS (Released) for documentTypeCode SRM (Shipment Release Message).\n"
+          description: |
+            The status of the document in the process. Possible values are
+            - RECE (Received)
+            - DRFT (Drafted)
+            - PENA (Pending Approval)
+            - PENU (Pending Update)
+            - REJE (Rejected)
+            - APPR (Approved)
+            - ISSU (Issued)
+            - SURR (Surrendered)
+            - SUBM (Submitted)
+            - VOID (Void)
+            - CONF (Confirmed)
+            - REQS (Requested)
+            - CMPL (Completed)
+            - HOLD (On Hold)
+            - RELS (Released)
+
+            Note: Version 1.1 replaces CONF (Confirmed) for RELS (Released) for documentTypeCode SRM (Shipment Release Message).
           enum:
           - RECE
           - DRFT
@@ -816,6 +862,7 @@ components:
       - documentTypeCode
       - shipmentEventTypeCode
       type: object
+      example: null
     TransportEvent_allOf:
       properties:
         eventType:
@@ -850,6 +897,7 @@ components:
       required:
       - transportEventType
       type: object
+      example: null
     TransportEvent_allOf_1:
       properties:
         transportCall:
@@ -857,6 +905,7 @@ components:
       required:
       - transportCall
       type: object
+      example: null
     EquipmentEvent_allOf:
       properties:
         eventType:
@@ -894,13 +943,8 @@ components:
           example: LOAD
           type: string
         equipmentReference:
-          description: "The unique identifier for the equipment, which should follow\
-            \ the BIC ISO Container Identification Number where possible. According\
-            \ to ISO 6346, a container identification code consists of a 4-letter\
-            \ prefix and a 7-digit number (composed of a 3-letter owner code, a category\
-            \ identifier, a serial number, and a check-digit). If a container does\
-            \ not comply with ISO 6346, it is suggested to follow Recommendation #2\
-            \ “Container with non-ISO identification” from SMDG.\n"
+          description: |
+            The unique identifier for the equipment, which should follow the BIC ISO Container Identification Number where possible. According to ISO 6346, a container identification code consists of a 4-letter prefix and a 7-digit number (composed of a 3-letter owner code, a category identifier, a serial number, and a check-digit). If a container does not comply with ISO 6346, it is suggested to follow Recommendation #2 “Container with non-ISO identification” from SMDG.
           example: APZU4812090
           maxLength: 15
           type: string
@@ -939,6 +983,7 @@ components:
       - emptyIndicatorCode
       - equipmentEventType
       type: object
+      example: null
     Events_events_inner:
       anyOf:
       - $ref: '#/components/schemas/ShipmentEvent'
