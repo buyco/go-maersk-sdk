@@ -1,7 +1,7 @@
 /*
 Track & Trace Events
 
-Retrieve Track & Trace Events based on DCSA Interface standard v.2.2  This service provides shippers and consignees visibility to Shipment, Equipment and Transport events for shipments booked with A.P. Moller-Maersk A/S using standards set by the Digital Container Shipping Association.\\ <https://dcsa.org/> 
+Retrieve Track & Trace Events based on DCSA Interface standard v.2.2  This service provides shippers and consignees visibility to Shipment, Equipment and Transport events for shipments booked with A.P. Moller-Maersk A/S using standards set by the Digital Container Shipping Association.\\ <https://dcsa.org/>
 
 API version: 1.1.1
 */
@@ -12,7 +12,6 @@ package maersk
 
 import (
 	"encoding/json"
-	"time"
 	"fmt"
 )
 
@@ -30,7 +29,7 @@ func (dst *EventsEventsInner) UnmarshalJSON(data []byte) error {
 	var jsonDict map[string]interface{}
 	err = json.Unmarshal(data, &jsonDict)
 	if err != nil {
-		return fmt.Errorf("Failed to unmarshal JSON into map for the discriminator lookup.")
+		return fmt.Errorf("failed to unmarshal JSON into map for the discriminator lookup")
 	}
 
 	// check if the discriminator value is 'EquipmentEvent'
@@ -120,7 +119,7 @@ func (dst *EventsEventsInner) UnmarshalJSON(data []byte) error {
 		dst.TransportEvent = nil
 	}
 
-	return fmt.Errorf("Data failed to match schemas in anyOf(EventsEventsInner)")
+	return fmt.Errorf("data failed to match schemas in anyOf(EventsEventsInner)")
 }
 
 // Marshal data from the first non-nil pointers in the struct to JSON
@@ -175,5 +174,3 @@ func (v *NullableEventsEventsInner) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

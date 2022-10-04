@@ -1,7 +1,7 @@
 /*
 Track & Trace Events
 
-Retrieve Track & Trace Events based on DCSA Interface standard v.2.2  This service provides shippers and consignees visibility to Shipment, Equipment and Transport events for shipments booked with A.P. Moller-Maersk A/S using standards set by the Digital Container Shipping Association.\\ <https://dcsa.org/> 
+Retrieve Track & Trace Events based on DCSA Interface standard v.2.2  This service provides shippers and consignees visibility to Shipment, Equipment and Transport events for shipments booked with A.P. Moller-Maersk A/S using standards set by the Digital Container Shipping Association.\\ <https://dcsa.org/>
 
 API version: 1.1.1
 */
@@ -120,7 +120,7 @@ func typeCheckParameter(obj interface{}, expected string, name string) error {
 
 	// Check the type is as expected.
 	if reflect.TypeOf(obj).String() != expected {
-		return fmt.Errorf("Expected %s to be of type %s but received %s.", name, expected, reflect.TypeOf(obj).String())
+		return fmt.Errorf("expected %s to be of type %s but received %s", name, expected, reflect.TypeOf(obj).String())
 	}
 	return nil
 }
@@ -224,7 +224,7 @@ func (c *APIClient) prepareRequest(
 	// add form parameters and file if available.
 	if strings.HasPrefix(headerParams["Content-Type"], "multipart/form-data") && len(formParams) > 0 || (len(formFiles) > 0) {
 		if body != nil {
-			return nil, errors.New("Cannot specify postBody and multipart form at the same time.")
+			return nil, errors.New("cannot specify postBody and multipart form at the same time")
 		}
 		body = &bytes.Buffer{}
 		w := multipart.NewWriter(body)
@@ -265,7 +265,7 @@ func (c *APIClient) prepareRequest(
 
 	if strings.HasPrefix(headerParams["Content-Type"], "application/x-www-form-urlencoded") && len(formParams) > 0 {
 		if body != nil {
-			return nil, errors.New("Cannot specify postBody and x-www-form-urlencoded form at the same time.")
+			return nil, errors.New("cannot specify postBody and x-www-form-urlencoded form at the same time")
 		}
 		body = &bytes.Buffer{}
 		body.WriteString(formParams.Encode())
@@ -390,7 +390,7 @@ func (c *APIClient) decode(v interface{}, b []byte, contentType string) (err err
 					return err
 				}
 			} else {
-				return errors.New("Unknown type with GetActualInstance but no unmarshalObj.UnmarshalJSON defined")
+				return errors.New("unknown type with GetActualInstance but no unmarshalObj.UnmarshalJSON defined")
 			}
 		} else if err = json.Unmarshal(b, v); err != nil { // simple model
 			return err
@@ -459,7 +459,7 @@ func setBody(body interface{}, contentType string) (bodyBuf *bytes.Buffer, err e
 	}
 
 	if bodyBuf.Len() == 0 {
-		err = fmt.Errorf("Invalid body type %s\n", contentType)
+		err = fmt.Errorf("invalid body type %s", contentType)
 		return nil, err
 	}
 	return bodyBuf, nil

@@ -1,7 +1,7 @@
 /*
 Track & Trace Events
 
-Retrieve Track & Trace Events based on DCSA Interface standard v.2.2  This service provides shippers and consignees visibility to Shipment, Equipment and Transport events for shipments booked with A.P. Moller-Maersk A/S using standards set by the Digital Container Shipping Association.\\ <https://dcsa.org/> 
+Retrieve Track & Trace Events based on DCSA Interface standard v.2.2  This service provides shippers and consignees visibility to Shipment, Equipment and Transport events for shipments booked with A.P. Moller-Maersk A/S using standards set by the Digital Container Shipping Association.\\ <https://dcsa.org/>
 
 API version: 1.1.1
 */
@@ -127,7 +127,7 @@ func (c *Configuration) AddDefaultHeader(key string, value string) {
 // URL formats template on a index using given variables
 func (sc ServerConfigurations) URL(index int, variables map[string]string) (string, error) {
 	if index < 0 || len(sc) <= index {
-		return "", fmt.Errorf("Index %v out of range %v", index, len(sc)-1)
+		return "", fmt.Errorf("index %v out of range %v", index, len(sc)-1)
 	}
 	server := sc[index]
 	url := server.URL
@@ -142,7 +142,7 @@ func (sc ServerConfigurations) URL(index int, variables map[string]string) (stri
 				}
 			}
 			if !found {
-				return "", fmt.Errorf("The variable %s in the server URL has invalid value %v. Must be %v", name, value, variable.EnumValues)
+				return "", fmt.Errorf("the variable %s in the server URL has invalid value %v. Must be %v", name, value, variable.EnumValues)
 			}
 			url = strings.Replace(url, "{"+name+"}", value, -1)
 		} else {
