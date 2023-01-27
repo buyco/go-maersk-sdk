@@ -18,7 +18,7 @@ go-sdk:
 	${DOCKER_BUILD} ${GO_CLIENT}
 
 clean:
-	rm -rf ./api
+	rm -rf ./maersk
 
 .PHONY: help
 all: help
