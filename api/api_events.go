@@ -21,20 +21,20 @@ import (
 type EventsApi interface {
 
 	/*
-		EventsGet Find events.
+			EventsGet Find events.
 
-		Returns all events filtered by the queryParameters.  This endpoint requires **at least one** of the following input parameters:
+			Returns all events filtered by the queryParameters.  This endpoint requires **at least one** of the following input parameters:
 
-	* carrierBookingReference
-	* transportDocumentReference
-	* equipmentReference
+		* carrierBookingReference
+		* transportDocumentReference
+		* equipmentReference
 
-	Note:  It is possible to combine queryParameters. When combining queryParameters be aware that it is also possible to make combinations that are mutually contradicting.\
-	For example, shipmentEventTypeCode=DRFT and equipmentEventTypeCode=GTIN; since there is no event that can be a ShipmentEvent and an EquipmentEvent at the same time this will return an empty list.
+		Note:  It is possible to combine queryParameters. When combining queryParameters be aware that it is also possible to make combinations that are mutually contradicting.\
+		For example, shipmentEventTypeCode=DRFT and equipmentEventTypeCode=GTIN; since there is no event that can be a ShipmentEvent and an EquipmentEvent at the same time this will return an empty list.
 
 
-		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@return ApiEventsGetRequest
+			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+			@return ApiEventsGetRequest
 	*/
 	EventsGet(ctx context.Context) ApiEventsGetRequest
 
