@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	authPath  = "oauth2/access_token"
+	authPath  = "/oauth2/access_token"
 	grantType = "client_credentials"
 )
 
