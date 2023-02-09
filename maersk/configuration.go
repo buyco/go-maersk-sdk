@@ -105,11 +105,11 @@ func NewConfiguration() *Configuration {
 		Debug:            false,
 		Servers:          ServerConfigurations{
 			{
-				URL: "https://api.maersk.com/track-and-trace",
+				URL: "https://api.maersk.com/track-and-trace-private",
 				Description: "Production Environment",
 			},
 			{
-				URL: "https://api-stage.maersk.com/track-and-trace",
+				URL: "https://api-stage.maersk.com/track-and-trace-private",
 				Description: "Pre-Production Environment",
 			},
 		},

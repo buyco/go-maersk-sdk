@@ -22,7 +22,7 @@ import (
 type EventsApi interface {
 
 	/*
-	PublicEventsGet Find events.
+	EventsGet Find events.
 
 	Returns all events filtered by the queryParameters.  This endpoint requires **at least one** of the following input parameters:
 
@@ -35,19 +35,19 @@ For example, shipmentEventTypeCode=DRFT and equipmentEventTypeCode=GTIN; since t
 
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiPublicEventsGetRequest
+	@return ApiEventsGetRequest
 	*/
-	PublicEventsGet(ctx context.Context) ApiPublicEventsGetRequest
+	EventsGet(ctx context.Context) ApiEventsGetRequest
 
-	// PublicEventsGetExecute executes the request
+	// EventsGetExecute executes the request
 	//  @return Events
-	PublicEventsGetExecute(r ApiPublicEventsGetRequest) (*Events, *http.Response, error)
+	EventsGetExecute(r ApiEventsGetRequest) (*Events, *http.Response, error)
 }
 
 // EventsApiService EventsApi service
 type EventsApiService service
 
-type ApiPublicEventsGetRequest struct {
+type ApiEventsGetRequest struct {
 	ctx context.Context
 	ApiService EventsApi
 	carrierBookingReference *string
@@ -64,77 +64,77 @@ type ApiPublicEventsGetRequest struct {
 }
 
 // A set of unique characters provided by carrier to identify a booking. Specifying this filter will only return events related to this particular carrierBookingReference. 
-func (r ApiPublicEventsGetRequest) CarrierBookingReference(carrierBookingReference string) ApiPublicEventsGetRequest {
+func (r ApiEventsGetRequest) CarrierBookingReference(carrierBookingReference string) ApiEventsGetRequest {
 	r.carrierBookingReference = &carrierBookingReference
 	return r
 }
 
 // A unique number reference allocated by the shipping line to the transport document and the main number used for the tracking of the status of the shipment. Specifying this filter will only return events related to this particular transportDocumentReference 
-func (r ApiPublicEventsGetRequest) TransportDocumentReference(transportDocumentReference string) ApiPublicEventsGetRequest {
+func (r ApiEventsGetRequest) TransportDocumentReference(transportDocumentReference string) ApiEventsGetRequest {
 	r.transportDocumentReference = &transportDocumentReference
 	return r
 }
 
 // Will filter by the unique identifier for the equipment, which should follow the BIC ISO Container Identification Number where possible. Specifying this filter will only return events related to this particular equipmentReference 
-func (r ApiPublicEventsGetRequest) EquipmentReference(equipmentReference string) ApiPublicEventsGetRequest {
+func (r ApiEventsGetRequest) EquipmentReference(equipmentReference string) ApiEventsGetRequest {
 	r.equipmentReference = &equipmentReference
 	return r
 }
 
 // The type of event(s) to filter by. Possible values are - SHIPMENT (Shipment events) - TRANSPORT (Transport events) - EQUIPMENT (Equipment events)  It is possible to select multiple values by comma (,) separating them. For multiple values the OR operator is used. For example, [eventType&#x3D;SHIPMENT,EQUIPMENT] matches both Shipment and Equipment events.\\ Default value is all event types. 
-func (r ApiPublicEventsGetRequest) EventType(eventType []string) ApiPublicEventsGetRequest {
+func (r ApiEventsGetRequest) EventType(eventType []string) ApiEventsGetRequest {
 	r.eventType = &eventType
 	return r
 }
 
 // Limit the result based on a UTC date. It is possible to use operators on this query parameter. This is done by adding an operator at the beginning of the value followed by a colon:\\ eventCreatedDateTime &#x3D; **gte**:2021-04-01T00:00:00Z\\ would result in all events created &gt;&#x3D; 2021-04-01T00:00:00Z\\ The following operators are supported - gte: (&gt;&#x3D; Greater than or equal) - gt: (&gt; Greater than) - lte: (&lt;&#x3D; Less than or equal) - lt: (&lt; Less than) - eq: (&#x3D; Equal to)  If no operator is provided, a **strictly equal** is used (this is equivalent to **eq:** operator). 
-func (r ApiPublicEventsGetRequest) EventCreatedDateTime(eventCreatedDateTime string) ApiPublicEventsGetRequest {
+func (r ApiEventsGetRequest) EventCreatedDateTime(eventCreatedDateTime string) ApiEventsGetRequest {
 	r.eventCreatedDateTime = &eventCreatedDateTime
 	return r
 }
 
 // The status of the document in the process to filter by. Possible values are - RECE (Received) - DRFT (Drafted) - PENA (Pending Approval) - PENU (Pending Update) - REJE (Rejected) - APPR (Approved) - ISSU (Issued) - SURR (Surrendered) - SUBM (Submitted) - VOID (Void) - CONF (Confirmed) - REQS (Requested) - CMPL (Completed) - HOLD (On Hold) - RELS (Released)  It is possible to select multiple values by comma (,) separating them. For multiple values the OR-operator is used. For example, [shipmentEventTypeCode&#x3D;RECE,DRFT] matches **both** Received (RECE) and Drafted (DRFT) shipment events.\\ Default is all shipmentEventTypeCodes.\\ This filter is only relevant when filtering on ShipmentEvents  **Note: Version 1.1 replaces CONF (Confirmed) for RELS (Released) for documentTypeCode SRM (Shipment Release Message).** 
-func (r ApiPublicEventsGetRequest) ShipmentEventTypeCode(shipmentEventTypeCode []string) ApiPublicEventsGetRequest {
+func (r ApiEventsGetRequest) ShipmentEventTypeCode(shipmentEventTypeCode []string) ApiEventsGetRequest {
 	r.shipmentEventTypeCode = &shipmentEventTypeCode
 	return r
 }
 
 // Identifier for type of Transport event to filter by - ARRI (Arrived) - DEPA (Departed)  It is possible to select multiple values by comma (,) separating them. For multiple values the OR operator is used. For example, [transportEventTypeCode&#x3D;ARRI,DEPA} matches **both** Arrived (ARRI) and Departed (DEPA) transport events.\\ Default is all transportEventTypeCodes.\\ This filter is only relevant when filtering on TransportEvents 
-func (r ApiPublicEventsGetRequest) TransportEventTypeCode(transportEventTypeCode []string) ApiPublicEventsGetRequest {
+func (r ApiEventsGetRequest) TransportEventTypeCode(transportEventTypeCode []string) ApiEventsGetRequest {
 	r.transportEventTypeCode = &transportEventTypeCode
 	return r
 }
 
 // Unique identifier for equipmentEventTypeCode. * LOAD (Loaded) * DISC (Discharged) * GTIN (Gated in) * GTOT (Gated out) * STUF (Stuffed) * STRP (Stripped) * PICK (Pick-up) * DROP (Drop-off) * RSEA (Resealed) * RMVD (Removed) * INSP (Inspected)  It is possible to select multiple values by comma (,) separating them. For multiple values the OR operator is used. For example, [equipmentEventTypeCode&#x3D;GTIN,GTOT] matches **both** Gated in (GTIN) and Gated out (GTOT) equipment events.\\ Default is all equipmentEventTypeCodes.\\ This filter is only relevant when filtering on EquipmentEvents 
-func (r ApiPublicEventsGetRequest) EquipmentEventTypeCode(equipmentEventTypeCode []string) ApiPublicEventsGetRequest {
+func (r ApiEventsGetRequest) EquipmentEventTypeCode(equipmentEventTypeCode []string) ApiEventsGetRequest {
 	r.equipmentEventTypeCode = &equipmentEventTypeCode
 	return r
 }
 
 // Maximum number of items to return.
-func (r ApiPublicEventsGetRequest) Limit(limit int32) ApiPublicEventsGetRequest {
+func (r ApiEventsGetRequest) Limit(limit int32) ApiEventsGetRequest {
 	r.limit = &limit
 	return r
 }
 
-// A server generated value to specify a specific point in a collection result, used for pagination.
-func (r ApiPublicEventsGetRequest) Cursor(cursor string) ApiPublicEventsGetRequest {
+// A server generated value to specify a specific point in a collection result, used for pagination.  The current, previous, next, first and last pages are available in the response headers.  For the initial request to the service, this parameter should be null or 1.
+func (r ApiEventsGetRequest) Cursor(cursor string) ApiEventsGetRequest {
 	r.cursor = &cursor
 	return r
 }
 
 // An API-Version header MAY be added to the request (optional); if added it MUST only contain MAJOR version. API-Version header MUST be aligned with the URI version.
-func (r ApiPublicEventsGetRequest) APIVersion(aPIVersion string) ApiPublicEventsGetRequest {
+func (r ApiEventsGetRequest) APIVersion(aPIVersion string) ApiEventsGetRequest {
 	r.aPIVersion = &aPIVersion
 	return r
 }
 
-func (r ApiPublicEventsGetRequest) Execute() (*Events, *http.Response, error) {
-	return r.ApiService.PublicEventsGetExecute(r)
+func (r ApiEventsGetRequest) Execute() (*Events, *http.Response, error) {
+	return r.ApiService.EventsGetExecute(r)
 }
 
 /*
-PublicEventsGet Find events.
+EventsGet Find events.
 
 Returns all events filtered by the queryParameters.  This endpoint requires **at least one** of the following input parameters:
 
@@ -147,10 +147,10 @@ For example, shipmentEventTypeCode=DRFT and equipmentEventTypeCode=GTIN; since t
 
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiPublicEventsGetRequest
+ @return ApiEventsGetRequest
 */
-func (a *EventsApiService) PublicEventsGet(ctx context.Context) ApiPublicEventsGetRequest {
-	return ApiPublicEventsGetRequest{
+func (a *EventsApiService) EventsGet(ctx context.Context) ApiEventsGetRequest {
+	return ApiEventsGetRequest{
 		ApiService: a,
 		ctx: ctx,
 	}
@@ -158,7 +158,7 @@ func (a *EventsApiService) PublicEventsGet(ctx context.Context) ApiPublicEventsG
 
 // Execute executes the request
 //  @return Events
-func (a *EventsApiService) PublicEventsGetExecute(r ApiPublicEventsGetRequest) (*Events, *http.Response, error) {
+func (a *EventsApiService) EventsGetExecute(r ApiEventsGetRequest) (*Events, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -166,12 +166,12 @@ func (a *EventsApiService) PublicEventsGetExecute(r ApiPublicEventsGetRequest) (
 		localVarReturnValue  *Events
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "EventsApiService.PublicEventsGet")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "EventsApiService.EventsGet")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/public-events"
+	localVarPath := localBasePath + "/events"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}

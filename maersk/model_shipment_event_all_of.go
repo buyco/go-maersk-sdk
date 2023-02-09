@@ -23,6 +23,8 @@ type ShipmentEventAllOf struct {
 	DocumentTypeCode string `json:"documentTypeCode"`
 	// The ID of the object defined by the Shipment Information Type. In some cases this is a UUID; in other cases this is a string. 
 	DocumentID string `json:"documentID"`
+	// Reason field in a Shipment event. This field can be used to explain why a specific event has been sent.
+	Reason *string `json:"reason,omitempty"`
 }
 
 // NewShipmentEventAllOf instantiates a new ShipmentEventAllOf object
@@ -149,6 +151,38 @@ func (o *ShipmentEventAllOf) SetDocumentID(v string) {
 	o.DocumentID = v
 }
 
+// GetReason returns the Reason field value if set, zero value otherwise.
+func (o *ShipmentEventAllOf) GetReason() string {
+	if o == nil || o.Reason == nil {
+		var ret string
+		return ret
+	}
+	return *o.Reason
+}
+
+// GetReasonOk returns a tuple with the Reason field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ShipmentEventAllOf) GetReasonOk() (*string, bool) {
+	if o == nil || o.Reason == nil {
+		return nil, false
+	}
+	return o.Reason, true
+}
+
+// HasReason returns a boolean if a field has been set.
+func (o *ShipmentEventAllOf) HasReason() bool {
+	if o != nil && o.Reason != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetReason gets a reference to the given string and assigns it to the Reason field.
+func (o *ShipmentEventAllOf) SetReason(v string) {
+	o.Reason = &v
+}
+
 func (o ShipmentEventAllOf) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.EventType != nil {
@@ -162,6 +196,9 @@ func (o ShipmentEventAllOf) MarshalJSON() ([]byte, error) {
 	}
 	if true {
 		toSerialize["documentID"] = o.DocumentID
+	}
+	if o.Reason != nil {
+		toSerialize["reason"] = o.Reason
 	}
 	return json.Marshal(toSerialize)
 }

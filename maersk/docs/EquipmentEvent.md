@@ -9,19 +9,21 @@ Name | Type | Description | Notes
 **EventDateTime** | **time.Time** | The local date and time, where the event took place or when the event will take place, in ISO 8601 format. For Shipment Event, it is the same as eventCreatedDateTime in UTC timezone. | 
 **EventCreatedDateTime** | **time.Time** | The UTC timestamp of when the event was created. | 
 **EventClassifierCode** | **string** | Code for the event classifier, either PLN, ACT or EST. * PLN - Planned * ACT - Actual * EST - Estimated  | 
+**References** | Pointer to [**[]EventReferencesInner**](EventReferencesInner.md) | References provided by the shipper or freight forwarder at the time of booking or at the time of providing shipping instruction. Carriers share it back when providing track and trace event updates, some are also printed on the B/L. Customers can use these references to track shipments in their internal systems. | [optional] 
 **EquipmentEventTypeCode** | Pointer to **string** | Unique identifier for equipmentEventTypeCode. * LOAD (Loaded) * DISC (Discharged) * GTIN (Gated in) * GTOT (Gated out) * STUF (Stuffed) * STRP (Stripped) * PICK (Pick-up) * DROP (Drop-off) * RSEA (Resealed) * RMVD (Removed) * INSP (Inspected)  | [optional] 
 **EquipmentReference** | Pointer to **string** | The unique identifier for the equipment, which should follow the BIC ISO Container Identification Number where possible. According to ISO 6346, a container identification code consists of a 4-letter prefix and a 7-digit number (composed of a 3-letter owner code, a category identifier, a serial number, and a check-digit). If a container does not comply with ISO 6346, it is suggested to follow Recommendation #2 “Container with non-ISO identification” from SMDG.  | [optional] 
 **ISOEquipmentCode** | Pointer to **string** | Unique code for the different equipment size/type used for transporting commodities. The code is a concatenation of ISO Equipment Size Code and ISO Equipment Type Code A and follows the ISO 6346 standard. | [optional] 
 **EmptyIndicatorCode** | **string** | Code to denote whether the equipment is empty or laden. | 
 **DocumentReferences** | Pointer to [**[]DocumentReferencesInner**](DocumentReferencesInner.md) | An optional list of key-value (documentReferenceType-documentReferenceValue) pairs representing links to objects relevant to the event. The documentReferenceType-field is used to describe where the documentReferenceValue-field is pointing to. | [optional] 
 **EventLocation** | Pointer to [**Location**](Location.md) |  | [optional] 
-**TransportCall** | Pointer to [**TransportCall**](TransportCall.md) |  | [optional] 
+**TransportCall** | [**TransportCall**](TransportCall.md) |  | 
+**Seals** | Pointer to [**[]Seal**](Seal.md) |  | [optional] 
 
 ## Methods
 
 ### NewEquipmentEvent
 
-`func NewEquipmentEvent(eventType string, eventDateTime time.Time, eventCreatedDateTime time.Time, eventClassifierCode string, emptyIndicatorCode string, ) *EquipmentEvent`
+`func NewEquipmentEvent(eventType string, eventDateTime time.Time, eventCreatedDateTime time.Time, eventClassifierCode string, emptyIndicatorCode string, transportCall TransportCall, ) *EquipmentEvent`
 
 NewEquipmentEvent instantiates a new EquipmentEvent object
 This constructor will assign default values to properties that have it defined,
@@ -140,6 +142,31 @@ and a boolean to check if the value has been set.
 
 SetEventClassifierCode sets EventClassifierCode field to given value.
 
+
+### GetReferences
+
+`func (o *EquipmentEvent) GetReferences() []EventReferencesInner`
+
+GetReferences returns the References field if non-nil, zero value otherwise.
+
+### GetReferencesOk
+
+`func (o *EquipmentEvent) GetReferencesOk() (*[]EventReferencesInner, bool)`
+
+GetReferencesOk returns a tuple with the References field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetReferences
+
+`func (o *EquipmentEvent) SetReferences(v []EventReferencesInner)`
+
+SetReferences sets References field to given value.
+
+### HasReferences
+
+`func (o *EquipmentEvent) HasReferences() bool`
+
+HasReferences returns a boolean if a field has been set.
 
 ### GetEquipmentEventTypeCode
 
@@ -305,11 +332,31 @@ and a boolean to check if the value has been set.
 
 SetTransportCall sets TransportCall field to given value.
 
-### HasTransportCall
 
-`func (o *EquipmentEvent) HasTransportCall() bool`
+### GetSeals
 
-HasTransportCall returns a boolean if a field has been set.
+`func (o *EquipmentEvent) GetSeals() []Seal`
+
+GetSeals returns the Seals field if non-nil, zero value otherwise.
+
+### GetSealsOk
+
+`func (o *EquipmentEvent) GetSealsOk() (*[]Seal, bool)`
+
+GetSealsOk returns a tuple with the Seals field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSeals
+
+`func (o *EquipmentEvent) SetSeals(v []Seal)`
+
+SetSeals sets Seals field to given value.
+
+### HasSeals
+
+`func (o *EquipmentEvent) HasSeals() bool`
+
+HasSeals returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

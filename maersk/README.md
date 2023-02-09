@@ -79,24 +79,27 @@ ctx = context.WithValue(context.Background(), maersk.ContextOperationServerVaria
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *https://api.maersk.com/track-and-trace*
+All URIs are relative to *https://api.maersk.com/track-and-trace-private*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*EventsApi* | [**PublicEventsGet**](docs/EventsApi.md#publiceventsget) | **Get** /public-events | Find events.
+*EventsApi* | [**EventsGet**](docs/EventsApi.md#eventsget) | **Get** /events | Find events.
 
 
 ## Documentation For Models
 
+ - [Address](docs/Address.md)
  - [ApiError](docs/ApiError.md)
  - [ApiValidationError](docs/ApiValidationError.md)
  - [DocumentReferencesInner](docs/DocumentReferencesInner.md)
  - [EquipmentEvent](docs/EquipmentEvent.md)
  - [EquipmentEventAllOf](docs/EquipmentEventAllOf.md)
  - [Event](docs/Event.md)
+ - [EventReferencesInner](docs/EventReferencesInner.md)
  - [Events](docs/Events.md)
  - [EventsEventsInner](docs/EventsEventsInner.md)
  - [Location](docs/Location.md)
+ - [Seal](docs/Seal.md)
  - [ShipmentEvent](docs/ShipmentEvent.md)
  - [ShipmentEventAllOf](docs/ShipmentEventAllOf.md)
  - [TransportCall](docs/TransportCall.md)
@@ -117,6 +120,18 @@ Class | Method | HTTP request | Description
 - **Location**: HTTP header
 
 Note, each API key must be added to a map of `map[string]APIKey` where the key is: Consumer-Key and passed in as the auth context for each request.
+
+
+### BearerAuth
+
+- **Type**: HTTP Bearer token authentication
+
+Example
+
+```golang
+auth := context.WithValue(context.Background(), sw.ContextAccessToken, "BEARER_TOKEN_STRING")
+r, err := client.Service.Operation(auth, args)
+```
 
 
 ## Documentation for Utility Methods

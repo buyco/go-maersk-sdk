@@ -28,16 +28,18 @@ type EquipmentEventAllOf struct {
 	// An optional list of key-value (documentReferenceType-documentReferenceValue) pairs representing links to objects relevant to the event. The documentReferenceType-field is used to describe where the documentReferenceValue-field is pointing to.
 	DocumentReferences []DocumentReferencesInner `json:"documentReferences,omitempty"`
 	EventLocation *Location `json:"eventLocation,omitempty"`
-	TransportCall *TransportCall `json:"transportCall,omitempty"`
+	TransportCall TransportCall `json:"transportCall"`
+	Seals []Seal `json:"seals,omitempty"`
 }
 
 // NewEquipmentEventAllOf instantiates a new EquipmentEventAllOf object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewEquipmentEventAllOf(emptyIndicatorCode string) *EquipmentEventAllOf {
+func NewEquipmentEventAllOf(emptyIndicatorCode string, transportCall TransportCall) *EquipmentEventAllOf {
 	this := EquipmentEventAllOf{}
 	this.EmptyIndicatorCode = emptyIndicatorCode
+	this.TransportCall = transportCall
 	return &this
 }
 
@@ -265,36 +267,60 @@ func (o *EquipmentEventAllOf) SetEventLocation(v Location) {
 	o.EventLocation = &v
 }
 
-// GetTransportCall returns the TransportCall field value if set, zero value otherwise.
+// GetTransportCall returns the TransportCall field value
 func (o *EquipmentEventAllOf) GetTransportCall() TransportCall {
-	if o == nil || o.TransportCall == nil {
+	if o == nil {
 		var ret TransportCall
 		return ret
 	}
-	return *o.TransportCall
+
+	return o.TransportCall
 }
 
-// GetTransportCallOk returns a tuple with the TransportCall field value if set, nil otherwise
+// GetTransportCallOk returns a tuple with the TransportCall field value
 // and a boolean to check if the value has been set.
 func (o *EquipmentEventAllOf) GetTransportCallOk() (*TransportCall, bool) {
-	if o == nil || o.TransportCall == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.TransportCall, true
+	return &o.TransportCall, true
 }
 
-// HasTransportCall returns a boolean if a field has been set.
-func (o *EquipmentEventAllOf) HasTransportCall() bool {
-	if o != nil && o.TransportCall != nil {
+// SetTransportCall sets field value
+func (o *EquipmentEventAllOf) SetTransportCall(v TransportCall) {
+	o.TransportCall = v
+}
+
+// GetSeals returns the Seals field value if set, zero value otherwise.
+func (o *EquipmentEventAllOf) GetSeals() []Seal {
+	if o == nil || o.Seals == nil {
+		var ret []Seal
+		return ret
+	}
+	return o.Seals
+}
+
+// GetSealsOk returns a tuple with the Seals field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EquipmentEventAllOf) GetSealsOk() ([]Seal, bool) {
+	if o == nil || o.Seals == nil {
+		return nil, false
+	}
+	return o.Seals, true
+}
+
+// HasSeals returns a boolean if a field has been set.
+func (o *EquipmentEventAllOf) HasSeals() bool {
+	if o != nil && o.Seals != nil {
 		return true
 	}
 
 	return false
 }
 
-// SetTransportCall gets a reference to the given TransportCall and assigns it to the TransportCall field.
-func (o *EquipmentEventAllOf) SetTransportCall(v TransportCall) {
-	o.TransportCall = &v
+// SetSeals gets a reference to the given []Seal and assigns it to the Seals field.
+func (o *EquipmentEventAllOf) SetSeals(v []Seal) {
+	o.Seals = v
 }
 
 func (o EquipmentEventAllOf) MarshalJSON() ([]byte, error) {
@@ -320,8 +346,11 @@ func (o EquipmentEventAllOf) MarshalJSON() ([]byte, error) {
 	if o.EventLocation != nil {
 		toSerialize["eventLocation"] = o.EventLocation
 	}
-	if o.TransportCall != nil {
+	if true {
 		toSerialize["transportCall"] = o.TransportCall
+	}
+	if o.Seals != nil {
+		toSerialize["seals"] = o.Seals
 	}
 	return json.Marshal(toSerialize)
 }

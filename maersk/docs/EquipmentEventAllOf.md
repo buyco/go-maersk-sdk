@@ -11,13 +11,14 @@ Name | Type | Description | Notes
 **EmptyIndicatorCode** | **string** | Code to denote whether the equipment is empty or laden. | 
 **DocumentReferences** | Pointer to [**[]DocumentReferencesInner**](DocumentReferencesInner.md) | An optional list of key-value (documentReferenceType-documentReferenceValue) pairs representing links to objects relevant to the event. The documentReferenceType-field is used to describe where the documentReferenceValue-field is pointing to. | [optional] 
 **EventLocation** | Pointer to [**Location**](Location.md) |  | [optional] 
-**TransportCall** | Pointer to [**TransportCall**](TransportCall.md) |  | [optional] 
+**TransportCall** | [**TransportCall**](TransportCall.md) |  | 
+**Seals** | Pointer to [**[]Seal**](Seal.md) |  | [optional] 
 
 ## Methods
 
 ### NewEquipmentEventAllOf
 
-`func NewEquipmentEventAllOf(emptyIndicatorCode string, ) *EquipmentEventAllOf`
+`func NewEquipmentEventAllOf(emptyIndicatorCode string, transportCall TransportCall, ) *EquipmentEventAllOf`
 
 NewEquipmentEventAllOf instantiates a new EquipmentEventAllOf object
 This constructor will assign default values to properties that have it defined,
@@ -221,11 +222,31 @@ and a boolean to check if the value has been set.
 
 SetTransportCall sets TransportCall field to given value.
 
-### HasTransportCall
 
-`func (o *EquipmentEventAllOf) HasTransportCall() bool`
+### GetSeals
 
-HasTransportCall returns a boolean if a field has been set.
+`func (o *EquipmentEventAllOf) GetSeals() []Seal`
+
+GetSeals returns the Seals field if non-nil, zero value otherwise.
+
+### GetSealsOk
+
+`func (o *EquipmentEventAllOf) GetSealsOk() (*[]Seal, bool)`
+
+GetSealsOk returns a tuple with the Seals field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSeals
+
+`func (o *EquipmentEventAllOf) SetSeals(v []Seal)`
+
+SetSeals sets Seals field to given value.
+
+### HasSeals
+
+`func (o *EquipmentEventAllOf) HasSeals() bool`
+
+HasSeals returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

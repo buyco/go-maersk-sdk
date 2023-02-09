@@ -27,6 +27,8 @@ type Event struct {
 	EventCreatedDateTime time.Time `json:"eventCreatedDateTime"`
 	// Code for the event classifier, either PLN, ACT or EST. * PLN - Planned * ACT - Actual * EST - Estimated 
 	EventClassifierCode string `json:"eventClassifierCode"`
+	// References provided by the shipper or freight forwarder at the time of booking or at the time of providing shipping instruction. Carriers share it back when providing track and trace event updates, some are also printed on the B/L. Customers can use these references to track shipments in their internal systems.
+	References []EventReferencesInner `json:"references,omitempty"`
 }
 
 // NewEvent instantiates a new Event object
@@ -178,6 +180,38 @@ func (o *Event) SetEventClassifierCode(v string) {
 	o.EventClassifierCode = v
 }
 
+// GetReferences returns the References field value if set, zero value otherwise.
+func (o *Event) GetReferences() []EventReferencesInner {
+	if o == nil || o.References == nil {
+		var ret []EventReferencesInner
+		return ret
+	}
+	return o.References
+}
+
+// GetReferencesOk returns a tuple with the References field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Event) GetReferencesOk() ([]EventReferencesInner, bool) {
+	if o == nil || o.References == nil {
+		return nil, false
+	}
+	return o.References, true
+}
+
+// HasReferences returns a boolean if a field has been set.
+func (o *Event) HasReferences() bool {
+	if o != nil && o.References != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetReferences gets a reference to the given []EventReferencesInner and assigns it to the References field.
+func (o *Event) SetReferences(v []EventReferencesInner) {
+	o.References = v
+}
+
 func (o Event) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.EventID != nil {
@@ -194,6 +228,9 @@ func (o Event) MarshalJSON() ([]byte, error) {
 	}
 	if true {
 		toSerialize["eventClassifierCode"] = o.EventClassifierCode
+	}
+	if o.References != nil {
+		toSerialize["references"] = o.References
 	}
 	return json.Marshal(toSerialize)
 }

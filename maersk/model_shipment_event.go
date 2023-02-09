@@ -26,12 +26,16 @@ type ShipmentEvent struct {
 	EventCreatedDateTime time.Time `json:"eventCreatedDateTime"`
 	// Code for the event classifier, either PLN, ACT or EST. * PLN - Planned * ACT - Actual * EST - Estimated 
 	EventClassifierCode string `json:"eventClassifierCode"`
+	// References provided by the shipper or freight forwarder at the time of booking or at the time of providing shipping instruction. Carriers share it back when providing track and trace event updates, some are also printed on the B/L. Customers can use these references to track shipments in their internal systems.
+	References []EventReferencesInner `json:"references,omitempty"`
 	// The status of the document in the process. Possible values are - RECE (Received) - DRFT (Drafted) - PENA (Pending Approval) - PENU (Pending Update) - REJE (Rejected) - APPR (Approved) - ISSU (Issued) - SURR (Surrendered) - SUBM (Submitted) - VOID (Void) - CONF (Confirmed) - REQS (Requested) - CMPL (Completed) - HOLD (On Hold) - RELS (Released)  Note: Version 1.1 replaces CONF (Confirmed) for RELS (Released) for documentTypeCode SRM (Shipment Release Message). 
 	ShipmentEventTypeCode string `json:"shipmentEventTypeCode"`
 	// The code to identify the type of information documentID points to. Can be one of the following values * CBR (Carrier Booking Request Reference) * BKG (Booking) * SHI (Shipping Instruction) * SRM (Shipment Release Message) * TRD (Transport Document) * ARN (Arrival Notice) * VGM (Verified Gross Mass) * CAS (Cargo Survey) * CUS (Customs Inspection) * DGD (Dangerous Goods Declaration) * OOG (Out of Gauge) 
 	DocumentTypeCode string `json:"documentTypeCode"`
 	// The ID of the object defined by the Shipment Information Type. In some cases this is a UUID; in other cases this is a string. 
 	DocumentID string `json:"documentID"`
+	// Reason field in a Shipment event. This field can be used to explain why a specific event has been sent.
+	Reason *string `json:"reason,omitempty"`
 }
 
 // NewShipmentEvent instantiates a new ShipmentEvent object
@@ -186,6 +190,38 @@ func (o *ShipmentEvent) SetEventClassifierCode(v string) {
 	o.EventClassifierCode = v
 }
 
+// GetReferences returns the References field value if set, zero value otherwise.
+func (o *ShipmentEvent) GetReferences() []EventReferencesInner {
+	if o == nil || o.References == nil {
+		var ret []EventReferencesInner
+		return ret
+	}
+	return o.References
+}
+
+// GetReferencesOk returns a tuple with the References field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ShipmentEvent) GetReferencesOk() ([]EventReferencesInner, bool) {
+	if o == nil || o.References == nil {
+		return nil, false
+	}
+	return o.References, true
+}
+
+// HasReferences returns a boolean if a field has been set.
+func (o *ShipmentEvent) HasReferences() bool {
+	if o != nil && o.References != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetReferences gets a reference to the given []EventReferencesInner and assigns it to the References field.
+func (o *ShipmentEvent) SetReferences(v []EventReferencesInner) {
+	o.References = v
+}
+
 // GetShipmentEventTypeCode returns the ShipmentEventTypeCode field value
 func (o *ShipmentEvent) GetShipmentEventTypeCode() string {
 	if o == nil {
@@ -258,6 +294,38 @@ func (o *ShipmentEvent) SetDocumentID(v string) {
 	o.DocumentID = v
 }
 
+// GetReason returns the Reason field value if set, zero value otherwise.
+func (o *ShipmentEvent) GetReason() string {
+	if o == nil || o.Reason == nil {
+		var ret string
+		return ret
+	}
+	return *o.Reason
+}
+
+// GetReasonOk returns a tuple with the Reason field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ShipmentEvent) GetReasonOk() (*string, bool) {
+	if o == nil || o.Reason == nil {
+		return nil, false
+	}
+	return o.Reason, true
+}
+
+// HasReason returns a boolean if a field has been set.
+func (o *ShipmentEvent) HasReason() bool {
+	if o != nil && o.Reason != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetReason gets a reference to the given string and assigns it to the Reason field.
+func (o *ShipmentEvent) SetReason(v string) {
+	o.Reason = &v
+}
+
 func (o ShipmentEvent) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.EventID != nil {
@@ -275,6 +343,9 @@ func (o ShipmentEvent) MarshalJSON() ([]byte, error) {
 	if true {
 		toSerialize["eventClassifierCode"] = o.EventClassifierCode
 	}
+	if o.References != nil {
+		toSerialize["references"] = o.References
+	}
 	if true {
 		toSerialize["shipmentEventTypeCode"] = o.ShipmentEventTypeCode
 	}
@@ -283,6 +354,9 @@ func (o ShipmentEvent) MarshalJSON() ([]byte, error) {
 	}
 	if true {
 		toSerialize["documentID"] = o.DocumentID
+	}
+	if o.Reason != nil {
+		toSerialize["reason"] = o.Reason
 	}
 	return json.Marshal(toSerialize)
 }

@@ -26,6 +26,8 @@ type EquipmentEvent struct {
 	EventCreatedDateTime time.Time `json:"eventCreatedDateTime"`
 	// Code for the event classifier, either PLN, ACT or EST. * PLN - Planned * ACT - Actual * EST - Estimated 
 	EventClassifierCode string `json:"eventClassifierCode"`
+	// References provided by the shipper or freight forwarder at the time of booking or at the time of providing shipping instruction. Carriers share it back when providing track and trace event updates, some are also printed on the B/L. Customers can use these references to track shipments in their internal systems.
+	References []EventReferencesInner `json:"references,omitempty"`
 	// Unique identifier for equipmentEventTypeCode. * LOAD (Loaded) * DISC (Discharged) * GTIN (Gated in) * GTOT (Gated out) * STUF (Stuffed) * STRP (Stripped) * PICK (Pick-up) * DROP (Drop-off) * RSEA (Resealed) * RMVD (Removed) * INSP (Inspected) 
 	EquipmentEventTypeCode *string `json:"equipmentEventTypeCode,omitempty"`
 	// The unique identifier for the equipment, which should follow the BIC ISO Container Identification Number where possible. According to ISO 6346, a container identification code consists of a 4-letter prefix and a 7-digit number (composed of a 3-letter owner code, a category identifier, a serial number, and a check-digit). If a container does not comply with ISO 6346, it is suggested to follow Recommendation #2 “Container with non-ISO identification” from SMDG. 
@@ -37,20 +39,22 @@ type EquipmentEvent struct {
 	// An optional list of key-value (documentReferenceType-documentReferenceValue) pairs representing links to objects relevant to the event. The documentReferenceType-field is used to describe where the documentReferenceValue-field is pointing to.
 	DocumentReferences []DocumentReferencesInner `json:"documentReferences,omitempty"`
 	EventLocation *Location `json:"eventLocation,omitempty"`
-	TransportCall *TransportCall `json:"transportCall,omitempty"`
+	TransportCall TransportCall `json:"transportCall"`
+	Seals []Seal `json:"seals,omitempty"`
 }
 
 // NewEquipmentEvent instantiates a new EquipmentEvent object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewEquipmentEvent(eventType string, eventDateTime time.Time, eventCreatedDateTime time.Time, eventClassifierCode string, emptyIndicatorCode string) *EquipmentEvent {
+func NewEquipmentEvent(eventType string, eventDateTime time.Time, eventCreatedDateTime time.Time, eventClassifierCode string, emptyIndicatorCode string, transportCall TransportCall) *EquipmentEvent {
 	this := EquipmentEvent{}
 	this.EventType = eventType
 	this.EventDateTime = eventDateTime
 	this.EventCreatedDateTime = eventCreatedDateTime
 	this.EventClassifierCode = eventClassifierCode
 	this.EmptyIndicatorCode = emptyIndicatorCode
+	this.TransportCall = transportCall
 	return &this
 }
 
@@ -188,6 +192,38 @@ func (o *EquipmentEvent) GetEventClassifierCodeOk() (*string, bool) {
 // SetEventClassifierCode sets field value
 func (o *EquipmentEvent) SetEventClassifierCode(v string) {
 	o.EventClassifierCode = v
+}
+
+// GetReferences returns the References field value if set, zero value otherwise.
+func (o *EquipmentEvent) GetReferences() []EventReferencesInner {
+	if o == nil || o.References == nil {
+		var ret []EventReferencesInner
+		return ret
+	}
+	return o.References
+}
+
+// GetReferencesOk returns a tuple with the References field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EquipmentEvent) GetReferencesOk() ([]EventReferencesInner, bool) {
+	if o == nil || o.References == nil {
+		return nil, false
+	}
+	return o.References, true
+}
+
+// HasReferences returns a boolean if a field has been set.
+func (o *EquipmentEvent) HasReferences() bool {
+	if o != nil && o.References != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetReferences gets a reference to the given []EventReferencesInner and assigns it to the References field.
+func (o *EquipmentEvent) SetReferences(v []EventReferencesInner) {
+	o.References = v
 }
 
 // GetEquipmentEventTypeCode returns the EquipmentEventTypeCode field value if set, zero value otherwise.
@@ -374,36 +410,60 @@ func (o *EquipmentEvent) SetEventLocation(v Location) {
 	o.EventLocation = &v
 }
 
-// GetTransportCall returns the TransportCall field value if set, zero value otherwise.
+// GetTransportCall returns the TransportCall field value
 func (o *EquipmentEvent) GetTransportCall() TransportCall {
-	if o == nil || o.TransportCall == nil {
+	if o == nil {
 		var ret TransportCall
 		return ret
 	}
-	return *o.TransportCall
+
+	return o.TransportCall
 }
 
-// GetTransportCallOk returns a tuple with the TransportCall field value if set, nil otherwise
+// GetTransportCallOk returns a tuple with the TransportCall field value
 // and a boolean to check if the value has been set.
 func (o *EquipmentEvent) GetTransportCallOk() (*TransportCall, bool) {
-	if o == nil || o.TransportCall == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.TransportCall, true
+	return &o.TransportCall, true
 }
 
-// HasTransportCall returns a boolean if a field has been set.
-func (o *EquipmentEvent) HasTransportCall() bool {
-	if o != nil && o.TransportCall != nil {
+// SetTransportCall sets field value
+func (o *EquipmentEvent) SetTransportCall(v TransportCall) {
+	o.TransportCall = v
+}
+
+// GetSeals returns the Seals field value if set, zero value otherwise.
+func (o *EquipmentEvent) GetSeals() []Seal {
+	if o == nil || o.Seals == nil {
+		var ret []Seal
+		return ret
+	}
+	return o.Seals
+}
+
+// GetSealsOk returns a tuple with the Seals field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EquipmentEvent) GetSealsOk() ([]Seal, bool) {
+	if o == nil || o.Seals == nil {
+		return nil, false
+	}
+	return o.Seals, true
+}
+
+// HasSeals returns a boolean if a field has been set.
+func (o *EquipmentEvent) HasSeals() bool {
+	if o != nil && o.Seals != nil {
 		return true
 	}
 
 	return false
 }
 
-// SetTransportCall gets a reference to the given TransportCall and assigns it to the TransportCall field.
-func (o *EquipmentEvent) SetTransportCall(v TransportCall) {
-	o.TransportCall = &v
+// SetSeals gets a reference to the given []Seal and assigns it to the Seals field.
+func (o *EquipmentEvent) SetSeals(v []Seal) {
+	o.Seals = v
 }
 
 func (o EquipmentEvent) MarshalJSON() ([]byte, error) {
@@ -423,6 +483,9 @@ func (o EquipmentEvent) MarshalJSON() ([]byte, error) {
 	if true {
 		toSerialize["eventClassifierCode"] = o.EventClassifierCode
 	}
+	if o.References != nil {
+		toSerialize["references"] = o.References
+	}
 	if o.EquipmentEventTypeCode != nil {
 		toSerialize["equipmentEventTypeCode"] = o.EquipmentEventTypeCode
 	}
@@ -441,8 +504,11 @@ func (o EquipmentEvent) MarshalJSON() ([]byte, error) {
 	if o.EventLocation != nil {
 		toSerialize["eventLocation"] = o.EventLocation
 	}
-	if o.TransportCall != nil {
+	if true {
 		toSerialize["transportCall"] = o.TransportCall
+	}
+	if o.Seals != nil {
+		toSerialize["seals"] = o.Seals
 	}
 	return json.Marshal(toSerialize)
 }

@@ -28,6 +28,7 @@ type Location struct {
 	FacilityCode *string `json:"facilityCode,omitempty"`
 	// The provider used for identifying the facility Code
 	FacilityCodeListProvider *string `json:"facilityCodeListProvider,omitempty"`
+	Address *Address `json:"address,omitempty"`
 }
 
 // NewLocation instantiates a new Location object
@@ -239,6 +240,38 @@ func (o *Location) SetFacilityCodeListProvider(v string) {
 	o.FacilityCodeListProvider = &v
 }
 
+// GetAddress returns the Address field value if set, zero value otherwise.
+func (o *Location) GetAddress() Address {
+	if o == nil || o.Address == nil {
+		var ret Address
+		return ret
+	}
+	return *o.Address
+}
+
+// GetAddressOk returns a tuple with the Address field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Location) GetAddressOk() (*Address, bool) {
+	if o == nil || o.Address == nil {
+		return nil, false
+	}
+	return o.Address, true
+}
+
+// HasAddress returns a boolean if a field has been set.
+func (o *Location) HasAddress() bool {
+	if o != nil && o.Address != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetAddress gets a reference to the given Address and assigns it to the Address field.
+func (o *Location) SetAddress(v Address) {
+	o.Address = &v
+}
+
 func (o Location) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.LocationName != nil {
@@ -258,6 +291,9 @@ func (o Location) MarshalJSON() ([]byte, error) {
 	}
 	if o.FacilityCodeListProvider != nil {
 		toSerialize["facilityCodeListProvider"] = o.FacilityCodeListProvider
+	}
+	if o.Address != nil {
+		toSerialize["address"] = o.Address
 	}
 	return json.Marshal(toSerialize)
 }

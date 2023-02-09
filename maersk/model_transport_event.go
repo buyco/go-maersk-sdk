@@ -26,8 +26,14 @@ type TransportEvent struct {
 	EventCreatedDateTime time.Time `json:"eventCreatedDateTime"`
 	// Code for the event classifier, either PLN, ACT or EST. * PLN - Planned * ACT - Actual * EST - Estimated 
 	EventClassifierCode string `json:"eventClassifierCode"`
+	// References provided by the shipper or freight forwarder at the time of booking or at the time of providing shipping instruction. Carriers share it back when providing track and trace event updates, some are also printed on the B/L. Customers can use these references to track shipments in their internal systems.
+	References []EventReferencesInner `json:"references,omitempty"`
 	// Identifier for type of Transport event - ARRI (Arrived) - DEPA (Departed) 
 	TransportEventTypeCode *string `json:"transportEventTypeCode,omitempty"`
+	// Reason code for the delay. The SMDG-Delay-Reason-Codes are used for this attribute. The code list can be found at http://www.smdg.org/smdg-code-lists/ 
+	DelayReasonCode *string `json:"delayReasonCode,omitempty"`
+	// Free text information provided by the vessel operator regarding the reasons for the change in schedule and/or plans to mitigate schedule slippage.
+	ChangeRemark *string `json:"changeRemark,omitempty"`
 	// An optional list of key-value (documentReferenceType-documentReferenceValue) pairs representing links to objects relevant to the event. The documentReferenceType-field is used to describe where the documentReferenceValue-field is pointing to.
 	DocumentReferences []DocumentReferencesInner `json:"documentReferences,omitempty"`
 	TransportCall TransportCall `json:"transportCall"`
@@ -183,6 +189,38 @@ func (o *TransportEvent) SetEventClassifierCode(v string) {
 	o.EventClassifierCode = v
 }
 
+// GetReferences returns the References field value if set, zero value otherwise.
+func (o *TransportEvent) GetReferences() []EventReferencesInner {
+	if o == nil || o.References == nil {
+		var ret []EventReferencesInner
+		return ret
+	}
+	return o.References
+}
+
+// GetReferencesOk returns a tuple with the References field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *TransportEvent) GetReferencesOk() ([]EventReferencesInner, bool) {
+	if o == nil || o.References == nil {
+		return nil, false
+	}
+	return o.References, true
+}
+
+// HasReferences returns a boolean if a field has been set.
+func (o *TransportEvent) HasReferences() bool {
+	if o != nil && o.References != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetReferences gets a reference to the given []EventReferencesInner and assigns it to the References field.
+func (o *TransportEvent) SetReferences(v []EventReferencesInner) {
+	o.References = v
+}
+
 // GetTransportEventTypeCode returns the TransportEventTypeCode field value if set, zero value otherwise.
 func (o *TransportEvent) GetTransportEventTypeCode() string {
 	if o == nil || o.TransportEventTypeCode == nil {
@@ -213,6 +251,70 @@ func (o *TransportEvent) HasTransportEventTypeCode() bool {
 // SetTransportEventTypeCode gets a reference to the given string and assigns it to the TransportEventTypeCode field.
 func (o *TransportEvent) SetTransportEventTypeCode(v string) {
 	o.TransportEventTypeCode = &v
+}
+
+// GetDelayReasonCode returns the DelayReasonCode field value if set, zero value otherwise.
+func (o *TransportEvent) GetDelayReasonCode() string {
+	if o == nil || o.DelayReasonCode == nil {
+		var ret string
+		return ret
+	}
+	return *o.DelayReasonCode
+}
+
+// GetDelayReasonCodeOk returns a tuple with the DelayReasonCode field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *TransportEvent) GetDelayReasonCodeOk() (*string, bool) {
+	if o == nil || o.DelayReasonCode == nil {
+		return nil, false
+	}
+	return o.DelayReasonCode, true
+}
+
+// HasDelayReasonCode returns a boolean if a field has been set.
+func (o *TransportEvent) HasDelayReasonCode() bool {
+	if o != nil && o.DelayReasonCode != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetDelayReasonCode gets a reference to the given string and assigns it to the DelayReasonCode field.
+func (o *TransportEvent) SetDelayReasonCode(v string) {
+	o.DelayReasonCode = &v
+}
+
+// GetChangeRemark returns the ChangeRemark field value if set, zero value otherwise.
+func (o *TransportEvent) GetChangeRemark() string {
+	if o == nil || o.ChangeRemark == nil {
+		var ret string
+		return ret
+	}
+	return *o.ChangeRemark
+}
+
+// GetChangeRemarkOk returns a tuple with the ChangeRemark field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *TransportEvent) GetChangeRemarkOk() (*string, bool) {
+	if o == nil || o.ChangeRemark == nil {
+		return nil, false
+	}
+	return o.ChangeRemark, true
+}
+
+// HasChangeRemark returns a boolean if a field has been set.
+func (o *TransportEvent) HasChangeRemark() bool {
+	if o != nil && o.ChangeRemark != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetChangeRemark gets a reference to the given string and assigns it to the ChangeRemark field.
+func (o *TransportEvent) SetChangeRemark(v string) {
+	o.ChangeRemark = &v
 }
 
 // GetDocumentReferences returns the DocumentReferences field value if set, zero value otherwise.
@@ -288,8 +390,17 @@ func (o TransportEvent) MarshalJSON() ([]byte, error) {
 	if true {
 		toSerialize["eventClassifierCode"] = o.EventClassifierCode
 	}
+	if o.References != nil {
+		toSerialize["references"] = o.References
+	}
 	if o.TransportEventTypeCode != nil {
 		toSerialize["transportEventTypeCode"] = o.TransportEventTypeCode
+	}
+	if o.DelayReasonCode != nil {
+		toSerialize["delayReasonCode"] = o.DelayReasonCode
+	}
+	if o.ChangeRemark != nil {
+		toSerialize["changeRemark"] = o.ChangeRemark
 	}
 	if o.DocumentReferences != nil {
 		toSerialize["documentReferences"] = o.DocumentReferences

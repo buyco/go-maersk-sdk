@@ -9,6 +9,7 @@ Name | Type | Description | Notes
 **EventDateTime** | **time.Time** | The local date and time, where the event took place or when the event will take place, in ISO 8601 format. For Shipment Event, it is the same as eventCreatedDateTime in UTC timezone. | 
 **EventCreatedDateTime** | **time.Time** | The UTC timestamp of when the event was created. | 
 **EventClassifierCode** | **string** | Code for the event classifier, either PLN, ACT or EST. * PLN - Planned * ACT - Actual * EST - Estimated  | 
+**References** | Pointer to [**[]EventReferencesInner**](EventReferencesInner.md) | References provided by the shipper or freight forwarder at the time of booking or at the time of providing shipping instruction. Carriers share it back when providing track and trace event updates, some are also printed on the B/L. Customers can use these references to track shipments in their internal systems. | [optional] 
 
 ## Methods
 
@@ -133,6 +134,31 @@ and a boolean to check if the value has been set.
 
 SetEventClassifierCode sets EventClassifierCode field to given value.
 
+
+### GetReferences
+
+`func (o *Event) GetReferences() []EventReferencesInner`
+
+GetReferences returns the References field if non-nil, zero value otherwise.
+
+### GetReferencesOk
+
+`func (o *Event) GetReferencesOk() (*[]EventReferencesInner, bool)`
+
+GetReferencesOk returns a tuple with the References field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetReferences
+
+`func (o *Event) SetReferences(v []EventReferencesInner)`
+
+SetReferences sets References field to given value.
+
+### HasReferences
+
+`func (o *Event) HasReferences() bool`
+
+HasReferences returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

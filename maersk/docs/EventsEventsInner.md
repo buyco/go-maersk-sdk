@@ -9,10 +9,14 @@ Name | Type | Description | Notes
 **EventDateTime** | **time.Time** | The local date and time, where the event took place or when the event will take place, in ISO 8601 format. For Shipment Event, it is the same as eventCreatedDateTime in UTC timezone. | 
 **EventCreatedDateTime** | **time.Time** | The UTC timestamp of when the event was created. | 
 **EventClassifierCode** | **string** | Code for the event classifier, either PLN, ACT or EST. * PLN - Planned * ACT - Actual * EST - Estimated  | 
+**References** | Pointer to [**[]EventReferencesInner**](EventReferencesInner.md) | References provided by the shipper or freight forwarder at the time of booking or at the time of providing shipping instruction. Carriers share it back when providing track and trace event updates, some are also printed on the B/L. Customers can use these references to track shipments in their internal systems. | [optional] 
 **ShipmentEventTypeCode** | **string** | The status of the document in the process. Possible values are - RECE (Received) - DRFT (Drafted) - PENA (Pending Approval) - PENU (Pending Update) - REJE (Rejected) - APPR (Approved) - ISSU (Issued) - SURR (Surrendered) - SUBM (Submitted) - VOID (Void) - CONF (Confirmed) - REQS (Requested) - CMPL (Completed) - HOLD (On Hold) - RELS (Released)  Note: Version 1.1 replaces CONF (Confirmed) for RELS (Released) for documentTypeCode SRM (Shipment Release Message).  | 
 **DocumentTypeCode** | **string** | The code to identify the type of information documentID points to. Can be one of the following values * CBR (Carrier Booking Request Reference) * BKG (Booking) * SHI (Shipping Instruction) * SRM (Shipment Release Message) * TRD (Transport Document) * ARN (Arrival Notice) * VGM (Verified Gross Mass) * CAS (Cargo Survey) * CUS (Customs Inspection) * DGD (Dangerous Goods Declaration) * OOG (Out of Gauge)  | 
 **DocumentID** | **string** | The ID of the object defined by the Shipment Information Type. In some cases this is a UUID; in other cases this is a string.  | 
+**Reason** | Pointer to **string** | Reason field in a Shipment event. This field can be used to explain why a specific event has been sent. | [optional] 
 **TransportEventTypeCode** | Pointer to **string** | Identifier for type of Transport event - ARRI (Arrived) - DEPA (Departed)  | [optional] 
+**DelayReasonCode** | Pointer to **string** | Reason code for the delay. The SMDG-Delay-Reason-Codes are used for this attribute. The code list can be found at http://www.smdg.org/smdg-code-lists/  | [optional] 
+**ChangeRemark** | Pointer to **string** | Free text information provided by the vessel operator regarding the reasons for the change in schedule and/or plans to mitigate schedule slippage. | [optional] 
 **DocumentReferences** | Pointer to [**[]DocumentReferencesInner**](DocumentReferencesInner.md) | An optional list of key-value (documentReferenceType-documentReferenceValue) pairs representing links to objects relevant to the event. The documentReferenceType-field is used to describe where the documentReferenceValue-field is pointing to. | [optional] 
 **TransportCall** | [**TransportCall**](TransportCall.md) |  | 
 **EquipmentEventTypeCode** | Pointer to **string** | Unique identifier for equipmentEventTypeCode. * LOAD (Loaded) * DISC (Discharged) * GTIN (Gated in) * GTOT (Gated out) * STUF (Stuffed) * STRP (Stripped) * PICK (Pick-up) * DROP (Drop-off) * RSEA (Resealed) * RMVD (Removed) * INSP (Inspected)  | [optional] 
@@ -20,6 +24,7 @@ Name | Type | Description | Notes
 **ISOEquipmentCode** | Pointer to **string** | Unique code for the different equipment size/type used for transporting commodities. The code is a concatenation of ISO Equipment Size Code and ISO Equipment Type Code A and follows the ISO 6346 standard. | [optional] 
 **EmptyIndicatorCode** | **string** | Code to denote whether the equipment is empty or laden. | 
 **EventLocation** | Pointer to [**Location**](Location.md) |  | [optional] 
+**Seals** | Pointer to [**[]Seal**](Seal.md) |  | [optional] 
 
 ## Methods
 
@@ -145,6 +150,31 @@ and a boolean to check if the value has been set.
 SetEventClassifierCode sets EventClassifierCode field to given value.
 
 
+### GetReferences
+
+`func (o *EventsEventsInner) GetReferences() []EventReferencesInner`
+
+GetReferences returns the References field if non-nil, zero value otherwise.
+
+### GetReferencesOk
+
+`func (o *EventsEventsInner) GetReferencesOk() (*[]EventReferencesInner, bool)`
+
+GetReferencesOk returns a tuple with the References field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetReferences
+
+`func (o *EventsEventsInner) SetReferences(v []EventReferencesInner)`
+
+SetReferences sets References field to given value.
+
+### HasReferences
+
+`func (o *EventsEventsInner) HasReferences() bool`
+
+HasReferences returns a boolean if a field has been set.
+
 ### GetShipmentEventTypeCode
 
 `func (o *EventsEventsInner) GetShipmentEventTypeCode() string`
@@ -205,6 +235,31 @@ and a boolean to check if the value has been set.
 SetDocumentID sets DocumentID field to given value.
 
 
+### GetReason
+
+`func (o *EventsEventsInner) GetReason() string`
+
+GetReason returns the Reason field if non-nil, zero value otherwise.
+
+### GetReasonOk
+
+`func (o *EventsEventsInner) GetReasonOk() (*string, bool)`
+
+GetReasonOk returns a tuple with the Reason field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetReason
+
+`func (o *EventsEventsInner) SetReason(v string)`
+
+SetReason sets Reason field to given value.
+
+### HasReason
+
+`func (o *EventsEventsInner) HasReason() bool`
+
+HasReason returns a boolean if a field has been set.
+
 ### GetTransportEventTypeCode
 
 `func (o *EventsEventsInner) GetTransportEventTypeCode() string`
@@ -229,6 +284,56 @@ SetTransportEventTypeCode sets TransportEventTypeCode field to given value.
 `func (o *EventsEventsInner) HasTransportEventTypeCode() bool`
 
 HasTransportEventTypeCode returns a boolean if a field has been set.
+
+### GetDelayReasonCode
+
+`func (o *EventsEventsInner) GetDelayReasonCode() string`
+
+GetDelayReasonCode returns the DelayReasonCode field if non-nil, zero value otherwise.
+
+### GetDelayReasonCodeOk
+
+`func (o *EventsEventsInner) GetDelayReasonCodeOk() (*string, bool)`
+
+GetDelayReasonCodeOk returns a tuple with the DelayReasonCode field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDelayReasonCode
+
+`func (o *EventsEventsInner) SetDelayReasonCode(v string)`
+
+SetDelayReasonCode sets DelayReasonCode field to given value.
+
+### HasDelayReasonCode
+
+`func (o *EventsEventsInner) HasDelayReasonCode() bool`
+
+HasDelayReasonCode returns a boolean if a field has been set.
+
+### GetChangeRemark
+
+`func (o *EventsEventsInner) GetChangeRemark() string`
+
+GetChangeRemark returns the ChangeRemark field if non-nil, zero value otherwise.
+
+### GetChangeRemarkOk
+
+`func (o *EventsEventsInner) GetChangeRemarkOk() (*string, bool)`
+
+GetChangeRemarkOk returns a tuple with the ChangeRemark field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetChangeRemark
+
+`func (o *EventsEventsInner) SetChangeRemark(v string)`
+
+SetChangeRemark sets ChangeRemark field to given value.
+
+### HasChangeRemark
+
+`func (o *EventsEventsInner) HasChangeRemark() bool`
+
+HasChangeRemark returns a boolean if a field has been set.
 
 ### GetDocumentReferences
 
@@ -394,6 +499,31 @@ SetEventLocation sets EventLocation field to given value.
 `func (o *EventsEventsInner) HasEventLocation() bool`
 
 HasEventLocation returns a boolean if a field has been set.
+
+### GetSeals
+
+`func (o *EventsEventsInner) GetSeals() []Seal`
+
+GetSeals returns the Seals field if non-nil, zero value otherwise.
+
+### GetSealsOk
+
+`func (o *EventsEventsInner) GetSealsOk() (*[]Seal, bool)`
+
+GetSealsOk returns a tuple with the Seals field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSeals
+
+`func (o *EventsEventsInner) SetSeals(v []Seal)`
+
+SetSeals sets Seals field to given value.
+
+### HasSeals
+
+`func (o *EventsEventsInner) HasSeals() bool`
+
+HasSeals returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

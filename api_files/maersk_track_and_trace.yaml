@@ -4,39 +4,40 @@ info:
   title: Track & Trace Events
   description: |
     Retrieve Track & Trace Events based on DCSA Interface standard v.2.2
-    
+
     This service provides shippers and consignees visibility to Shipment, Equipment and Transport events for shipments booked with A.P. Moller-Maersk A/S
     using standards set by the Digital Container Shipping Association.\
     <https://dcsa.org/>
+  license:
+    url: https://terms.maersk.com/api-license-terms
+    name: Maersk 1.0
   x-release-notes: |
-    Production Release Date: 2020-XX-XX
     # Version     Date     Notes
-    # 1.0.0                Initial draft
-    # 1.1.0    2022-02-01  upgrated to meet DCSA V.2.2
-    # 1.1.1    2022-04-08  fixed examples
+    # 1.1.1    2022-07-04  added referenceType 'EQ'
 servers:
-  - url: 'https://api.maersk.com/track-and-trace'
+  - url: 'https://api.maersk.com/track-and-trace-private'
     description: Production Environment
-  - url: 'https://api-stage.maersk.com/track-and-trace'
+  - url: 'https://api-stage.maersk.com/track-and-trace-private'
     description: Pre-Production Environment
 security:
   - ApiKeyHeader: []
+    BearerAuth: []
 tags:
   - name: Events
     description: Event operations
 paths:
-  /public-events:
+  /events:
     get:
       tags:
         - Events
       summary: Find events.
       description: |
         Returns all events filtered by the queryParameters.  This endpoint requires **at least one** of the following input parameters:
-        
+
         * carrierBookingReference
         * transportDocumentReference
         * equipmentReference
-        
+
         Note:  It is possible to combine queryParameters. When combining queryParameters be aware that it is also possible to make combinations that are mutually contradicting.\
         For example, shipmentEventTypeCode=DRFT and equipmentEventTypeCode=GTIN; since there is no event that can be a ShipmentEvent and an EquipmentEvent at the same time this will return an empty list.
       parameters:
@@ -49,12 +50,7 @@ paths:
           schema:
             type: string
             pattern: '[a-zA-Z0-9]{9}'
-            nullable: true
-          examples:
-            emptyValue:
-              value: null
-            exampleValue:
-              value: VAS000001
+            example: VAS000001
         - name: transportDocumentReference
           in: query
           description: |
@@ -64,12 +60,7 @@ paths:
           schema:
             type: string
             pattern: '[a-zA-Z0-9]{9}'
-            nullable: true
-          examples:
-            emptyValue:
-              value: null
-            exampleValue:
-              value: '260029935'
+            example: '260029935'
         - name: equipmentReference
           in: query
           description: |
@@ -80,7 +71,7 @@ paths:
             type: string
             pattern: '[a-zA-Z0-9]{11}'
             maxLength: 15
-            example: BEAU5189419
+            example: APZU4812090
         - name: eventType
           in: query
           description: |
@@ -88,13 +79,13 @@ paths:
             - SHIPMENT (Shipment events)
             - TRANSPORT (Transport events)
             - EQUIPMENT (Equipment events)
-            
+
             It is possible to select multiple values by comma (,) separating them. For multiple values the OR operator is used. For example, [eventType=SHIPMENT,EQUIPMENT] matches both Shipment and Equipment events.\
             Default value is all event types.
           required: false
           explode: false
           style: form
-          example: [SHIPMENT,TRANSPORT,EQUIPMENT]
+          example: [SHIPMENT,EQUIPMENT]
           schema:
             type: array
             items:
@@ -116,12 +107,12 @@ paths:
             - lte: (<= Less than or equal)
             - lt: (< Less than)
             - eq: (= Equal to)
-            
+
             If no operator is provided, a **strictly equal** is used (this is equivalent to **eq:** operator).
           required: false
           schema:
             type: string
-            example: 'gte:2022-01-01T00:00:00Z'
+            example: 'gte:2021-04-01T00:00:00Z'
         - name: shipmentEventTypeCode
           in: query
           explode: false
@@ -143,12 +134,13 @@ paths:
             - CMPL (Completed)
             - HOLD (On Hold)
             - RELS (Released)
-            
+
             It is possible to select multiple values by comma (,) separating them. For multiple values the OR-operator is used. For example, [shipmentEventTypeCode=RECE,DRFT] matches **both** Received (RECE) and Drafted (DRFT) shipment events.\
             Default is all shipmentEventTypeCodes.\
             This filter is only relevant when filtering on ShipmentEvents
-            
+
             **Note: Version 1.1 replaces CONF (Confirmed) for RELS (Released) for documentTypeCode SRM (Shipment Release Message).**
+          example: [RECE,DRFT]
           schema:
             type: array
             items:
@@ -170,7 +162,6 @@ paths:
                 - HOLD
                 - RELS
             default: [RECE,DRFT,PENA,PENU,REJE,APPR,ISSU,SURR,SUBM,VOID,CONF,REQS,CMPL,HOLD,RELS]
-            example: [RECE,DRFT,PENA,PENU,REJE,APPR,ISSU,SURR,SUBM,VOID,CONF]
         - name: transportEventTypeCode
           in: query
           explode: false
@@ -179,10 +170,11 @@ paths:
             Identifier for type of Transport event to filter by
             - ARRI (Arrived)
             - DEPA (Departed)
-            
+
             It is possible to select multiple values by comma (,) separating them. For multiple values the OR operator is used. For example, [transportEventTypeCode=ARRI,DEPA} matches **both** Arrived (ARRI) and Departed (DEPA) transport events.\
             Default is all transportEventTypeCodes.\
             This filter is only relevant when filtering on TransportEvents
+          example: [ARRI,DEPA]
           schema:
             type: array
             items:
@@ -208,10 +200,11 @@ paths:
             * RSEA (Resealed)
             * RMVD (Removed)
             * INSP (Inspected)
-            
+
             It is possible to select multiple values by comma (,) separating them. For multiple values the OR operator is used. For example, [equipmentEventTypeCode=GTIN,GTOT] matches **both** Gated in (GTIN) and Gated out (GTOT) equipment events.\
             Default is all equipmentEventTypeCodes.\
             This filter is only relevant when filtering on EquipmentEvents
+          example: [GTIN,GTOT]
           schema:
             type: array
             items:
@@ -229,7 +222,6 @@ paths:
                 - RMVD
                 - INSP
             default: [LOAD, DISC, GTIN, GTOT, STUF, STRP, PICK, DROP, RSEA, RMVD, INSP]
-            example: [LOAD, DISC, GTIN, GTOT, STUF, STRP, PICK, DROP, RSEA]
         - name: limit
           in: query
           description: Maximum number of items to return.
@@ -242,7 +234,7 @@ paths:
           example: 100
         - name: cursor
           in: query
-          description: 'A server generated value to specify a specific point in a collection result, used for pagination.'
+          description: 'A server generated value to specify a specific point in a collection result, used for pagination.  The current, previous, next, first and last pages are available in the response headers.  For the initial request to the service, this parameter should be null or 1.'
           required: false
           schema:
             type: string
@@ -376,6 +368,90 @@ components:
             - SMDG
             - NMFTA
           example: NMFTA
+    Address:
+      type: object
+      description: Address related information
+      properties:
+        addressName:
+          type: string
+          maxLength: 100
+          description: Name of the address
+          example: Henrik
+        streetName:
+          type: string
+          maxLength: 100
+          description: The name of the street of the party’s address.
+          example: Kronprincessegade
+        streetNumber:
+          type: string
+          maxLength: 50
+          description: The number of the street of the party’s address.
+          example: '54'
+        floor:
+          type: string
+          maxLength: 50
+          description: The floor of the party’s street number.
+          example: 5. sal
+        postCode:
+          type: string
+          maxLength: 10
+          description: The postal code of the party’s address.
+          example: '1306'
+        cityName:
+          type: string
+          example: København
+          maxLength: 65
+          description: The city name of the party’s address.
+        stateRegion:
+          type: string
+          maxLength: 65
+          description: The state/region of the party’s address.
+          example: N/A
+        country:
+          type: string
+          maxLength: 75
+          description: The country of the party’s address.
+          example: Denmark
+    Seal:
+      type: object
+      description: Addresses the seal-related information associated with the shipment equipment. A seal is put on a shipment equipment once it is loaded. This seal is meant to stay on until the shipment equipment reaches its final destination.
+      required:
+        - sealNumber
+        - sealType
+      properties:
+        sealNumber:
+          type: string
+          maxLength: 15
+          description: Identifies a seal affixed to the container.
+          example: CN123456
+        sealSource:
+          type: string
+          description: |
+            The source of the seal, namely who has affixed the seal. This attribute links to the Seal Source ID defined in the Seal Source reference data entity.
+            * CAR (Carrier)
+            * SHI (Shipper)
+            * PHY (Phytosanitary)
+            * VET (Veterinary)
+            * CUS (Customs)
+          enum:
+            - CAR
+            - SHI
+            - PHY
+            - VET
+            - CUS
+          example: CUS
+        sealType:
+          type: string
+          description: |
+            The type of seal. This attribute links to the Seal Type ID defined in the Seal Type reference data entity.
+            * KLP (Keyless padlock)
+            * BLT (Bolt)
+            * WIR (Wire)
+          enum:
+            - KLP
+            - BLT
+            - WIR
+          example: WIR
     Event:
       description: The event entity is described as a generalization of all the specific event categories. An event always takes place in relation to a shipment and can additionally be linked to a transport or an equipment
       type: object
@@ -410,6 +486,38 @@ components:
             * ACT - Actual
             * EST - Estimated
           example: ACT
+        references:
+          type: array
+          description: 'References provided by the shipper or freight forwarder at the time of booking or at the time of providing shipping instruction. Carriers share it back when providing track and trace event updates, some are also printed on the B/L. Customers can use these references to track shipments in their internal systems.'
+          items:
+            type: object
+            required:
+              - referenceType
+              - referenceValue
+            properties:
+              referenceType:
+                type: string
+                description: |
+                  The reference type codes defined by DCSA.
+                  * FF (Freight Forwarder’s Reference)
+                  * SI (Shipper’s Reference)
+                  * PO (Purchase Order Reference)
+                  * CR (Customer’s Reference)
+                  * AAO (Consignee’s Reference)
+                  * EQ (Equipment Reference)
+                example: FF
+                enum:
+                  - FF
+                  - SI
+                  - PO
+                  - CR
+                  - AAO
+                  - EQ
+              referenceValue:
+                type: string
+                description: The actual value of the reference.
+                maxLength: 100
+                example: my Reference
       required:
         - eventType
         - eventDateTime
@@ -452,6 +560,8 @@ components:
             - BIC
             - SMDG
           example: SMDG
+        address:
+          $ref: '#/components/schemas/Address'
     TransportCall:
       type: object
       properties:
@@ -471,7 +581,7 @@ components:
           example: 131W
           description: |
             \*\*\*do not use\*\*\* this field is replaced by `exportVoyageNumber` from Version 1.1 and will be removed by the API from next major version
-            
+
             The vessel operator-specific identifier of the Voyage.\
             The export voyage is returned when there are multiple voyages.
           deprecated: true
@@ -581,7 +691,7 @@ components:
                 - CMPL (Completed)
                 - HOLD (On Hold)
                 - RELS (Released)
-                
+
                 Note: Version 1.1 replaces CONF (Confirmed) for RELS (Released) for documentTypeCode SRM (Shipment Release Message).
               enum:
                 - RECE
@@ -622,6 +732,10 @@ components:
               description: |
                 The ID of the object defined by the Shipment Information Type. In some cases this is a UUID; in other cases this is a string.
               example: '205284917'
+            reason:
+              type: string
+              description: Reason field in a Shipment event. This field can be used to explain why a specific event has been sent.
+              example: The following attributes are missing...
           required:
             - shipmentEventTypeCode
             - documentID
@@ -648,6 +762,17 @@ components:
                 - ARRI
                 - DEPA
               example: ARRI
+            delayReasonCode:
+              description: |
+                Reason code for the delay. The SMDG-Delay-Reason-Codes are used for this attribute. The code list can be found at http://www.smdg.org/smdg-code-lists/
+              type: string
+              maxLength: 3
+              example: WEA
+            changeRemark:
+              description: Free text information provided by the vessel operator regarding the reasons for the change in schedule and/or plans to mitigate schedule slippage.
+              type: string
+              example: Bad weather
+              maxLength: 250
             documentReferences:
               $ref: '#/components/schemas/DocumentReferences'
           required:
@@ -722,9 +847,14 @@ components:
               $ref: '#/components/schemas/Location'
             transportCall:
               $ref: '#/components/schemas/TransportCall'
+            seals:
+              type: array
+              items:
+                $ref: '#/components/schemas/Seal'
           required:
             - equipmentEventType
             - emptyIndicatorCode
+            - transportCall
     Events:
       type: object
       description: List of events for shipment journey.
@@ -831,3 +961,7 @@ components:
       name: Consumer-Key
       in: header
       description: The Consumer Key issued for your registered application must be provided with every request
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

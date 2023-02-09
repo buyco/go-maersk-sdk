@@ -9,7 +9,10 @@ Name | Type | Description | Notes
 **EventDateTime** | **time.Time** | The local date and time, where the event took place or when the event will take place, in ISO 8601 format. For Shipment Event, it is the same as eventCreatedDateTime in UTC timezone. | 
 **EventCreatedDateTime** | **time.Time** | The UTC timestamp of when the event was created. | 
 **EventClassifierCode** | **string** | Code for the event classifier, either PLN, ACT or EST. * PLN - Planned * ACT - Actual * EST - Estimated  | 
+**References** | Pointer to [**[]EventReferencesInner**](EventReferencesInner.md) | References provided by the shipper or freight forwarder at the time of booking or at the time of providing shipping instruction. Carriers share it back when providing track and trace event updates, some are also printed on the B/L. Customers can use these references to track shipments in their internal systems. | [optional] 
 **TransportEventTypeCode** | Pointer to **string** | Identifier for type of Transport event - ARRI (Arrived) - DEPA (Departed)  | [optional] 
+**DelayReasonCode** | Pointer to **string** | Reason code for the delay. The SMDG-Delay-Reason-Codes are used for this attribute. The code list can be found at http://www.smdg.org/smdg-code-lists/  | [optional] 
+**ChangeRemark** | Pointer to **string** | Free text information provided by the vessel operator regarding the reasons for the change in schedule and/or plans to mitigate schedule slippage. | [optional] 
 **DocumentReferences** | Pointer to [**[]DocumentReferencesInner**](DocumentReferencesInner.md) | An optional list of key-value (documentReferenceType-documentReferenceValue) pairs representing links to objects relevant to the event. The documentReferenceType-field is used to describe where the documentReferenceValue-field is pointing to. | [optional] 
 **TransportCall** | [**TransportCall**](TransportCall.md) |  | 
 
@@ -137,6 +140,31 @@ and a boolean to check if the value has been set.
 SetEventClassifierCode sets EventClassifierCode field to given value.
 
 
+### GetReferences
+
+`func (o *TransportEvent) GetReferences() []EventReferencesInner`
+
+GetReferences returns the References field if non-nil, zero value otherwise.
+
+### GetReferencesOk
+
+`func (o *TransportEvent) GetReferencesOk() (*[]EventReferencesInner, bool)`
+
+GetReferencesOk returns a tuple with the References field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetReferences
+
+`func (o *TransportEvent) SetReferences(v []EventReferencesInner)`
+
+SetReferences sets References field to given value.
+
+### HasReferences
+
+`func (o *TransportEvent) HasReferences() bool`
+
+HasReferences returns a boolean if a field has been set.
+
 ### GetTransportEventTypeCode
 
 `func (o *TransportEvent) GetTransportEventTypeCode() string`
@@ -161,6 +189,56 @@ SetTransportEventTypeCode sets TransportEventTypeCode field to given value.
 `func (o *TransportEvent) HasTransportEventTypeCode() bool`
 
 HasTransportEventTypeCode returns a boolean if a field has been set.
+
+### GetDelayReasonCode
+
+`func (o *TransportEvent) GetDelayReasonCode() string`
+
+GetDelayReasonCode returns the DelayReasonCode field if non-nil, zero value otherwise.
+
+### GetDelayReasonCodeOk
+
+`func (o *TransportEvent) GetDelayReasonCodeOk() (*string, bool)`
+
+GetDelayReasonCodeOk returns a tuple with the DelayReasonCode field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDelayReasonCode
+
+`func (o *TransportEvent) SetDelayReasonCode(v string)`
+
+SetDelayReasonCode sets DelayReasonCode field to given value.
+
+### HasDelayReasonCode
+
+`func (o *TransportEvent) HasDelayReasonCode() bool`
+
+HasDelayReasonCode returns a boolean if a field has been set.
+
+### GetChangeRemark
+
+`func (o *TransportEvent) GetChangeRemark() string`
+
+GetChangeRemark returns the ChangeRemark field if non-nil, zero value otherwise.
+
+### GetChangeRemarkOk
+
+`func (o *TransportEvent) GetChangeRemarkOk() (*string, bool)`
+
+GetChangeRemarkOk returns a tuple with the ChangeRemark field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetChangeRemark
+
+`func (o *TransportEvent) SetChangeRemark(v string)`
+
+SetChangeRemark sets ChangeRemark field to given value.
+
+### HasChangeRemark
+
+`func (o *TransportEvent) HasChangeRemark() bool`
+
+HasChangeRemark returns a boolean if a field has been set.
 
 ### GetDocumentReferences
 

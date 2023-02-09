@@ -10,6 +10,7 @@ Name | Type | Description | Notes
 **UNLocationCode** | Pointer to **string** | The UN Location code specifying where the place is located. | [optional] 
 **FacilityCode** | Pointer to **string** | The code used for identifying the specific facility. This code is not the UN Location Code. | [optional] 
 **FacilityCodeListProvider** | Pointer to **string** | The provider used for identifying the facility Code | [optional] 
+**Address** | Pointer to [**Address**](Address.md) |  | [optional] 
 
 ## Methods
 
@@ -179,6 +180,31 @@ SetFacilityCodeListProvider sets FacilityCodeListProvider field to given value.
 `func (o *Location) HasFacilityCodeListProvider() bool`
 
 HasFacilityCodeListProvider returns a boolean if a field has been set.
+
+### GetAddress
+
+`func (o *Location) GetAddress() Address`
+
+GetAddress returns the Address field if non-nil, zero value otherwise.
+
+### GetAddressOk
+
+`func (o *Location) GetAddressOk() (*Address, bool)`
+
+GetAddressOk returns a tuple with the Address field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetAddress
+
+`func (o *Location) SetAddress(v Address)`
+
+SetAddress sets Address field to given value.
+
+### HasAddress
+
+`func (o *Location) HasAddress() bool`
+
+HasAddress returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
