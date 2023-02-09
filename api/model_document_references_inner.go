@@ -1,7 +1,7 @@
 /*
 Track & Trace Events
 
-Retrieve Track & Trace Events based on DCSA Interface standard v.2.2  This service provides shippers and consignees visibility to Shipment, Equipment and Transport events for shipments booked with A.P. Moller-Maersk A/S using standards set by the Digital Container Shipping Association.\\ <https://dcsa.org/> 
+Retrieve Track & Trace Events based on DCSA Interface standard v.2.2  This service provides shippers and consignees visibility to Shipment, Equipment and Transport events for shipments booked with A.P. Moller-Maersk A/S using standards set by the Digital Container Shipping Association.\\ <https://dcsa.org/>
 
 API version: 1.1.1
 */
@@ -16,7 +16,7 @@ import (
 
 // DocumentReferencesInner struct for DocumentReferencesInner
 type DocumentReferencesInner struct {
-	// Describes where the documentReferenceValue is pointing to * BKG (Booking) * TRD (Transport Document) 
+	// Describes where the documentReferenceValue is pointing to * BKG (Booking) * TRD (Transport Document)
 	DocumentReferenceType *string `json:"documentReferenceType,omitempty"`
 	// The value of the identifier the documentReferenceType is describing
 	DocumentReferenceValue *string `json:"documentReferenceValue,omitempty"`
@@ -149,5 +149,3 @@ func (v *NullableDocumentReferencesInner) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

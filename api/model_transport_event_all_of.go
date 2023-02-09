@@ -1,7 +1,7 @@
 /*
 Track & Trace Events
 
-Retrieve Track & Trace Events based on DCSA Interface standard v.2.2  This service provides shippers and consignees visibility to Shipment, Equipment and Transport events for shipments booked with A.P. Moller-Maersk A/S using standards set by the Digital Container Shipping Association.\\ <https://dcsa.org/> 
+Retrieve Track & Trace Events based on DCSA Interface standard v.2.2  This service provides shippers and consignees visibility to Shipment, Equipment and Transport events for shipments booked with A.P. Moller-Maersk A/S using standards set by the Digital Container Shipping Association.\\ <https://dcsa.org/>
 
 API version: 1.1.1
 */
@@ -17,9 +17,9 @@ import (
 // TransportEventAllOf struct for TransportEventAllOf
 type TransportEventAllOf struct {
 	EventType *string `json:"eventType,omitempty"`
-	// Identifier for type of Transport event - ARRI (Arrived) - DEPA (Departed) 
+	// Identifier for type of Transport event - ARRI (Arrived) - DEPA (Departed)
 	TransportEventTypeCode *string `json:"transportEventTypeCode,omitempty"`
-	// Reason code for the delay. The SMDG-Delay-Reason-Codes are used for this attribute. The code list can be found at http://www.smdg.org/smdg-code-lists/ 
+	// Reason code for the delay. The SMDG-Delay-Reason-Codes are used for this attribute. The code list can be found at http://www.smdg.org/smdg-code-lists/
 	DelayReasonCode *string `json:"delayReasonCode,omitempty"`
 	// Free text information provided by the vessel operator regarding the reasons for the change in schedule and/or plans to mitigate schedule slippage.
 	ChangeRemark *string `json:"changeRemark,omitempty"`
@@ -259,5 +259,3 @@ func (v *NullableTransportEventAllOf) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

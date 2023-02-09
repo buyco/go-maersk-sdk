@@ -1,7 +1,7 @@
 /*
 Track & Trace Events
 
-Retrieve Track & Trace Events based on DCSA Interface standard v.2.2  This service provides shippers and consignees visibility to Shipment, Equipment and Transport events for shipments booked with A.P. Moller-Maersk A/S using standards set by the Digital Container Shipping Association.\\ <https://dcsa.org/> 
+Retrieve Track & Trace Events based on DCSA Interface standard v.2.2  This service provides shippers and consignees visibility to Shipment, Equipment and Transport events for shipments booked with A.P. Moller-Maersk A/S using standards set by the Digital Container Shipping Association.\\ <https://dcsa.org/>
 
 API version: 1.1.1
 */
@@ -17,9 +17,9 @@ import (
 // EquipmentEventAllOf struct for EquipmentEventAllOf
 type EquipmentEventAllOf struct {
 	EventType *string `json:"eventType,omitempty"`
-	// Unique identifier for equipmentEventTypeCode. * LOAD (Loaded) * DISC (Discharged) * GTIN (Gated in) * GTOT (Gated out) * STUF (Stuffed) * STRP (Stripped) * PICK (Pick-up) * DROP (Drop-off) * RSEA (Resealed) * RMVD (Removed) * INSP (Inspected) 
+	// Unique identifier for equipmentEventTypeCode. * LOAD (Loaded) * DISC (Discharged) * GTIN (Gated in) * GTOT (Gated out) * STUF (Stuffed) * STRP (Stripped) * PICK (Pick-up) * DROP (Drop-off) * RSEA (Resealed) * RMVD (Removed) * INSP (Inspected)
 	EquipmentEventTypeCode *string `json:"equipmentEventTypeCode,omitempty"`
-	// The unique identifier for the equipment, which should follow the BIC ISO Container Identification Number where possible. According to ISO 6346, a container identification code consists of a 4-letter prefix and a 7-digit number (composed of a 3-letter owner code, a category identifier, a serial number, and a check-digit). If a container does not comply with ISO 6346, it is suggested to follow Recommendation #2 “Container with non-ISO identification” from SMDG. 
+	// The unique identifier for the equipment, which should follow the BIC ISO Container Identification Number where possible. According to ISO 6346, a container identification code consists of a 4-letter prefix and a 7-digit number (composed of a 3-letter owner code, a category identifier, a serial number, and a check-digit). If a container does not comply with ISO 6346, it is suggested to follow Recommendation #2 “Container with non-ISO identification” from SMDG.
 	EquipmentReference *string `json:"equipmentReference,omitempty"`
 	// Unique code for the different equipment size/type used for transporting commodities. The code is a concatenation of ISO Equipment Size Code and ISO Equipment Type Code A and follows the ISO 6346 standard.
 	ISOEquipmentCode *string `json:"ISOEquipmentCode,omitempty"`
@@ -27,9 +27,9 @@ type EquipmentEventAllOf struct {
 	EmptyIndicatorCode string `json:"emptyIndicatorCode"`
 	// An optional list of key-value (documentReferenceType-documentReferenceValue) pairs representing links to objects relevant to the event. The documentReferenceType-field is used to describe where the documentReferenceValue-field is pointing to.
 	DocumentReferences []DocumentReferencesInner `json:"documentReferences,omitempty"`
-	EventLocation *Location `json:"eventLocation,omitempty"`
-	TransportCall TransportCall `json:"transportCall"`
-	Seals []Seal `json:"seals,omitempty"`
+	EventLocation      *Location                 `json:"eventLocation,omitempty"`
+	TransportCall      TransportCall             `json:"transportCall"`
+	Seals              []Seal                    `json:"seals,omitempty"`
 }
 
 // NewEquipmentEventAllOf instantiates a new EquipmentEventAllOf object
@@ -390,5 +390,3 @@ func (v *NullableEquipmentEventAllOf) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

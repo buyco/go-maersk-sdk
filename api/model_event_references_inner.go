@@ -1,7 +1,7 @@
 /*
 Track & Trace Events
 
-Retrieve Track & Trace Events based on DCSA Interface standard v.2.2  This service provides shippers and consignees visibility to Shipment, Equipment and Transport events for shipments booked with A.P. Moller-Maersk A/S using standards set by the Digital Container Shipping Association.\\ <https://dcsa.org/> 
+Retrieve Track & Trace Events based on DCSA Interface standard v.2.2  This service provides shippers and consignees visibility to Shipment, Equipment and Transport events for shipments booked with A.P. Moller-Maersk A/S using standards set by the Digital Container Shipping Association.\\ <https://dcsa.org/>
 
 API version: 1.1.1
 */
@@ -16,7 +16,7 @@ import (
 
 // EventReferencesInner struct for EventReferencesInner
 type EventReferencesInner struct {
-	// The reference type codes defined by DCSA. * FF (Freight Forwarder’s Reference) * SI (Shipper’s Reference) * PO (Purchase Order Reference) * CR (Customer’s Reference) * AAO (Consignee’s Reference) * EQ (Equipment Reference) 
+	// The reference type codes defined by DCSA. * FF (Freight Forwarder’s Reference) * SI (Shipper’s Reference) * PO (Purchase Order Reference) * CR (Customer’s Reference) * AAO (Consignee’s Reference) * EQ (Equipment Reference)
 	ReferenceType string `json:"referenceType"`
 	// The actual value of the reference.
 	ReferenceValue string `json:"referenceValue"`
@@ -135,5 +135,3 @@ func (v *NullableEventReferencesInner) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

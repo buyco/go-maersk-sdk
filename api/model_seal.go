@@ -1,7 +1,7 @@
 /*
 Track & Trace Events
 
-Retrieve Track & Trace Events based on DCSA Interface standard v.2.2  This service provides shippers and consignees visibility to Shipment, Equipment and Transport events for shipments booked with A.P. Moller-Maersk A/S using standards set by the Digital Container Shipping Association.\\ <https://dcsa.org/> 
+Retrieve Track & Trace Events based on DCSA Interface standard v.2.2  This service provides shippers and consignees visibility to Shipment, Equipment and Transport events for shipments booked with A.P. Moller-Maersk A/S using standards set by the Digital Container Shipping Association.\\ <https://dcsa.org/>
 
 API version: 1.1.1
 */
@@ -18,9 +18,9 @@ import (
 type Seal struct {
 	// Identifies a seal affixed to the container.
 	SealNumber string `json:"sealNumber"`
-	// The source of the seal, namely who has affixed the seal. This attribute links to the Seal Source ID defined in the Seal Source reference data entity. * CAR (Carrier) * SHI (Shipper) * PHY (Phytosanitary) * VET (Veterinary) * CUS (Customs) 
+	// The source of the seal, namely who has affixed the seal. This attribute links to the Seal Source ID defined in the Seal Source reference data entity. * CAR (Carrier) * SHI (Shipper) * PHY (Phytosanitary) * VET (Veterinary) * CUS (Customs)
 	SealSource *string `json:"sealSource,omitempty"`
-	// The type of seal. This attribute links to the Seal Type ID defined in the Seal Type reference data entity. * KLP (Keyless padlock) * BLT (Bolt) * WIR (Wire) 
+	// The type of seal. This attribute links to the Seal Type ID defined in the Seal Type reference data entity. * KLP (Keyless padlock) * BLT (Bolt) * WIR (Wire)
 	SealType string `json:"sealType"`
 }
 
@@ -172,5 +172,3 @@ func (v *NullableSeal) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

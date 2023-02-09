@@ -1,7 +1,7 @@
 /*
 Track & Trace Events
 
-Retrieve Track & Trace Events based on DCSA Interface standard v.2.2  This service provides shippers and consignees visibility to Shipment, Equipment and Transport events for shipments booked with A.P. Moller-Maersk A/S using standards set by the Digital Container Shipping Association.\\ <https://dcsa.org/> 
+Retrieve Track & Trace Events based on DCSA Interface standard v.2.2  This service provides shippers and consignees visibility to Shipment, Equipment and Transport events for shipments booked with A.P. Moller-Maersk A/S using standards set by the Digital Container Shipping Association.\\ <https://dcsa.org/>
 
 API version: 1.1.1
 */
@@ -27,8 +27,8 @@ type Location struct {
 	// The code used for identifying the specific facility. This code is not the UN Location Code.
 	FacilityCode *string `json:"facilityCode,omitempty"`
 	// The provider used for identifying the facility Code
-	FacilityCodeListProvider *string `json:"facilityCodeListProvider,omitempty"`
-	Address *Address `json:"address,omitempty"`
+	FacilityCodeListProvider *string  `json:"facilityCodeListProvider,omitempty"`
+	Address                  *Address `json:"address,omitempty"`
 }
 
 // NewLocation instantiates a new Location object
@@ -333,5 +333,3 @@ func (v *NullableLocation) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

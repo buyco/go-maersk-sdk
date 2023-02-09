@@ -1,7 +1,7 @@
 /*
 Track & Trace Events
 
-Retrieve Track & Trace Events based on DCSA Interface standard v.2.2  This service provides shippers and consignees visibility to Shipment, Equipment and Transport events for shipments booked with A.P. Moller-Maersk A/S using standards set by the Digital Container Shipping Association.\\ <https://dcsa.org/> 
+Retrieve Track & Trace Events based on DCSA Interface standard v.2.2  This service provides shippers and consignees visibility to Shipment, Equipment and Transport events for shipments booked with A.P. Moller-Maersk A/S using standards set by the Digital Container Shipping Association.\\ <https://dcsa.org/>
 
 API version: 1.1.1
 */
@@ -18,24 +18,23 @@ import (
 	"net/url"
 )
 
-
 type EventsApi interface {
 
 	/*
-	EventsGet Find events.
+		EventsGet Find events.
 
-	Returns all events filtered by the queryParameters.  This endpoint requires **at least one** of the following input parameters:
+		Returns all events filtered by the queryParameters.  This endpoint requires **at least one** of the following input parameters:
 
-* carrierBookingReference
-* transportDocumentReference
-* equipmentReference
+	* carrierBookingReference
+	* transportDocumentReference
+	* equipmentReference
 
-Note:  It is possible to combine queryParameters. When combining queryParameters be aware that it is also possible to make combinations that are mutually contradicting.\
-For example, shipmentEventTypeCode=DRFT and equipmentEventTypeCode=GTIN; since there is no event that can be a ShipmentEvent and an EquipmentEvent at the same time this will return an empty list.
+	Note:  It is possible to combine queryParameters. When combining queryParameters be aware that it is also possible to make combinations that are mutually contradicting.\
+	For example, shipmentEventTypeCode=DRFT and equipmentEventTypeCode=GTIN; since there is no event that can be a ShipmentEvent and an EquipmentEvent at the same time this will return an empty list.
 
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiEventsGetRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@return ApiEventsGetRequest
 	*/
 	EventsGet(ctx context.Context) ApiEventsGetRequest
 
@@ -48,64 +47,64 @@ For example, shipmentEventTypeCode=DRFT and equipmentEventTypeCode=GTIN; since t
 type EventsApiService service
 
 type ApiEventsGetRequest struct {
-	ctx context.Context
-	ApiService EventsApi
-	carrierBookingReference *string
+	ctx                        context.Context
+	ApiService                 EventsApi
+	carrierBookingReference    *string
 	transportDocumentReference *string
-	equipmentReference *string
-	eventType *[]string
-	eventCreatedDateTime *string
-	shipmentEventTypeCode *[]string
-	transportEventTypeCode *[]string
-	equipmentEventTypeCode *[]string
-	limit *int32
-	cursor *string
-	aPIVersion *string
+	equipmentReference         *string
+	eventType                  *[]string
+	eventCreatedDateTime       *string
+	shipmentEventTypeCode      *[]string
+	transportEventTypeCode     *[]string
+	equipmentEventTypeCode     *[]string
+	limit                      *int32
+	cursor                     *string
+	aPIVersion                 *string
 }
 
-// A set of unique characters provided by carrier to identify a booking. Specifying this filter will only return events related to this particular carrierBookingReference. 
+// A set of unique characters provided by carrier to identify a booking. Specifying this filter will only return events related to this particular carrierBookingReference.
 func (r ApiEventsGetRequest) CarrierBookingReference(carrierBookingReference string) ApiEventsGetRequest {
 	r.carrierBookingReference = &carrierBookingReference
 	return r
 }
 
-// A unique number reference allocated by the shipping line to the transport document and the main number used for the tracking of the status of the shipment. Specifying this filter will only return events related to this particular transportDocumentReference 
+// A unique number reference allocated by the shipping line to the transport document and the main number used for the tracking of the status of the shipment. Specifying this filter will only return events related to this particular transportDocumentReference
 func (r ApiEventsGetRequest) TransportDocumentReference(transportDocumentReference string) ApiEventsGetRequest {
 	r.transportDocumentReference = &transportDocumentReference
 	return r
 }
 
-// Will filter by the unique identifier for the equipment, which should follow the BIC ISO Container Identification Number where possible. Specifying this filter will only return events related to this particular equipmentReference 
+// Will filter by the unique identifier for the equipment, which should follow the BIC ISO Container Identification Number where possible. Specifying this filter will only return events related to this particular equipmentReference
 func (r ApiEventsGetRequest) EquipmentReference(equipmentReference string) ApiEventsGetRequest {
 	r.equipmentReference = &equipmentReference
 	return r
 }
 
-// The type of event(s) to filter by. Possible values are - SHIPMENT (Shipment events) - TRANSPORT (Transport events) - EQUIPMENT (Equipment events)  It is possible to select multiple values by comma (,) separating them. For multiple values the OR operator is used. For example, [eventType&#x3D;SHIPMENT,EQUIPMENT] matches both Shipment and Equipment events.\\ Default value is all event types. 
+// The type of event(s) to filter by. Possible values are - SHIPMENT (Shipment events) - TRANSPORT (Transport events) - EQUIPMENT (Equipment events)  It is possible to select multiple values by comma (,) separating them. For multiple values the OR operator is used. For example, [eventType&#x3D;SHIPMENT,EQUIPMENT] matches both Shipment and Equipment events.\\ Default value is all event types.
 func (r ApiEventsGetRequest) EventType(eventType []string) ApiEventsGetRequest {
 	r.eventType = &eventType
 	return r
 }
 
-// Limit the result based on a UTC date. It is possible to use operators on this query parameter. This is done by adding an operator at the beginning of the value followed by a colon:\\ eventCreatedDateTime &#x3D; **gte**:2021-04-01T00:00:00Z\\ would result in all events created &gt;&#x3D; 2021-04-01T00:00:00Z\\ The following operators are supported - gte: (&gt;&#x3D; Greater than or equal) - gt: (&gt; Greater than) - lte: (&lt;&#x3D; Less than or equal) - lt: (&lt; Less than) - eq: (&#x3D; Equal to)  If no operator is provided, a **strictly equal** is used (this is equivalent to **eq:** operator). 
+// Limit the result based on a UTC date. It is possible to use operators on this query parameter. This is done by adding an operator at the beginning of the value followed by a colon:\\ eventCreatedDateTime &#x3D; **gte**:2021-04-01T00:00:00Z\\ would result in all events created &gt;&#x3D; 2021-04-01T00:00:00Z\\ The following operators are supported - gte: (&gt;&#x3D; Greater than or equal) - gt: (&gt; Greater than) - lte: (&lt;&#x3D; Less than or equal) - lt: (&lt; Less than) - eq: (&#x3D; Equal to)  If no operator is provided, a **strictly equal** is used (this is equivalent to **eq:** operator).
 func (r ApiEventsGetRequest) EventCreatedDateTime(eventCreatedDateTime string) ApiEventsGetRequest {
 	r.eventCreatedDateTime = &eventCreatedDateTime
 	return r
 }
 
-// The status of the document in the process to filter by. Possible values are - RECE (Received) - DRFT (Drafted) - PENA (Pending Approval) - PENU (Pending Update) - REJE (Rejected) - APPR (Approved) - ISSU (Issued) - SURR (Surrendered) - SUBM (Submitted) - VOID (Void) - CONF (Confirmed) - REQS (Requested) - CMPL (Completed) - HOLD (On Hold) - RELS (Released)  It is possible to select multiple values by comma (,) separating them. For multiple values the OR-operator is used. For example, [shipmentEventTypeCode&#x3D;RECE,DRFT] matches **both** Received (RECE) and Drafted (DRFT) shipment events.\\ Default is all shipmentEventTypeCodes.\\ This filter is only relevant when filtering on ShipmentEvents  **Note: Version 1.1 replaces CONF (Confirmed) for RELS (Released) for documentTypeCode SRM (Shipment Release Message).** 
+// The status of the document in the process to filter by. Possible values are - RECE (Received) - DRFT (Drafted) - PENA (Pending Approval) - PENU (Pending Update) - REJE (Rejected) - APPR (Approved) - ISSU (Issued) - SURR (Surrendered) - SUBM (Submitted) - VOID (Void) - CONF (Confirmed) - REQS (Requested) - CMPL (Completed) - HOLD (On Hold) - RELS (Released)  It is possible to select multiple values by comma (,) separating them. For multiple values the OR-operator is used. For example, [shipmentEventTypeCode&#x3D;RECE,DRFT] matches **both** Received (RECE) and Drafted (DRFT) shipment events.\\ Default is all shipmentEventTypeCodes.\\ This filter is only relevant when filtering on ShipmentEvents  **Note: Version 1.1 replaces CONF (Confirmed) for RELS (Released) for documentTypeCode SRM (Shipment Release Message).**
 func (r ApiEventsGetRequest) ShipmentEventTypeCode(shipmentEventTypeCode []string) ApiEventsGetRequest {
 	r.shipmentEventTypeCode = &shipmentEventTypeCode
 	return r
 }
 
-// Identifier for type of Transport event to filter by - ARRI (Arrived) - DEPA (Departed)  It is possible to select multiple values by comma (,) separating them. For multiple values the OR operator is used. For example, [transportEventTypeCode&#x3D;ARRI,DEPA} matches **both** Arrived (ARRI) and Departed (DEPA) transport events.\\ Default is all transportEventTypeCodes.\\ This filter is only relevant when filtering on TransportEvents 
+// Identifier for type of Transport event to filter by - ARRI (Arrived) - DEPA (Departed)  It is possible to select multiple values by comma (,) separating them. For multiple values the OR operator is used. For example, [transportEventTypeCode&#x3D;ARRI,DEPA} matches **both** Arrived (ARRI) and Departed (DEPA) transport events.\\ Default is all transportEventTypeCodes.\\ This filter is only relevant when filtering on TransportEvents
 func (r ApiEventsGetRequest) TransportEventTypeCode(transportEventTypeCode []string) ApiEventsGetRequest {
 	r.transportEventTypeCode = &transportEventTypeCode
 	return r
 }
 
-// Unique identifier for equipmentEventTypeCode. * LOAD (Loaded) * DISC (Discharged) * GTIN (Gated in) * GTOT (Gated out) * STUF (Stuffed) * STRP (Stripped) * PICK (Pick-up) * DROP (Drop-off) * RSEA (Resealed) * RMVD (Removed) * INSP (Inspected)  It is possible to select multiple values by comma (,) separating them. For multiple values the OR operator is used. For example, [equipmentEventTypeCode&#x3D;GTIN,GTOT] matches **both** Gated in (GTIN) and Gated out (GTOT) equipment events.\\ Default is all equipmentEventTypeCodes.\\ This filter is only relevant when filtering on EquipmentEvents 
+// Unique identifier for equipmentEventTypeCode. * LOAD (Loaded) * DISC (Discharged) * GTIN (Gated in) * GTOT (Gated out) * STUF (Stuffed) * STRP (Stripped) * PICK (Pick-up) * DROP (Drop-off) * RSEA (Resealed) * RMVD (Removed) * INSP (Inspected)  It is possible to select multiple values by comma (,) separating them. For multiple values the OR operator is used. For example, [equipmentEventTypeCode&#x3D;GTIN,GTOT] matches **both** Gated in (GTIN) and Gated out (GTOT) equipment events.\\ Default is all equipmentEventTypeCodes.\\ This filter is only relevant when filtering on EquipmentEvents
 func (r ApiEventsGetRequest) EquipmentEventTypeCode(equipmentEventTypeCode []string) ApiEventsGetRequest {
 	r.equipmentEventTypeCode = &equipmentEventTypeCode
 	return r
@@ -145,25 +144,25 @@ Returns all events filtered by the queryParameters.  This endpoint requires **at
 Note:  It is possible to combine queryParameters. When combining queryParameters be aware that it is also possible to make combinations that are mutually contradicting.\
 For example, shipmentEventTypeCode=DRFT and equipmentEventTypeCode=GTIN; since there is no event that can be a ShipmentEvent and an EquipmentEvent at the same time this will return an empty list.
 
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiEventsGetRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiEventsGetRequest
 */
 func (a *EventsApiService) EventsGet(ctx context.Context) ApiEventsGetRequest {
 	return ApiEventsGetRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return Events
+//
+//	@return Events
 func (a *EventsApiService) EventsGetExecute(r ApiEventsGetRequest) (*Events, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *Events
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *Events
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "EventsApiService.EventsGet")

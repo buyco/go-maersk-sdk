@@ -1,7 +1,7 @@
 /*
 Track & Trace Events
 
-Retrieve Track & Trace Events based on DCSA Interface standard v.2.2  This service provides shippers and consignees visibility to Shipment, Equipment and Transport events for shipments booked with A.P. Moller-Maersk A/S using standards set by the Digital Container Shipping Association.\\ <https://dcsa.org/> 
+Retrieve Track & Trace Events based on DCSA Interface standard v.2.2  This service provides shippers and consignees visibility to Shipment, Equipment and Transport events for shipments booked with A.P. Moller-Maersk A/S using standards set by the Digital Container Shipping Association.\\ <https://dcsa.org/>
 
 API version: 1.1.1
 */
@@ -20,7 +20,7 @@ type TransportCall struct {
 	TransportCallID *string `json:"transportCallID,omitempty"`
 	// The code of the service for which the schedule details are published.
 	CarrierServiceCode *string `json:"carrierServiceCode,omitempty"`
-	// \\*\\*\\*do not use\\*\\*\\* this field is replaced by `exportVoyageNumber` from Version 1.1 and will be removed by the API from next major version  The vessel operator-specific identifier of the Voyage.\\ The export voyage is returned when there are multiple voyages. 
+	// \\*\\*\\*do not use\\*\\*\\* this field is replaced by `exportVoyageNumber` from Version 1.1 and will be removed by the API from next major version  The vessel operator-specific identifier of the Voyage.\\ The export voyage is returned when there are multiple voyages.
 	// Deprecated
 	CarrierVoyageNumber *string `json:"carrierVoyageNumber,omitempty"`
 	// The vessel operator-specific identifier of the export Voyage.
@@ -35,14 +35,14 @@ type TransportCall struct {
 	FacilityCode *string `json:"facilityCode,omitempty"`
 	// The provider used for identifying the facility Code
 	FacilityCodeListProvider *string `json:"facilityCodeListProvider,omitempty"`
-	// A specialized version of the facilityCode to be used in TransportCalls. The code to identify the specific type of facility. * BOCR (Border crossing) * CLOC (Customer location) * COFS (Container freight station) * COYA (Deprecated - use OFFD intead) * OFFD (Off dock storage) * DEPO (Depot) * INTE (Inland terminal) * POTE (Port terminal) * RAMP (Ramp) 
+	// A specialized version of the facilityCode to be used in TransportCalls. The code to identify the specific type of facility. * BOCR (Border crossing) * CLOC (Customer location) * COFS (Container freight station) * COYA (Deprecated - use OFFD intead) * OFFD (Off dock storage) * DEPO (Depot) * INTE (Inland terminal) * POTE (Port terminal) * RAMP (Ramp)
 	FacilityTypeCode *string `json:"facilityTypeCode,omitempty"`
 	// An alternative way to capture the facility when no standardized DCSA facility code can be found.
 	OtherFacility *string `json:"otherFacility,omitempty"`
 	// The code specifying the mode of transport.
-	ModeOfTransport string `json:"modeOfTransport"`
-	Location *Location `json:"location,omitempty"`
-	Vessel *Vessel `json:"vessel,omitempty"`
+	ModeOfTransport string    `json:"modeOfTransport"`
+	Location        *Location `json:"location,omitempty"`
+	Vessel          *Vessel   `json:"vessel,omitempty"`
 }
 
 // NewTransportCall instantiates a new TransportCall object
@@ -588,5 +588,3 @@ func (v *NullableTransportCall) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

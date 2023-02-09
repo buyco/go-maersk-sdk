@@ -18,7 +18,7 @@ import (
 // EventsEventsInner struct for EventsEventsInner
 type EventsEventsInner struct {
 	EquipmentEvent *EquipmentEvent
-	ShipmentEvent *ShipmentEvent
+	ShipmentEvent  *ShipmentEvent
 	TransportEvent *TransportEvent
 }
 
@@ -35,7 +35,7 @@ func (dst *EventsEventsInner) UnmarshalJSON(data []byte) error {
 	// check if the discriminator value is 'EquipmentEvent'
 	if jsonDict["eventType"] == "EquipmentEvent" {
 		// try to unmarshal JSON data into EquipmentEvent
-		err = json.Unmarshal(data, &dst.EquipmentEvent);
+		err = json.Unmarshal(data, &dst.EquipmentEvent)
 		if err == nil {
 			jsonEquipmentEvent, _ := json.Marshal(dst.EquipmentEvent)
 			if string(jsonEquipmentEvent) == "{}" { // empty struct
@@ -51,7 +51,7 @@ func (dst *EventsEventsInner) UnmarshalJSON(data []byte) error {
 	// check if the discriminator value is 'ShipmentEvent'
 	if jsonDict["eventType"] == "ShipmentEvent" {
 		// try to unmarshal JSON data into ShipmentEvent
-		err = json.Unmarshal(data, &dst.ShipmentEvent);
+		err = json.Unmarshal(data, &dst.ShipmentEvent)
 		if err == nil {
 			jsonShipmentEvent, _ := json.Marshal(dst.ShipmentEvent)
 			if string(jsonShipmentEvent) == "{}" { // empty struct
@@ -67,7 +67,7 @@ func (dst *EventsEventsInner) UnmarshalJSON(data []byte) error {
 	// check if the discriminator value is 'TransportEvent'
 	if jsonDict["eventType"] == "TransportEvent" {
 		// try to unmarshal JSON data into TransportEvent
-		err = json.Unmarshal(data, &dst.TransportEvent);
+		err = json.Unmarshal(data, &dst.TransportEvent)
 		if err == nil {
 			jsonTransportEvent, _ := json.Marshal(dst.TransportEvent)
 			if string(jsonTransportEvent) == "{}" { // empty struct
@@ -81,7 +81,7 @@ func (dst *EventsEventsInner) UnmarshalJSON(data []byte) error {
 	}
 
 	// try to unmarshal JSON data into EquipmentEvent
-	err = json.Unmarshal(data, &dst.EquipmentEvent);
+	err = json.Unmarshal(data, &dst.EquipmentEvent)
 	if err == nil {
 		jsonEquipmentEvent, _ := json.Marshal(dst.EquipmentEvent)
 		if string(jsonEquipmentEvent) == "{}" { // empty struct
@@ -94,7 +94,7 @@ func (dst *EventsEventsInner) UnmarshalJSON(data []byte) error {
 	}
 
 	// try to unmarshal JSON data into ShipmentEvent
-	err = json.Unmarshal(data, &dst.ShipmentEvent);
+	err = json.Unmarshal(data, &dst.ShipmentEvent)
 	if err == nil {
 		jsonShipmentEvent, _ := json.Marshal(dst.ShipmentEvent)
 		if string(jsonShipmentEvent) == "{}" { // empty struct
@@ -107,7 +107,7 @@ func (dst *EventsEventsInner) UnmarshalJSON(data []byte) error {
 	}
 
 	// try to unmarshal JSON data into TransportEvent
-	err = json.Unmarshal(data, &dst.TransportEvent);
+	err = json.Unmarshal(data, &dst.TransportEvent)
 	if err == nil {
 		jsonTransportEvent, _ := json.Marshal(dst.TransportEvent)
 		if string(jsonTransportEvent) == "{}" { // empty struct
