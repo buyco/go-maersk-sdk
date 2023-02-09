@@ -1,4 +1,4 @@
-module github.com/buyco/go-maersk-sdk/maersk
+module github.com/buyco/go-maersk-sdk/api
 
 go 1.13
 

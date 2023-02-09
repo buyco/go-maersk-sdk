@@ -1,7 +1,7 @@
 DOCKER_BUILD := docker run --rm -u `id -u` -v ${PWD}:/sdk openapitools/openapi-generator-cli:v6.2.0 generate -i sdk/api_files/maersk_track_and_trace.yaml
-GO_CLIENT := -g go -o /sdk/${API_TYPE}/maersk \
+GO_CLIENT := -g go -o /sdk/${API_TYPE}/api \
 			--git-repo-id=go-maersk-sdk --git-user-id=buyco \
-			--additional-properties=packageName=maersk \
+			--additional-properties=packageName=api \
 			--additional-properties=isGoSubmodule=true \
 			--additional-properties=generateInterfaces=true
 
