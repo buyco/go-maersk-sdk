@@ -20,8 +20,8 @@ servers:
 - description: Pre-Production Environment
   url: https://api-stage.maersk.com/track-and-trace-private
 security:
-- ApiKeyHeader: []
-  BearerAuth: []
+- ConsumerKey: []
+- oAuth2: []
 tags:
 - description: Event operations
   name: Events
@@ -302,6 +302,22 @@ paths:
         required: false
         schema:
           example: "1"
+          type: string
+        style: simple
+      - description: The Consumer Key issued for your registered application.
+        explode: false
+        in: header
+        name: Consumer-Key
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Bearer JWT
+        explode: false
+        in: header
+        name: Authorization
+        required: true
+        schema:
           type: string
         style: simple
       responses:
@@ -1122,13 +1138,15 @@ components:
       discriminator:
         propertyName: eventType
   securitySchemes:
-    ApiKeyHeader:
+    ConsumerKey:
       description: The Consumer Key issued for your registered application must be
         provided with every request
       in: header
       name: Consumer-Key
       type: apiKey
-    BearerAuth:
-      bearerFormat: JWT
-      scheme: bearer
-      type: http
+    oAuth2:
+      flows:
+        clientCredentials:
+          scopes: {}
+          tokenUrl: /oauth2/access_token
+      type: oauth2

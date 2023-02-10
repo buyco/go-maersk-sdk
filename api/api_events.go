@@ -49,6 +49,8 @@ type EventsApiService service
 type ApiEventsGetRequest struct {
 	ctx                        context.Context
 	ApiService                 EventsApi
+	consumerKey                *string
+	authorization              *string
 	carrierBookingReference    *string
 	transportDocumentReference *string
 	equipmentReference         *string
@@ -60,6 +62,18 @@ type ApiEventsGetRequest struct {
 	limit                      *int32
 	cursor                     *string
 	aPIVersion                 *string
+}
+
+// The Consumer Key issued for your registered application.
+func (r ApiEventsGetRequest) ConsumerKey(consumerKey string) ApiEventsGetRequest {
+	r.consumerKey = &consumerKey
+	return r
+}
+
+// Bearer JWT
+func (r ApiEventsGetRequest) Authorization(authorization string) ApiEventsGetRequest {
+	r.authorization = &authorization
+	return r
 }
 
 // A set of unique characters provided by carrier to identify a booking. Specifying this filter will only return events related to this particular carrierBookingReference.
@@ -175,6 +189,12 @@ func (a *EventsApiService) EventsGetExecute(r ApiEventsGetRequest) (*Events, *ht
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
+	if r.consumerKey == nil {
+		return localVarReturnValue, nil, reportError("consumerKey is required and must be specified")
+	}
+	if r.authorization == nil {
+		return localVarReturnValue, nil, reportError("authorization is required and must be specified")
+	}
 
 	if r.carrierBookingReference != nil {
 		localVarQueryParams.Add("carrierBookingReference", parameterToString(*r.carrierBookingReference, ""))
@@ -226,10 +246,12 @@ func (a *EventsApiService) EventsGetExecute(r ApiEventsGetRequest) (*Events, *ht
 	if r.aPIVersion != nil {
 		localVarHeaderParams["API-Version"] = parameterToString(*r.aPIVersion, "")
 	}
+	localVarHeaderParams["Consumer-Key"] = parameterToString(*r.consumerKey, "")
+	localVarHeaderParams["Authorization"] = parameterToString(*r.authorization, "")
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ApiKeyHeader"]; ok {
+			if apiKey, ok := auth["ConsumerKey"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
 					key = apiKey.Prefix + " " + apiKey.Key

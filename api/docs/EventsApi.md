@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## EventsGet
 
-> Events EventsGet(ctx).CarrierBookingReference(carrierBookingReference).TransportDocumentReference(transportDocumentReference).EquipmentReference(equipmentReference).EventType(eventType).EventCreatedDateTime(eventCreatedDateTime).ShipmentEventTypeCode(shipmentEventTypeCode).TransportEventTypeCode(transportEventTypeCode).EquipmentEventTypeCode(equipmentEventTypeCode).Limit(limit).Cursor(cursor).APIVersion(aPIVersion).Execute()
+> Events EventsGet(ctx).ConsumerKey(consumerKey).Authorization(authorization).CarrierBookingReference(carrierBookingReference).TransportDocumentReference(transportDocumentReference).EquipmentReference(equipmentReference).EventType(eventType).EventCreatedDateTime(eventCreatedDateTime).ShipmentEventTypeCode(shipmentEventTypeCode).TransportEventTypeCode(transportEventTypeCode).EquipmentEventTypeCode(equipmentEventTypeCode).Limit(limit).Cursor(cursor).APIVersion(aPIVersion).Execute()
 
 Find events.
 
@@ -29,6 +29,8 @@ import (
 )
 
 func main() {
+    consumerKey := "consumerKey_example" // string | The Consumer Key issued for your registered application.
+    authorization := "authorization_example" // string | Bearer JWT
     carrierBookingReference := "VAS000001" // string | A set of unique characters provided by carrier to identify a booking. Specifying this filter will only return events related to this particular carrierBookingReference.  (optional)
     transportDocumentReference := "260029935" // string | A unique number reference allocated by the shipping line to the transport document and the main number used for the tracking of the status of the shipment. Specifying this filter will only return events related to this particular transportDocumentReference  (optional)
     equipmentReference := "APZU4812090" // string | Will filter by the unique identifier for the equipment, which should follow the BIC ISO Container Identification Number where possible. Specifying this filter will only return events related to this particular equipmentReference  (optional)
@@ -43,7 +45,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.EventsApi.EventsGet(context.Background()).CarrierBookingReference(carrierBookingReference).TransportDocumentReference(transportDocumentReference).EquipmentReference(equipmentReference).EventType(eventType).EventCreatedDateTime(eventCreatedDateTime).ShipmentEventTypeCode(shipmentEventTypeCode).TransportEventTypeCode(transportEventTypeCode).EquipmentEventTypeCode(equipmentEventTypeCode).Limit(limit).Cursor(cursor).APIVersion(aPIVersion).Execute()
+    resp, r, err := apiClient.EventsApi.EventsGet(context.Background()).ConsumerKey(consumerKey).Authorization(authorization).CarrierBookingReference(carrierBookingReference).TransportDocumentReference(transportDocumentReference).EquipmentReference(equipmentReference).EventType(eventType).EventCreatedDateTime(eventCreatedDateTime).ShipmentEventTypeCode(shipmentEventTypeCode).TransportEventTypeCode(transportEventTypeCode).EquipmentEventTypeCode(equipmentEventTypeCode).Limit(limit).Cursor(cursor).APIVersion(aPIVersion).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `EventsApi.EventsGet``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -64,6 +66,8 @@ Other parameters are passed through a pointer to a apiEventsGetRequest struct vi
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **consumerKey** | **string** | The Consumer Key issued for your registered application. | 
+ **authorization** | **string** | Bearer JWT | 
  **carrierBookingReference** | **string** | A set of unique characters provided by carrier to identify a booking. Specifying this filter will only return events related to this particular carrierBookingReference.  | 
  **transportDocumentReference** | **string** | A unique number reference allocated by the shipping line to the transport document and the main number used for the tracking of the status of the shipment. Specifying this filter will only return events related to this particular transportDocumentReference  | 
  **equipmentReference** | **string** | Will filter by the unique identifier for the equipment, which should follow the BIC ISO Container Identification Number where possible. Specifying this filter will only return events related to this particular equipmentReference  | 
@@ -82,7 +86,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiKeyHeader](../README.md#ApiKeyHeader), [BearerAuth](../README.md#BearerAuth)
+[ConsumerKey](../README.md#ConsumerKey), [oAuth2](../README.md#oAuth2)
 
 ### HTTP request headers
 

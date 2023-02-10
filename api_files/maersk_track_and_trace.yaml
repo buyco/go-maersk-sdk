@@ -20,8 +20,8 @@ servers:
   - url: 'https://api-stage.maersk.com/track-and-trace-private'
     description: Pre-Production Environment
 security:
-  - ApiKeyHeader: []
-    BearerAuth: []
+  - ConsumerKey: []
+  - oAuth2: []
 tags:
   - name: Events
     description: Event operations
@@ -246,6 +246,18 @@ paths:
             type: string
             example: '1'
           description: An API-Version header MAY be added to the request (optional); if added it MUST only contain MAJOR version. API-Version header MUST be aligned with the URI version.
+        - name: Consumer-Key
+          in: header
+          required: true
+          schema:
+            type: string
+          description: The Consumer Key issued for your registered application.
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+          description: Bearer JWT
       responses:
         '200':
           description: Successful operation
@@ -956,12 +968,14 @@ components:
         type: string
         example: '1'
   securitySchemes:
-    ApiKeyHeader:
+    ConsumerKey:
       type: apiKey
       name: Consumer-Key
       in: header
       description: The Consumer Key issued for your registered application must be provided with every request
-    BearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
+    oAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: /oauth2/access_token
+          scopes: {}
