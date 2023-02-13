@@ -880,6 +880,10 @@ components:
               - $ref: '#/components/schemas/EquipmentEvent'
             discriminator:
               propertyName: eventType
+              mapping:
+                SHIPMENT: '#/components/schemas/ShipmentEvent'
+                TRANSPORT: '#/components/schemas/TransportEvent'
+                EQUIPMENT: '#/components/schemas/EquipmentEvent'
       required:
         - events
     ApiValidationError:

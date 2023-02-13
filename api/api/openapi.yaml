@@ -1136,6 +1136,10 @@ components:
       - $ref: '#/components/schemas/TransportEvent'
       - $ref: '#/components/schemas/EquipmentEvent'
       discriminator:
+        mapping:
+          SHIPMENT: '#/components/schemas/ShipmentEvent'
+          TRANSPORT: '#/components/schemas/TransportEvent'
+          EQUIPMENT: '#/components/schemas/EquipmentEvent'
         propertyName: eventType
   securitySchemes:
     ConsumerKey:

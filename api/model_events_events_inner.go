@@ -29,7 +29,23 @@ func (dst *EventsEventsInner) UnmarshalJSON(data []byte) error {
 	var jsonDict map[string]interface{}
 	err = json.Unmarshal(data, &jsonDict)
 	if err != nil {
-		return fmt.Errorf("failed to unmarshal JSON into map for the discriminator lookup")
+		return fmt.Errorf("Failed to unmarshal JSON into map for the discriminator lookup.")
+	}
+
+	// check if the discriminator value is 'EQUIPMENT'
+	if jsonDict["eventType"] == "EQUIPMENT" {
+		// try to unmarshal JSON data into EquipmentEvent
+		err = json.Unmarshal(data, &dst.EquipmentEvent)
+		if err == nil {
+			jsonEquipmentEvent, _ := json.Marshal(dst.EquipmentEvent)
+			if string(jsonEquipmentEvent) == "{}" { // empty struct
+				dst.EquipmentEvent = nil
+			} else {
+				return nil // data stored in dst.EquipmentEvent, return on the first match
+			}
+		} else {
+			dst.EquipmentEvent = nil
+		}
 	}
 
 	// check if the discriminator value is 'EquipmentEvent'
@@ -48,6 +64,22 @@ func (dst *EventsEventsInner) UnmarshalJSON(data []byte) error {
 		}
 	}
 
+	// check if the discriminator value is 'SHIPMENT'
+	if jsonDict["eventType"] == "SHIPMENT" {
+		// try to unmarshal JSON data into ShipmentEvent
+		err = json.Unmarshal(data, &dst.ShipmentEvent)
+		if err == nil {
+			jsonShipmentEvent, _ := json.Marshal(dst.ShipmentEvent)
+			if string(jsonShipmentEvent) == "{}" { // empty struct
+				dst.ShipmentEvent = nil
+			} else {
+				return nil // data stored in dst.ShipmentEvent, return on the first match
+			}
+		} else {
+			dst.ShipmentEvent = nil
+		}
+	}
+
 	// check if the discriminator value is 'ShipmentEvent'
 	if jsonDict["eventType"] == "ShipmentEvent" {
 		// try to unmarshal JSON data into ShipmentEvent
@@ -61,6 +93,22 @@ func (dst *EventsEventsInner) UnmarshalJSON(data []byte) error {
 			}
 		} else {
 			dst.ShipmentEvent = nil
+		}
+	}
+
+	// check if the discriminator value is 'TRANSPORT'
+	if jsonDict["eventType"] == "TRANSPORT" {
+		// try to unmarshal JSON data into TransportEvent
+		err = json.Unmarshal(data, &dst.TransportEvent)
+		if err == nil {
+			jsonTransportEvent, _ := json.Marshal(dst.TransportEvent)
+			if string(jsonTransportEvent) == "{}" { // empty struct
+				dst.TransportEvent = nil
+			} else {
+				return nil // data stored in dst.TransportEvent, return on the first match
+			}
+		} else {
+			dst.TransportEvent = nil
 		}
 	}
 
@@ -119,7 +167,7 @@ func (dst *EventsEventsInner) UnmarshalJSON(data []byte) error {
 		dst.TransportEvent = nil
 	}
 
-	return fmt.Errorf("data failed to match schemas in anyOf(EventsEventsInner)")
+	return fmt.Errorf("Data failed to match schemas in anyOf(EventsEventsInner)")
 }
 
 // Marshal data from the first non-nil pointers in the struct to JSON
