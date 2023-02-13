@@ -454,9 +454,9 @@ components:
             \ is the International Maritime Organisation (IMO) number, also sometimes\
             \ known as the Lloyd's register code, which does not change during the\
             \ lifetime of the vessel"
-          example: 1801323
+          example: "1801323"
           maxLength: 7
-          type: integer
+          type: string
         vesselName:
           description: The name of the Vessel given by the Vessel Operator and registered
             with IMO.

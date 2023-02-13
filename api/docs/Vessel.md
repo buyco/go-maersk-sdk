@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**VesselIMONumber** | **int32** | The unique reference for a registered Vessel. The reference is the International Maritime Organisation (IMO) number, also sometimes known as the Lloyd&#39;s register code, which does not change during the lifetime of the vessel | 
+**VesselIMONumber** | **string** | The unique reference for a registered Vessel. The reference is the International Maritime Organisation (IMO) number, also sometimes known as the Lloyd&#39;s register code, which does not change during the lifetime of the vessel | 
 **VesselName** | Pointer to **string** | The name of the Vessel given by the Vessel Operator and registered with IMO. | [optional] 
 **VesselFlag** | Pointer to **string** | The flag of the nation whose laws the vessel is registered under. This is the ISO 3166 two-letter country code | [optional] 
 **VesselCallSignNumber** | Pointer to **string** | A unique alphanumeric identity that belongs to the vessel and is assigned by the International Telecommunication Union (ITU). It consists of a three letter alphanumeric prefix that indicates nationality, followed by one to four characters to identify the individual vessel. For instance, vessels registered under Denmark are assigned the prefix ranges 5PA-5QZ, OUAOZZ, and XPA-XPZ. The Call Sign changes whenever a vessel changes its flag. | [optional] 
@@ -15,7 +15,7 @@ Name | Type | Description | Notes
 
 ### NewVessel
 
-`func NewVessel(vesselIMONumber int32, ) *Vessel`
+`func NewVessel(vesselIMONumber string, ) *Vessel`
 
 NewVessel instantiates a new Vessel object
 This constructor will assign default values to properties that have it defined,
@@ -32,20 +32,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetVesselIMONumber
 
-`func (o *Vessel) GetVesselIMONumber() int32`
+`func (o *Vessel) GetVesselIMONumber() string`
 
 GetVesselIMONumber returns the VesselIMONumber field if non-nil, zero value otherwise.
 
 ### GetVesselIMONumberOk
 
-`func (o *Vessel) GetVesselIMONumberOk() (*int32, bool)`
+`func (o *Vessel) GetVesselIMONumberOk() (*string, bool)`
 
 GetVesselIMONumberOk returns a tuple with the VesselIMONumber field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetVesselIMONumber
 
-`func (o *Vessel) SetVesselIMONumber(v int32)`
+`func (o *Vessel) SetVesselIMONumber(v string)`
 
 SetVesselIMONumber sets VesselIMONumber field to given value.
 

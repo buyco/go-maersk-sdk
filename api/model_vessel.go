@@ -17,7 +17,7 @@ import (
 // Vessel struct for Vessel
 type Vessel struct {
 	// The unique reference for a registered Vessel. The reference is the International Maritime Organisation (IMO) number, also sometimes known as the Lloyd's register code, which does not change during the lifetime of the vessel
-	VesselIMONumber int32 `json:"vesselIMONumber"`
+	VesselIMONumber string `json:"vesselIMONumber"`
 	// The name of the Vessel given by the Vessel Operator and registered with IMO.
 	VesselName *string `json:"vesselName,omitempty"`
 	// The flag of the nation whose laws the vessel is registered under. This is the ISO 3166 two-letter country code
@@ -34,7 +34,7 @@ type Vessel struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewVessel(vesselIMONumber int32) *Vessel {
+func NewVessel(vesselIMONumber string) *Vessel {
 	this := Vessel{}
 	this.VesselIMONumber = vesselIMONumber
 	return &this
@@ -49,9 +49,9 @@ func NewVesselWithDefaults() *Vessel {
 }
 
 // GetVesselIMONumber returns the VesselIMONumber field value
-func (o *Vessel) GetVesselIMONumber() int32 {
+func (o *Vessel) GetVesselIMONumber() string {
 	if o == nil {
-		var ret int32
+		var ret string
 		return ret
 	}
 
@@ -60,7 +60,7 @@ func (o *Vessel) GetVesselIMONumber() int32 {
 
 // GetVesselIMONumberOk returns a tuple with the VesselIMONumber field value
 // and a boolean to check if the value has been set.
-func (o *Vessel) GetVesselIMONumberOk() (*int32, bool) {
+func (o *Vessel) GetVesselIMONumberOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -68,7 +68,7 @@ func (o *Vessel) GetVesselIMONumberOk() (*int32, bool) {
 }
 
 // SetVesselIMONumber sets field value
-func (o *Vessel) SetVesselIMONumber(v int32) {
+func (o *Vessel) SetVesselIMONumber(v string) {
 	o.VesselIMONumber = v
 }
 

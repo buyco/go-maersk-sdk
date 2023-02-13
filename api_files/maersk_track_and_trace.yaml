@@ -348,9 +348,9 @@ components:
       properties:
         vesselIMONumber:
           description: The unique reference for a registered Vessel. The reference is the International Maritime Organisation (IMO) number, also sometimes known as the Lloyd's register code, which does not change during the lifetime of the vessel
-          type: integer
+          type: string
           maxLength: 7
-          example: 1801323
+          example: "1801323"
         vesselName:
           type: string
           maxLength: 35
