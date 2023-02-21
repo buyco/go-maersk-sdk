@@ -15,19 +15,80 @@ info:
     # Version     Date     Notes
     # 1.1.1    2022-07-04  added referenceType 'EQ'
 servers:
-  - url: 'https://api.maersk.com/track-and-trace-private'
+  - url: 'https://api.maersk.com'
     description: Production Environment
-  - url: 'https://api-stage.maersk.com/track-and-trace-private'
+  - url: 'https://api-stage.maersk.com'
     description: Pre-Production Environment
-security:
-  - ConsumerKey: []
-  - oAuth2: []
 tags:
   - name: Events
     description: Event operations
 paths:
-  /events:
+  /oauth2/access_token:
+    post:
+      operationId: CreateAccessToken
+      tags:
+        - Auth
+      parameters:
+        - name: grant_type
+          in: query
+          required: true
+          schema:
+            type: string
+            enum:
+              - client_credentials
+        - name: client_id
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: client_secret
+          in: query
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Successfully created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access_token:
+                    type: string
+                  scope:
+                    type: string
+                  id_token:
+                    type: string
+                  token_type:
+                    type: string
+                  expires_in:
+                    type: integer
+                required:
+                  - access_token
+                  - scope
+                  - id_token
+                  - token_type
+                  - expires_in
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error_description:
+                    type: string
+                  error:
+                    type: string
+  /track-and-trace-private/events:
     get:
+      operationId: ListEvents
       tags:
         - Events
       summary: Find events.
@@ -40,6 +101,9 @@ paths:
 
         Note:  It is possible to combine queryParameters. When combining queryParameters be aware that it is also possible to make combinations that are mutually contradicting.\
         For example, shipmentEventTypeCode=DRFT and equipmentEventTypeCode=GTIN; since there is no event that can be a ShipmentEvent and an EquipmentEvent at the same time this will return an empty list.
+      security:
+        - ConsumerKey: []
+        - oAuth2: []
       parameters:
         - name: carrierBookingReference
           in: query
