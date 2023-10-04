@@ -883,6 +883,8 @@ components:
       type: object
     ApiError:
       properties:
+        id:
+          type: string
         method:
           description: "The request method type e.g. GET, POST."
           type: string
@@ -890,8 +892,8 @@ components:
           description: The request URI.
           type: string
         status:
-          description: The textual representation of the response status.
-          type: string
+          description: HTTP status code.
+          type: integer
         timestamp:
           description: The date and time (dd-MM-yyyy hh:mm:ss) the error occured.
           type: string
@@ -907,7 +909,6 @@ components:
             $ref: '#/components/schemas/ApiValidationError'
           type: array
       required:
-      - debugMessage
       - message
       - method
       - requestUri

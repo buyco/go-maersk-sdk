@@ -16,18 +16,19 @@ import (
 
 // ApiError struct for ApiError
 type ApiError struct {
+	Id *string `json:"id,omitempty"`
 	// The request method type e.g. GET, POST.
 	Method string `json:"method"`
 	// The request URI.
 	RequestUri string `json:"requestUri"`
-	// The textual representation of the response status.
-	Status string `json:"status"`
+	// HTTP status code.
+	Status int32 `json:"status"`
 	// The date and time (dd-MM-yyyy hh:mm:ss) the error occured.
 	Timestamp string `json:"timestamp"`
 	// High level error message.
 	Message string `json:"message"`
 	// Detailed error message.
-	DebugMessage string `json:"debugMessage"`
+	DebugMessage *string `json:"debugMessage,omitempty"`
 	// The list of invalid fields in the request.
 	SubErrors []ApiValidationError `json:"subErrors,omitempty"`
 }
@@ -36,14 +37,13 @@ type ApiError struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewApiError(method string, requestUri string, status string, timestamp string, message string, debugMessage string) *ApiError {
+func NewApiError(method string, requestUri string, status int32, timestamp string, message string) *ApiError {
 	this := ApiError{}
 	this.Method = method
 	this.RequestUri = requestUri
 	this.Status = status
 	this.Timestamp = timestamp
 	this.Message = message
-	this.DebugMessage = debugMessage
 	return &this
 }
 
@@ -53,6 +53,38 @@ func NewApiError(method string, requestUri string, status string, timestamp stri
 func NewApiErrorWithDefaults() *ApiError {
 	this := ApiError{}
 	return &this
+}
+
+// GetId returns the Id field value if set, zero value otherwise.
+func (o *ApiError) GetId() string {
+	if o == nil || o.Id == nil {
+		var ret string
+		return ret
+	}
+	return *o.Id
+}
+
+// GetIdOk returns a tuple with the Id field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ApiError) GetIdOk() (*string, bool) {
+	if o == nil || o.Id == nil {
+		return nil, false
+	}
+	return o.Id, true
+}
+
+// HasId returns a boolean if a field has been set.
+func (o *ApiError) HasId() bool {
+	if o != nil && o.Id != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetId gets a reference to the given string and assigns it to the Id field.
+func (o *ApiError) SetId(v string) {
+	o.Id = &v
 }
 
 // GetMethod returns the Method field value
@@ -104,9 +136,9 @@ func (o *ApiError) SetRequestUri(v string) {
 }
 
 // GetStatus returns the Status field value
-func (o *ApiError) GetStatus() string {
+func (o *ApiError) GetStatus() int32 {
 	if o == nil {
-		var ret string
+		var ret int32
 		return ret
 	}
 
@@ -115,7 +147,7 @@ func (o *ApiError) GetStatus() string {
 
 // GetStatusOk returns a tuple with the Status field value
 // and a boolean to check if the value has been set.
-func (o *ApiError) GetStatusOk() (*string, bool) {
+func (o *ApiError) GetStatusOk() (*int32, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -123,7 +155,7 @@ func (o *ApiError) GetStatusOk() (*string, bool) {
 }
 
 // SetStatus sets field value
-func (o *ApiError) SetStatus(v string) {
+func (o *ApiError) SetStatus(v int32) {
 	o.Status = v
 }
 
@@ -175,28 +207,36 @@ func (o *ApiError) SetMessage(v string) {
 	o.Message = v
 }
 
-// GetDebugMessage returns the DebugMessage field value
+// GetDebugMessage returns the DebugMessage field value if set, zero value otherwise.
 func (o *ApiError) GetDebugMessage() string {
-	if o == nil {
+	if o == nil || o.DebugMessage == nil {
 		var ret string
 		return ret
 	}
-
-	return o.DebugMessage
+	return *o.DebugMessage
 }
 
-// GetDebugMessageOk returns a tuple with the DebugMessage field value
+// GetDebugMessageOk returns a tuple with the DebugMessage field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *ApiError) GetDebugMessageOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.DebugMessage == nil {
 		return nil, false
 	}
-	return &o.DebugMessage, true
+	return o.DebugMessage, true
 }
 
-// SetDebugMessage sets field value
+// HasDebugMessage returns a boolean if a field has been set.
+func (o *ApiError) HasDebugMessage() bool {
+	if o != nil && o.DebugMessage != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetDebugMessage gets a reference to the given string and assigns it to the DebugMessage field.
 func (o *ApiError) SetDebugMessage(v string) {
-	o.DebugMessage = v
+	o.DebugMessage = &v
 }
 
 // GetSubErrors returns the SubErrors field value if set, zero value otherwise.
@@ -233,6 +273,9 @@ func (o *ApiError) SetSubErrors(v []ApiValidationError) {
 
 func (o ApiError) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
+	if o.Id != nil {
+		toSerialize["id"] = o.Id
+	}
 	if true {
 		toSerialize["method"] = o.Method
 	}
@@ -248,7 +291,7 @@ func (o ApiError) MarshalJSON() ([]byte, error) {
 	if true {
 		toSerialize["message"] = o.Message
 	}
-	if true {
+	if o.DebugMessage != nil {
 		toSerialize["debugMessage"] = o.DebugMessage
 	}
 	if o.SubErrors != nil {

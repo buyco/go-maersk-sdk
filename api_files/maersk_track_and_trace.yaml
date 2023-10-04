@@ -974,8 +974,9 @@ components:
         - status
         - timestamp
         - message
-        - debugMessage
       properties:
+        id:
+          type: string
         method:
           type: string
           description: 'The request method type e.g. GET, POST.'
@@ -983,8 +984,8 @@ components:
           type: string
           description: The request URI.
         status:
-          type: string
-          description: The textual representation of the response status.
+          type: integer
+          description: HTTP status code.
         timestamp:
           type: string
           description: 'The date and time (dd-MM-yyyy hh:mm:ss) the error occured.'
