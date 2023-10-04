@@ -4,19 +4,20 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**Id** | Pointer to **string** |  | [optional] 
 **Method** | **string** | The request method type e.g. GET, POST. | 
 **RequestUri** | **string** | The request URI. | 
-**Status** | **string** | The textual representation of the response status. | 
+**Status** | **int32** | HTTP status code. | 
 **Timestamp** | **string** | The date and time (dd-MM-yyyy hh:mm:ss) the error occured. | 
 **Message** | **string** | High level error message. | 
-**DebugMessage** | **string** | Detailed error message. | 
+**DebugMessage** | Pointer to **string** | Detailed error message. | [optional] 
 **SubErrors** | Pointer to [**[]ApiValidationError**](ApiValidationError.md) | The list of invalid fields in the request. | [optional] 
 
 ## Methods
 
 ### NewApiError
 
-`func NewApiError(method string, requestUri string, status string, timestamp string, message string, debugMessage string, ) *ApiError`
+`func NewApiError(method string, requestUri string, status int32, timestamp string, message string, ) *ApiError`
 
 NewApiError instantiates a new ApiError object
 This constructor will assign default values to properties that have it defined,
@@ -30,6 +31,31 @@ will change when the set of required properties is changed
 NewApiErrorWithDefaults instantiates a new ApiError object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
+
+### GetId
+
+`func (o *ApiError) GetId() string`
+
+GetId returns the Id field if non-nil, zero value otherwise.
+
+### GetIdOk
+
+`func (o *ApiError) GetIdOk() (*string, bool)`
+
+GetIdOk returns a tuple with the Id field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetId
+
+`func (o *ApiError) SetId(v string)`
+
+SetId sets Id field to given value.
+
+### HasId
+
+`func (o *ApiError) HasId() bool`
+
+HasId returns a boolean if a field has been set.
 
 ### GetMethod
 
@@ -73,20 +99,20 @@ SetRequestUri sets RequestUri field to given value.
 
 ### GetStatus
 
-`func (o *ApiError) GetStatus() string`
+`func (o *ApiError) GetStatus() int32`
 
 GetStatus returns the Status field if non-nil, zero value otherwise.
 
 ### GetStatusOk
 
-`func (o *ApiError) GetStatusOk() (*string, bool)`
+`func (o *ApiError) GetStatusOk() (*int32, bool)`
 
 GetStatusOk returns a tuple with the Status field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetStatus
 
-`func (o *ApiError) SetStatus(v string)`
+`func (o *ApiError) SetStatus(v int32)`
 
 SetStatus sets Status field to given value.
 
@@ -150,6 +176,11 @@ and a boolean to check if the value has been set.
 
 SetDebugMessage sets DebugMessage field to given value.
 
+### HasDebugMessage
+
+`func (o *ApiError) HasDebugMessage() bool`
+
+HasDebugMessage returns a boolean if a field has been set.
 
 ### GetSubErrors
 
