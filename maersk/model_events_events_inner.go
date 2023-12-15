@@ -61,6 +61,7 @@ func (dst *EventsEventsInner) UnmarshalJSON(data []byte) error {
 			}
 		} else {
 			dst.EquipmentEvent = nil
+			return err
 		}
 	}
 
