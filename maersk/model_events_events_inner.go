@@ -45,6 +45,7 @@ func (dst *EventsEventsInner) UnmarshalJSON(data []byte) error {
 			}
 		} else {
 			dst.EquipmentEvent = nil
+			return fmt.Errorf("equipment parsing failed with error: %v", err)
 		}
 	}
 
@@ -61,7 +62,6 @@ func (dst *EventsEventsInner) UnmarshalJSON(data []byte) error {
 			}
 		} else {
 			dst.EquipmentEvent = nil
-			return err
 		}
 	}
 
