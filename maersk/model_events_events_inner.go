@@ -167,7 +167,7 @@ func (dst *EventsEventsInner) UnmarshalJSON(data []byte) error {
 		dst.TransportEvent = nil
 	}
 
-	return fmt.Errorf("data failed to match schemas in anyOf(EventsEventsInner)")
+	return fmt.Errorf("data failed to match schemas in anyOf(EventsEventsInner): %v", jsonDict)
 }
 
 // Marshal data from the first non-nil pointers in the struct to JSON
