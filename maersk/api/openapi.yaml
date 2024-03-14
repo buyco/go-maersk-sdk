@@ -656,7 +656,6 @@ components:
             \ the event will take place, in ISO 8601 format. For Shipment Event, it\
             \ is the same as eventCreatedDateTime in UTC timezone."
           example: 2019-11-12T07:41:00+08:00
-          format: date-time
           type: string
         eventCreatedDateTime:
           description: The UTC timestamp of when the event was created.

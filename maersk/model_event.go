@@ -22,7 +22,7 @@ type Event struct {
 	// The Event Type of the object.
 	EventType string `json:"eventType"`
 	// The local date and time, where the event took place or when the event will take place, in ISO 8601 format. For Shipment Event, it is the same as eventCreatedDateTime in UTC timezone.
-	EventDateTime time.Time `json:"eventDateTime"`
+	EventDateTime string `json:"eventDateTime"`
 	// The UTC timestamp of when the event was created.
 	EventCreatedDateTime time.Time `json:"eventCreatedDateTime"`
 	// Code for the event classifier, either PLN, ACT or EST. * PLN - Planned * ACT - Actual * EST - Estimated
@@ -35,7 +35,7 @@ type Event struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewEvent(eventType string, eventDateTime time.Time, eventCreatedDateTime time.Time, eventClassifierCode string) *Event {
+func NewEvent(eventType string, eventDateTime string, eventCreatedDateTime time.Time, eventClassifierCode string) *Event {
 	this := Event{}
 	this.EventType = eventType
 	this.EventDateTime = eventDateTime
@@ -109,9 +109,9 @@ func (o *Event) SetEventType(v string) {
 }
 
 // GetEventDateTime returns the EventDateTime field value
-func (o *Event) GetEventDateTime() time.Time {
+func (o *Event) GetEventDateTime() string {
 	if o == nil {
-		var ret time.Time
+		var ret string
 		return ret
 	}
 
@@ -120,7 +120,7 @@ func (o *Event) GetEventDateTime() time.Time {
 
 // GetEventDateTimeOk returns a tuple with the EventDateTime field value
 // and a boolean to check if the value has been set.
-func (o *Event) GetEventDateTimeOk() (*time.Time, bool) {
+func (o *Event) GetEventDateTimeOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -128,7 +128,7 @@ func (o *Event) GetEventDateTimeOk() (*time.Time, bool) {
 }
 
 // SetEventDateTime sets field value
-func (o *Event) SetEventDateTime(v time.Time) {
+func (o *Event) SetEventDateTime(v string) {
 	o.EventDateTime = v
 }
 

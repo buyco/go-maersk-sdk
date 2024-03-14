@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **EventID** | Pointer to **string** | The unique identifier for the Equipment Event ID/Transport Event ID/Shipment Event ID. | [optional] 
 **EventType** | **string** |  | 
-**EventDateTime** | **time.Time** | The local date and time, where the event took place or when the event will take place, in ISO 8601 format. For Shipment Event, it is the same as eventCreatedDateTime in UTC timezone. | 
+**EventDateTime** | **string** | The local date and time, where the event took place or when the event will take place, in ISO 8601 format. For Shipment Event, it is the same as eventCreatedDateTime in UTC timezone. | 
 **EventCreatedDateTime** | **time.Time** | The UTC timestamp of when the event was created. | 
 **EventClassifierCode** | **string** | Code for the event classifier, either PLN, ACT or EST. * PLN - Planned * ACT - Actual * EST - Estimated  | 
 **References** | Pointer to [**[]EventReferencesInner**](EventReferencesInner.md) | References provided by the shipper or freight forwarder at the time of booking or at the time of providing shipping instruction. Carriers share it back when providing track and trace event updates, some are also printed on the B/L. Customers can use these references to track shipments in their internal systems. | [optional] 
@@ -30,7 +30,7 @@ Name | Type | Description | Notes
 
 ### NewEventsEventsInner
 
-`func NewEventsEventsInner(eventType string, eventDateTime time.Time, eventCreatedDateTime time.Time, eventClassifierCode string, shipmentEventTypeCode string, documentTypeCode string, documentID string, transportCall TransportCall, emptyIndicatorCode string, ) *EventsEventsInner`
+`func NewEventsEventsInner(eventType string, eventDateTime string, eventCreatedDateTime time.Time, eventClassifierCode string, shipmentEventTypeCode string, documentTypeCode string, documentID string, transportCall TransportCall, emptyIndicatorCode string, ) *EventsEventsInner`
 
 NewEventsEventsInner instantiates a new EventsEventsInner object
 This constructor will assign default values to properties that have it defined,
@@ -92,20 +92,20 @@ SetEventType sets EventType field to given value.
 
 ### GetEventDateTime
 
-`func (o *EventsEventsInner) GetEventDateTime() time.Time`
+`func (o *EventsEventsInner) GetEventDateTime() string`
 
 GetEventDateTime returns the EventDateTime field if non-nil, zero value otherwise.
 
 ### GetEventDateTimeOk
 
-`func (o *EventsEventsInner) GetEventDateTimeOk() (*time.Time, bool)`
+`func (o *EventsEventsInner) GetEventDateTimeOk() (*string, bool)`
 
 GetEventDateTimeOk returns a tuple with the EventDateTime field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetEventDateTime
 
-`func (o *EventsEventsInner) SetEventDateTime(v time.Time)`
+`func (o *EventsEventsInner) SetEventDateTime(v string)`
 
 SetEventDateTime sets EventDateTime field to given value.
 
