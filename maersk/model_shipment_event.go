@@ -21,7 +21,7 @@ type ShipmentEvent struct {
 	EventID   *string `json:"eventID,omitempty"`
 	EventType string  `json:"eventType"`
 	// The local date and time, where the event took place or when the event will take place, in ISO 8601 format. For Shipment Event, it is the same as eventCreatedDateTime in UTC timezone.
-	EventDateTime time.Time `json:"eventDateTime"`
+	EventDateTime string `json:"eventDateTime"`
 	// The UTC timestamp of when the event was created.
 	EventCreatedDateTime time.Time `json:"eventCreatedDateTime"`
 	// Code for the event classifier, either PLN, ACT or EST. * PLN - Planned * ACT - Actual * EST - Estimated
@@ -42,7 +42,7 @@ type ShipmentEvent struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewShipmentEvent(eventType string, eventDateTime time.Time, eventCreatedDateTime time.Time, eventClassifierCode string, shipmentEventTypeCode string, documentTypeCode string, documentID string) *ShipmentEvent {
+func NewShipmentEvent(eventType string, eventDateTime string, eventCreatedDateTime time.Time, eventClassifierCode string, shipmentEventTypeCode string, documentTypeCode string, documentID string) *ShipmentEvent {
 	this := ShipmentEvent{}
 	this.EventType = eventType
 	this.EventDateTime = eventDateTime
@@ -119,9 +119,9 @@ func (o *ShipmentEvent) SetEventType(v string) {
 }
 
 // GetEventDateTime returns the EventDateTime field value
-func (o *ShipmentEvent) GetEventDateTime() time.Time {
+func (o *ShipmentEvent) GetEventDateTime() string {
 	if o == nil {
-		var ret time.Time
+		var ret string
 		return ret
 	}
 
@@ -130,7 +130,7 @@ func (o *ShipmentEvent) GetEventDateTime() time.Time {
 
 // GetEventDateTimeOk returns a tuple with the EventDateTime field value
 // and a boolean to check if the value has been set.
-func (o *ShipmentEvent) GetEventDateTimeOk() (*time.Time, bool) {
+func (o *ShipmentEvent) GetEventDateTimeOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -138,7 +138,7 @@ func (o *ShipmentEvent) GetEventDateTimeOk() (*time.Time, bool) {
 }
 
 // SetEventDateTime sets field value
-func (o *ShipmentEvent) SetEventDateTime(v time.Time) {
+func (o *ShipmentEvent) SetEventDateTime(v string) {
 	o.EventDateTime = v
 }
 
