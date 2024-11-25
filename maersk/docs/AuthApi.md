@@ -4,7 +4,7 @@ All URIs are relative to *https://api.maersk.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**CreateAccessToken**](AuthApi.md#CreateAccessToken) | **Post** /oauth2/access_token | 
+[**CreateAccessToken**](AuthApi.md#CreateAccessToken) | **Post** /customer-identity/oauth/v2/access_token | 
 
 
 
@@ -64,7 +64,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[ConsumerKey](../README.md#ConsumerKey)
 
 ### HTTP request headers
 

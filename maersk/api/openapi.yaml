@@ -20,41 +20,19 @@ servers:
 - description: Pre-Production Environment
   url: https://api-stage.maersk.com
 tags:
+- description: Authentication
+  name: Auth
 - description: Event operations
   name: Events
 paths:
-  /oauth2/access_token:
+  /customer-identity/oauth/v2/access_token:
     post:
       operationId: CreateAccessToken
-      parameters:
-      - explode: true
-        in: query
-        name: grant_type
-        required: true
-        schema:
-          enum:
-          - client_credentials
-          type: string
-        style: form
-      - explode: true
-        in: query
-        name: client_id
-        required: true
-        schema:
-          type: string
-        style: form
-      - explode: true
-        in: query
-        name: client_secret
-        required: true
-        schema:
-          type: string
-        style: form
       requestBody:
         content:
           application/x-www-form-urlencoded:
             schema:
-              type: object
+              $ref: '#/components/schemas/CreateAccessToken_request'
       responses:
         "200":
           content:
@@ -68,6 +46,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/CreateAccessToken_400_response'
           description: Bad Request
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateAccessToken_401_response'
+          description: Unauthorized
+      security:
+      - ConsumerKey: []
       tags:
       - Auth
   /track-and-trace-private/events:
@@ -914,6 +900,21 @@ components:
       - status
       - timestamp
       type: object
+    CreateAccessToken_request:
+      properties:
+        grant_type:
+          enum:
+          - client_credentials
+          type: string
+        client_id:
+          type: string
+        client_secret:
+          type: string
+      required:
+      - client_id
+      - client_secret
+      - grant_type
+      type: object
     CreateAccessToken_200_response:
       example:
         access_token: access_token
@@ -942,9 +943,33 @@ components:
     CreateAccessToken_400_response:
       properties:
         error_description:
+          example: Client authentication failed
           type: string
         error:
+          example: invalid_client
           type: string
+      type: object
+    CreateAccessToken_401_response_error_inner:
+      properties:
+        code:
+          example: ERR_GW_001
+          type: string
+        message:
+          example: "API Key Validation Failed, please check the API key"
+          type: string
+        reason:
+          example: Invalid or expired Key
+          type: string
+        status:
+          example: "401"
+          type: string
+      type: object
+    CreateAccessToken_401_response:
+      properties:
+        error:
+          items:
+            $ref: '#/components/schemas/CreateAccessToken_401_response_error_inner'
+          type: array
       type: object
     DocumentReferences_inner:
       properties:

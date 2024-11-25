@@ -92,7 +92,7 @@ func (a *AuthApiService) CreateAccessTokenExecute(r ApiCreateAccessTokenRequest)
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/oauth2/access_token"
+	localVarPath := localBasePath + "/customer-identity/oauth/v2/access_token"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -107,9 +107,6 @@ func (a *AuthApiService) CreateAccessTokenExecute(r ApiCreateAccessTokenRequest)
 		return localVarReturnValue, nil, reportError("clientSecret is required and must be specified")
 	}
 
-	localVarQueryParams.Add("grant_type", parameterToString(*r.grantType, ""))
-	localVarQueryParams.Add("client_id", parameterToString(*r.clientId, ""))
-	localVarQueryParams.Add("client_secret", parameterToString(*r.clientSecret, ""))
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
 
@@ -126,6 +123,23 @@ func (a *AuthApiService) CreateAccessTokenExecute(r ApiCreateAccessTokenRequest)
 	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	localVarFormParams.Add("grant_type", parameterToString(*r.grantType, ""))
+	localVarFormParams.Add("client_id", parameterToString(*r.clientId, ""))
+	localVarFormParams.Add("client_secret", parameterToString(*r.clientSecret, ""))
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ConsumerKey"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["Consumer-Key"] = key
+			}
+		}
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
@@ -151,6 +165,16 @@ func (a *AuthApiService) CreateAccessTokenExecute(r ApiCreateAccessTokenRequest)
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
 			var v CreateAccessToken400Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 401 {
+			var v CreateAccessToken401Response
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
