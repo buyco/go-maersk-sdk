@@ -39,9 +39,16 @@ type AuthApiService service
 type ApiCreateAccessTokenRequest struct {
 	ctx          context.Context
 	ApiService   AuthApi
+	consumerKey  *string
 	grantType    *string
 	clientId     *string
 	clientSecret *string
+}
+
+// The Consumer Key issued for your registered application.
+func (r ApiCreateAccessTokenRequest) ConsumerKey(consumerKey string) ApiCreateAccessTokenRequest {
+	r.consumerKey = &consumerKey
+	return r
 }
 
 func (r ApiCreateAccessTokenRequest) GrantType(grantType string) ApiCreateAccessTokenRequest {
@@ -97,6 +104,9 @@ func (a *AuthApiService) CreateAccessTokenExecute(r ApiCreateAccessTokenRequest)
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
+	if r.consumerKey == nil {
+		return localVarReturnValue, nil, reportError("consumerKey is required and must be specified")
+	}
 	if r.grantType == nil {
 		return localVarReturnValue, nil, reportError("grantType is required and must be specified")
 	}
@@ -124,6 +134,7 @@ func (a *AuthApiService) CreateAccessTokenExecute(r ApiCreateAccessTokenRequest)
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	localVarHeaderParams["Consumer-Key"] = parameterToString(*r.consumerKey, "")
 	localVarFormParams.Add("grant_type", parameterToString(*r.grantType, ""))
 	localVarFormParams.Add("client_id", parameterToString(*r.clientId, ""))
 	localVarFormParams.Add("client_secret", parameterToString(*r.clientSecret, ""))

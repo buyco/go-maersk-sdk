@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## CreateAccessToken
 
-> CreateAccessToken200Response CreateAccessToken(ctx).GrantType(grantType).ClientId(clientId).ClientSecret(clientSecret).Execute()
+> CreateAccessToken200Response CreateAccessToken(ctx).ConsumerKey(consumerKey).GrantType(grantType).ClientId(clientId).ClientSecret(clientSecret).Execute()
 
 
 
@@ -27,13 +27,14 @@ import (
 )
 
 func main() {
+    consumerKey := "consumerKey_example" // string | The Consumer Key issued for your registered application.
     grantType := "grantType_example" // string | 
     clientId := "clientId_example" // string | 
     clientSecret := "clientSecret_example" // string | 
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.AuthApi.CreateAccessToken(context.Background()).GrantType(grantType).ClientId(clientId).ClientSecret(clientSecret).Execute()
+    resp, r, err := apiClient.AuthApi.CreateAccessToken(context.Background()).ConsumerKey(consumerKey).GrantType(grantType).ClientId(clientId).ClientSecret(clientSecret).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `AuthApi.CreateAccessToken``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -54,6 +55,7 @@ Other parameters are passed through a pointer to a apiCreateAccessTokenRequest s
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **consumerKey** | **string** | The Consumer Key issued for your registered application. | 
  **grantType** | **string** |  | 
  **clientId** | **string** |  | 
  **clientSecret** | **string** |  | 

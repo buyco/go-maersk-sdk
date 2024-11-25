@@ -32,6 +32,13 @@ paths:
         - Auth
       security:
         - ConsumerKey: []
+      parameters:
+        - name: Consumer-Key
+          in: header
+          required: true
+          schema:
+            type: string
+          description: The Consumer Key issued for your registered application.
       requestBody:
         content:
           application/x-www-form-urlencoded:
