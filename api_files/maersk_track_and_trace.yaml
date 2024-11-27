@@ -20,37 +20,43 @@ servers:
   - url: 'https://api-stage.maersk.com'
     description: Pre-Production Environment
 tags:
+  - name: Auth
+    description: Authentication
   - name: Events
     description: Event operations
 paths:
-  /oauth2/access_token:
+  /customer-identity/oauth/v2/access_token:
     post:
       operationId: CreateAccessToken
       tags:
         - Auth
+      security:
+        - ConsumerKey: []
       parameters:
-        - name: grant_type
-          in: query
+        - name: Consumer-Key
+          in: header
           required: true
           schema:
             type: string
-            enum:
-              - client_credentials
-        - name: client_id
-          in: query
-          required: true
-          schema:
-            type: string
-        - name: client_secret
-          in: query
-          required: true
-          schema:
-            type: string
+          description: The Consumer Key issued for your registered application.
       requestBody:
         content:
           application/x-www-form-urlencoded:
             schema:
               type: object
+              properties:
+                grant_type:
+                  type: string
+                  enum:
+                    - client_credentials
+                client_id:
+                  type: string
+                client_secret:
+                  type: string
+              required:
+                - grant_type
+                - client_id
+                - client_secret
       responses:
         '200':
           description: Successfully created
@@ -84,8 +90,34 @@ paths:
                 properties:
                   error_description:
                     type: string
+                    example: Client authentication failed
                   error:
                     type: string
+                    example: invalid_client
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          example: ERR_GW_001
+                        message:
+                          type: string
+                          example: API Key Validation Failed, please check the API key
+                        reason:
+                          type: string
+                          example: Invalid or expired Key
+                        status:
+                          type: string
+                          example: '401'
   /track-and-trace-private/events:
     get:
       operationId: ListEvents

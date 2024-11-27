@@ -12,6 +12,8 @@ docs/ApiValidationError.md
 docs/AuthApi.md
 docs/CreateAccessToken200Response.md
 docs/CreateAccessToken400Response.md
+docs/CreateAccessToken401Response.md
+docs/CreateAccessToken401ResponseErrorInner.md
 docs/DocumentReferencesInner.md
 docs/EquipmentEvent.md
 docs/EquipmentEventAllOf.md
@@ -37,6 +39,8 @@ model_api_error.go
 model_api_validation_error.go
 model_create_access_token_200_response.go
 model_create_access_token_400_response.go
+model_create_access_token_401_response.go
+model_create_access_token_401_response_error_inner.go
 model_document_references_inner.go
 model_equipment_event.go
 model_equipment_event_all_of.go

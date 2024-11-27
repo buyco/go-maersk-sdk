@@ -83,7 +83,7 @@ All URIs are relative to *https://api.maersk.com*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*AuthApi* | [**CreateAccessToken**](docs/AuthApi.md#createaccesstoken) | **Post** /oauth2/access_token | 
+*AuthApi* | [**CreateAccessToken**](docs/AuthApi.md#createaccesstoken) | **Post** /customer-identity/oauth/v2/access_token | 
 *EventsApi* | [**ListEvents**](docs/EventsApi.md#listevents) | **Get** /track-and-trace-private/events | Find events.
 
 
@@ -94,6 +94,8 @@ Class | Method | HTTP request | Description
  - [ApiValidationError](docs/ApiValidationError.md)
  - [CreateAccessToken200Response](docs/CreateAccessToken200Response.md)
  - [CreateAccessToken400Response](docs/CreateAccessToken400Response.md)
+ - [CreateAccessToken401Response](docs/CreateAccessToken401Response.md)
+ - [CreateAccessToken401ResponseErrorInner](docs/CreateAccessToken401ResponseErrorInner.md)
  - [DocumentReferencesInner](docs/DocumentReferencesInner.md)
  - [EquipmentEvent](docs/EquipmentEvent.md)
  - [EquipmentEventAllOf](docs/EquipmentEventAllOf.md)
