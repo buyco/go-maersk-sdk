@@ -11,8 +11,13 @@ API version: 1.1.1
 package maersk
 
 import (
+	"bytes"
 	"encoding/json"
+	"fmt"
 )
+
+// checks if the Vessel type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &Vessel{}
 
 // Vessel struct for Vessel
 type Vessel struct {
@@ -29,6 +34,8 @@ type Vessel struct {
 	// Identifies the code list provider used for the operator and partner carrierCodes.
 	VesselOperatorCarrierCodeListProvider *string `json:"vesselOperatorCarrierCodeListProvider,omitempty"`
 }
+
+type _Vessel Vessel
 
 // NewVessel instantiates a new Vessel object
 // This constructor will assign default values to properties that have it defined,
@@ -74,7 +81,7 @@ func (o *Vessel) SetVesselIMONumber(v string) {
 
 // GetVesselName returns the VesselName field value if set, zero value otherwise.
 func (o *Vessel) GetVesselName() string {
-	if o == nil || o.VesselName == nil {
+	if o == nil || IsNil(o.VesselName) {
 		var ret string
 		return ret
 	}
@@ -84,7 +91,7 @@ func (o *Vessel) GetVesselName() string {
 // GetVesselNameOk returns a tuple with the VesselName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Vessel) GetVesselNameOk() (*string, bool) {
-	if o == nil || o.VesselName == nil {
+	if o == nil || IsNil(o.VesselName) {
 		return nil, false
 	}
 	return o.VesselName, true
@@ -92,7 +99,7 @@ func (o *Vessel) GetVesselNameOk() (*string, bool) {
 
 // HasVesselName returns a boolean if a field has been set.
 func (o *Vessel) HasVesselName() bool {
-	if o != nil && o.VesselName != nil {
+	if o != nil && !IsNil(o.VesselName) {
 		return true
 	}
 
@@ -106,7 +113,7 @@ func (o *Vessel) SetVesselName(v string) {
 
 // GetVesselFlag returns the VesselFlag field value if set, zero value otherwise.
 func (o *Vessel) GetVesselFlag() string {
-	if o == nil || o.VesselFlag == nil {
+	if o == nil || IsNil(o.VesselFlag) {
 		var ret string
 		return ret
 	}
@@ -116,7 +123,7 @@ func (o *Vessel) GetVesselFlag() string {
 // GetVesselFlagOk returns a tuple with the VesselFlag field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Vessel) GetVesselFlagOk() (*string, bool) {
-	if o == nil || o.VesselFlag == nil {
+	if o == nil || IsNil(o.VesselFlag) {
 		return nil, false
 	}
 	return o.VesselFlag, true
@@ -124,7 +131,7 @@ func (o *Vessel) GetVesselFlagOk() (*string, bool) {
 
 // HasVesselFlag returns a boolean if a field has been set.
 func (o *Vessel) HasVesselFlag() bool {
-	if o != nil && o.VesselFlag != nil {
+	if o != nil && !IsNil(o.VesselFlag) {
 		return true
 	}
 
@@ -138,7 +145,7 @@ func (o *Vessel) SetVesselFlag(v string) {
 
 // GetVesselCallSignNumber returns the VesselCallSignNumber field value if set, zero value otherwise.
 func (o *Vessel) GetVesselCallSignNumber() string {
-	if o == nil || o.VesselCallSignNumber == nil {
+	if o == nil || IsNil(o.VesselCallSignNumber) {
 		var ret string
 		return ret
 	}
@@ -148,7 +155,7 @@ func (o *Vessel) GetVesselCallSignNumber() string {
 // GetVesselCallSignNumberOk returns a tuple with the VesselCallSignNumber field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Vessel) GetVesselCallSignNumberOk() (*string, bool) {
-	if o == nil || o.VesselCallSignNumber == nil {
+	if o == nil || IsNil(o.VesselCallSignNumber) {
 		return nil, false
 	}
 	return o.VesselCallSignNumber, true
@@ -156,7 +163,7 @@ func (o *Vessel) GetVesselCallSignNumberOk() (*string, bool) {
 
 // HasVesselCallSignNumber returns a boolean if a field has been set.
 func (o *Vessel) HasVesselCallSignNumber() bool {
-	if o != nil && o.VesselCallSignNumber != nil {
+	if o != nil && !IsNil(o.VesselCallSignNumber) {
 		return true
 	}
 
@@ -170,7 +177,7 @@ func (o *Vessel) SetVesselCallSignNumber(v string) {
 
 // GetVesselOperatorCarrierCode returns the VesselOperatorCarrierCode field value if set, zero value otherwise.
 func (o *Vessel) GetVesselOperatorCarrierCode() string {
-	if o == nil || o.VesselOperatorCarrierCode == nil {
+	if o == nil || IsNil(o.VesselOperatorCarrierCode) {
 		var ret string
 		return ret
 	}
@@ -180,7 +187,7 @@ func (o *Vessel) GetVesselOperatorCarrierCode() string {
 // GetVesselOperatorCarrierCodeOk returns a tuple with the VesselOperatorCarrierCode field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Vessel) GetVesselOperatorCarrierCodeOk() (*string, bool) {
-	if o == nil || o.VesselOperatorCarrierCode == nil {
+	if o == nil || IsNil(o.VesselOperatorCarrierCode) {
 		return nil, false
 	}
 	return o.VesselOperatorCarrierCode, true
@@ -188,7 +195,7 @@ func (o *Vessel) GetVesselOperatorCarrierCodeOk() (*string, bool) {
 
 // HasVesselOperatorCarrierCode returns a boolean if a field has been set.
 func (o *Vessel) HasVesselOperatorCarrierCode() bool {
-	if o != nil && o.VesselOperatorCarrierCode != nil {
+	if o != nil && !IsNil(o.VesselOperatorCarrierCode) {
 		return true
 	}
 
@@ -202,7 +209,7 @@ func (o *Vessel) SetVesselOperatorCarrierCode(v string) {
 
 // GetVesselOperatorCarrierCodeListProvider returns the VesselOperatorCarrierCodeListProvider field value if set, zero value otherwise.
 func (o *Vessel) GetVesselOperatorCarrierCodeListProvider() string {
-	if o == nil || o.VesselOperatorCarrierCodeListProvider == nil {
+	if o == nil || IsNil(o.VesselOperatorCarrierCodeListProvider) {
 		var ret string
 		return ret
 	}
@@ -212,7 +219,7 @@ func (o *Vessel) GetVesselOperatorCarrierCodeListProvider() string {
 // GetVesselOperatorCarrierCodeListProviderOk returns a tuple with the VesselOperatorCarrierCodeListProvider field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Vessel) GetVesselOperatorCarrierCodeListProviderOk() (*string, bool) {
-	if o == nil || o.VesselOperatorCarrierCodeListProvider == nil {
+	if o == nil || IsNil(o.VesselOperatorCarrierCodeListProvider) {
 		return nil, false
 	}
 	return o.VesselOperatorCarrierCodeListProvider, true
@@ -220,7 +227,7 @@ func (o *Vessel) GetVesselOperatorCarrierCodeListProviderOk() (*string, bool) {
 
 // HasVesselOperatorCarrierCodeListProvider returns a boolean if a field has been set.
 func (o *Vessel) HasVesselOperatorCarrierCodeListProvider() bool {
-	if o != nil && o.VesselOperatorCarrierCodeListProvider != nil {
+	if o != nil && !IsNil(o.VesselOperatorCarrierCodeListProvider) {
 		return true
 	}
 
@@ -233,26 +240,69 @@ func (o *Vessel) SetVesselOperatorCarrierCodeListProvider(v string) {
 }
 
 func (o Vessel) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if true {
-		toSerialize["vesselIMONumber"] = o.VesselIMONumber
-	}
-	if o.VesselName != nil {
-		toSerialize["vesselName"] = o.VesselName
-	}
-	if o.VesselFlag != nil {
-		toSerialize["vesselFlag"] = o.VesselFlag
-	}
-	if o.VesselCallSignNumber != nil {
-		toSerialize["vesselCallSignNumber"] = o.VesselCallSignNumber
-	}
-	if o.VesselOperatorCarrierCode != nil {
-		toSerialize["vesselOperatorCarrierCode"] = o.VesselOperatorCarrierCode
-	}
-	if o.VesselOperatorCarrierCodeListProvider != nil {
-		toSerialize["vesselOperatorCarrierCodeListProvider"] = o.VesselOperatorCarrierCodeListProvider
+	toSerialize, err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
 	}
 	return json.Marshal(toSerialize)
+}
+
+func (o Vessel) ToMap() (map[string]interface{}, error) {
+	toSerialize := map[string]interface{}{}
+	toSerialize["vesselIMONumber"] = o.VesselIMONumber
+	if !IsNil(o.VesselName) {
+		toSerialize["vesselName"] = o.VesselName
+	}
+	if !IsNil(o.VesselFlag) {
+		toSerialize["vesselFlag"] = o.VesselFlag
+	}
+	if !IsNil(o.VesselCallSignNumber) {
+		toSerialize["vesselCallSignNumber"] = o.VesselCallSignNumber
+	}
+	if !IsNil(o.VesselOperatorCarrierCode) {
+		toSerialize["vesselOperatorCarrierCode"] = o.VesselOperatorCarrierCode
+	}
+	if !IsNil(o.VesselOperatorCarrierCodeListProvider) {
+		toSerialize["vesselOperatorCarrierCodeListProvider"] = o.VesselOperatorCarrierCodeListProvider
+	}
+	return toSerialize, nil
+}
+
+func (o *Vessel) UnmarshalJSON(data []byte) (err error) {
+	// This validates that all required properties are included in the JSON object
+	// by unmarshalling the object into a generic map with string keys and checking
+	// that every required field exists as a key in the generic map.
+	requiredProperties := []string{
+		"vesselIMONumber",
+	}
+
+	allProperties := make(map[string]interface{})
+
+	err = json.Unmarshal(data, &allProperties)
+
+	if err != nil {
+		return err
+	}
+
+	for _, requiredProperty := range requiredProperties {
+		if _, exists := allProperties[requiredProperty]; !exists {
+			return fmt.Errorf("no value given for required property %v", requiredProperty)
+		}
+	}
+
+	varVessel := _Vessel{}
+
+	decoder := json.NewDecoder(bytes.NewReader(data))
+	decoder.DisallowUnknownFields()
+	err = decoder.Decode(&varVessel)
+
+	if err != nil {
+		return err
+	}
+
+	*o = Vessel(varVessel)
+
+	return err
 }
 
 type NullableVessel struct {

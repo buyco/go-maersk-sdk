@@ -11,9 +11,14 @@ API version: 1.1.1
 package maersk
 
 import (
+	"bytes"
 	"encoding/json"
+	"fmt"
 	"time"
 )
+
+// checks if the TransportEvent type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &TransportEvent{}
 
 // TransportEvent The transport event entity is a specialization of the event entity to support specification of data that only applies to a transport event.
 type TransportEvent struct {
@@ -39,6 +44,8 @@ type TransportEvent struct {
 	TransportCall      TransportCall             `json:"transportCall"`
 }
 
+type _TransportEvent TransportEvent
+
 // NewTransportEvent instantiates a new TransportEvent object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
@@ -63,7 +70,7 @@ func NewTransportEventWithDefaults() *TransportEvent {
 
 // GetEventID returns the EventID field value if set, zero value otherwise.
 func (o *TransportEvent) GetEventID() string {
-	if o == nil || o.EventID == nil {
+	if o == nil || IsNil(o.EventID) {
 		var ret string
 		return ret
 	}
@@ -73,7 +80,7 @@ func (o *TransportEvent) GetEventID() string {
 // GetEventIDOk returns a tuple with the EventID field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *TransportEvent) GetEventIDOk() (*string, bool) {
-	if o == nil || o.EventID == nil {
+	if o == nil || IsNil(o.EventID) {
 		return nil, false
 	}
 	return o.EventID, true
@@ -81,7 +88,7 @@ func (o *TransportEvent) GetEventIDOk() (*string, bool) {
 
 // HasEventID returns a boolean if a field has been set.
 func (o *TransportEvent) HasEventID() bool {
-	if o != nil && o.EventID != nil {
+	if o != nil && !IsNil(o.EventID) {
 		return true
 	}
 
@@ -191,7 +198,7 @@ func (o *TransportEvent) SetEventClassifierCode(v string) {
 
 // GetReferences returns the References field value if set, zero value otherwise.
 func (o *TransportEvent) GetReferences() []EventReferencesInner {
-	if o == nil || o.References == nil {
+	if o == nil || IsNil(o.References) {
 		var ret []EventReferencesInner
 		return ret
 	}
@@ -201,7 +208,7 @@ func (o *TransportEvent) GetReferences() []EventReferencesInner {
 // GetReferencesOk returns a tuple with the References field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *TransportEvent) GetReferencesOk() ([]EventReferencesInner, bool) {
-	if o == nil || o.References == nil {
+	if o == nil || IsNil(o.References) {
 		return nil, false
 	}
 	return o.References, true
@@ -209,7 +216,7 @@ func (o *TransportEvent) GetReferencesOk() ([]EventReferencesInner, bool) {
 
 // HasReferences returns a boolean if a field has been set.
 func (o *TransportEvent) HasReferences() bool {
-	if o != nil && o.References != nil {
+	if o != nil && !IsNil(o.References) {
 		return true
 	}
 
@@ -223,7 +230,7 @@ func (o *TransportEvent) SetReferences(v []EventReferencesInner) {
 
 // GetTransportEventTypeCode returns the TransportEventTypeCode field value if set, zero value otherwise.
 func (o *TransportEvent) GetTransportEventTypeCode() string {
-	if o == nil || o.TransportEventTypeCode == nil {
+	if o == nil || IsNil(o.TransportEventTypeCode) {
 		var ret string
 		return ret
 	}
@@ -233,7 +240,7 @@ func (o *TransportEvent) GetTransportEventTypeCode() string {
 // GetTransportEventTypeCodeOk returns a tuple with the TransportEventTypeCode field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *TransportEvent) GetTransportEventTypeCodeOk() (*string, bool) {
-	if o == nil || o.TransportEventTypeCode == nil {
+	if o == nil || IsNil(o.TransportEventTypeCode) {
 		return nil, false
 	}
 	return o.TransportEventTypeCode, true
@@ -241,7 +248,7 @@ func (o *TransportEvent) GetTransportEventTypeCodeOk() (*string, bool) {
 
 // HasTransportEventTypeCode returns a boolean if a field has been set.
 func (o *TransportEvent) HasTransportEventTypeCode() bool {
-	if o != nil && o.TransportEventTypeCode != nil {
+	if o != nil && !IsNil(o.TransportEventTypeCode) {
 		return true
 	}
 
@@ -255,7 +262,7 @@ func (o *TransportEvent) SetTransportEventTypeCode(v string) {
 
 // GetDelayReasonCode returns the DelayReasonCode field value if set, zero value otherwise.
 func (o *TransportEvent) GetDelayReasonCode() string {
-	if o == nil || o.DelayReasonCode == nil {
+	if o == nil || IsNil(o.DelayReasonCode) {
 		var ret string
 		return ret
 	}
@@ -265,7 +272,7 @@ func (o *TransportEvent) GetDelayReasonCode() string {
 // GetDelayReasonCodeOk returns a tuple with the DelayReasonCode field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *TransportEvent) GetDelayReasonCodeOk() (*string, bool) {
-	if o == nil || o.DelayReasonCode == nil {
+	if o == nil || IsNil(o.DelayReasonCode) {
 		return nil, false
 	}
 	return o.DelayReasonCode, true
@@ -273,7 +280,7 @@ func (o *TransportEvent) GetDelayReasonCodeOk() (*string, bool) {
 
 // HasDelayReasonCode returns a boolean if a field has been set.
 func (o *TransportEvent) HasDelayReasonCode() bool {
-	if o != nil && o.DelayReasonCode != nil {
+	if o != nil && !IsNil(o.DelayReasonCode) {
 		return true
 	}
 
@@ -287,7 +294,7 @@ func (o *TransportEvent) SetDelayReasonCode(v string) {
 
 // GetChangeRemark returns the ChangeRemark field value if set, zero value otherwise.
 func (o *TransportEvent) GetChangeRemark() string {
-	if o == nil || o.ChangeRemark == nil {
+	if o == nil || IsNil(o.ChangeRemark) {
 		var ret string
 		return ret
 	}
@@ -297,7 +304,7 @@ func (o *TransportEvent) GetChangeRemark() string {
 // GetChangeRemarkOk returns a tuple with the ChangeRemark field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *TransportEvent) GetChangeRemarkOk() (*string, bool) {
-	if o == nil || o.ChangeRemark == nil {
+	if o == nil || IsNil(o.ChangeRemark) {
 		return nil, false
 	}
 	return o.ChangeRemark, true
@@ -305,7 +312,7 @@ func (o *TransportEvent) GetChangeRemarkOk() (*string, bool) {
 
 // HasChangeRemark returns a boolean if a field has been set.
 func (o *TransportEvent) HasChangeRemark() bool {
-	if o != nil && o.ChangeRemark != nil {
+	if o != nil && !IsNil(o.ChangeRemark) {
 		return true
 	}
 
@@ -319,7 +326,7 @@ func (o *TransportEvent) SetChangeRemark(v string) {
 
 // GetDocumentReferences returns the DocumentReferences field value if set, zero value otherwise.
 func (o *TransportEvent) GetDocumentReferences() []DocumentReferencesInner {
-	if o == nil || o.DocumentReferences == nil {
+	if o == nil || IsNil(o.DocumentReferences) {
 		var ret []DocumentReferencesInner
 		return ret
 	}
@@ -329,7 +336,7 @@ func (o *TransportEvent) GetDocumentReferences() []DocumentReferencesInner {
 // GetDocumentReferencesOk returns a tuple with the DocumentReferences field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *TransportEvent) GetDocumentReferencesOk() ([]DocumentReferencesInner, bool) {
-	if o == nil || o.DocumentReferences == nil {
+	if o == nil || IsNil(o.DocumentReferences) {
 		return nil, false
 	}
 	return o.DocumentReferences, true
@@ -337,7 +344,7 @@ func (o *TransportEvent) GetDocumentReferencesOk() ([]DocumentReferencesInner, b
 
 // HasDocumentReferences returns a boolean if a field has been set.
 func (o *TransportEvent) HasDocumentReferences() bool {
-	if o != nil && o.DocumentReferences != nil {
+	if o != nil && !IsNil(o.DocumentReferences) {
 		return true
 	}
 
@@ -374,41 +381,80 @@ func (o *TransportEvent) SetTransportCall(v TransportCall) {
 }
 
 func (o TransportEvent) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.EventID != nil {
-		toSerialize["eventID"] = o.EventID
-	}
-	if true {
-		toSerialize["eventType"] = o.EventType
-	}
-	if true {
-		toSerialize["eventDateTime"] = o.EventDateTime
-	}
-	if true {
-		toSerialize["eventCreatedDateTime"] = o.EventCreatedDateTime
-	}
-	if true {
-		toSerialize["eventClassifierCode"] = o.EventClassifierCode
-	}
-	if o.References != nil {
-		toSerialize["references"] = o.References
-	}
-	if o.TransportEventTypeCode != nil {
-		toSerialize["transportEventTypeCode"] = o.TransportEventTypeCode
-	}
-	if o.DelayReasonCode != nil {
-		toSerialize["delayReasonCode"] = o.DelayReasonCode
-	}
-	if o.ChangeRemark != nil {
-		toSerialize["changeRemark"] = o.ChangeRemark
-	}
-	if o.DocumentReferences != nil {
-		toSerialize["documentReferences"] = o.DocumentReferences
-	}
-	if true {
-		toSerialize["transportCall"] = o.TransportCall
+	toSerialize, err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
 	}
 	return json.Marshal(toSerialize)
+}
+
+func (o TransportEvent) ToMap() (map[string]interface{}, error) {
+	toSerialize := map[string]interface{}{}
+	if !IsNil(o.EventID) {
+		toSerialize["eventID"] = o.EventID
+	}
+	toSerialize["eventType"] = o.EventType
+	toSerialize["eventDateTime"] = o.EventDateTime
+	toSerialize["eventCreatedDateTime"] = o.EventCreatedDateTime
+	toSerialize["eventClassifierCode"] = o.EventClassifierCode
+	if !IsNil(o.References) {
+		toSerialize["references"] = o.References
+	}
+	if !IsNil(o.TransportEventTypeCode) {
+		toSerialize["transportEventTypeCode"] = o.TransportEventTypeCode
+	}
+	if !IsNil(o.DelayReasonCode) {
+		toSerialize["delayReasonCode"] = o.DelayReasonCode
+	}
+	if !IsNil(o.ChangeRemark) {
+		toSerialize["changeRemark"] = o.ChangeRemark
+	}
+	if !IsNil(o.DocumentReferences) {
+		toSerialize["documentReferences"] = o.DocumentReferences
+	}
+	toSerialize["transportCall"] = o.TransportCall
+	return toSerialize, nil
+}
+
+func (o *TransportEvent) UnmarshalJSON(data []byte) (err error) {
+	// This validates that all required properties are included in the JSON object
+	// by unmarshalling the object into a generic map with string keys and checking
+	// that every required field exists as a key in the generic map.
+	requiredProperties := []string{
+		"eventType",
+		"eventDateTime",
+		"eventCreatedDateTime",
+		"eventClassifierCode",
+		"transportCall",
+	}
+
+	allProperties := make(map[string]interface{})
+
+	err = json.Unmarshal(data, &allProperties)
+
+	if err != nil {
+		return err
+	}
+
+	for _, requiredProperty := range requiredProperties {
+		if _, exists := allProperties[requiredProperty]; !exists {
+			return fmt.Errorf("no value given for required property %v", requiredProperty)
+		}
+	}
+
+	varTransportEvent := _TransportEvent{}
+
+	decoder := json.NewDecoder(bytes.NewReader(data))
+	decoder.DisallowUnknownFields()
+	err = decoder.Decode(&varTransportEvent)
+
+	if err != nil {
+		return err
+	}
+
+	*o = TransportEvent(varTransportEvent)
+
+	return err
 }
 
 type NullableTransportEvent struct {

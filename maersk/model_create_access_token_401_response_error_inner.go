@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the CreateAccessToken401ResponseErrorInner type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &CreateAccessToken401ResponseErrorInner{}
+
 // CreateAccessToken401ResponseErrorInner struct for CreateAccessToken401ResponseErrorInner
 type CreateAccessToken401ResponseErrorInner struct {
 	Code    *string `json:"code,omitempty"`
@@ -41,7 +44,7 @@ func NewCreateAccessToken401ResponseErrorInnerWithDefaults() *CreateAccessToken4
 
 // GetCode returns the Code field value if set, zero value otherwise.
 func (o *CreateAccessToken401ResponseErrorInner) GetCode() string {
-	if o == nil || o.Code == nil {
+	if o == nil || IsNil(o.Code) {
 		var ret string
 		return ret
 	}
@@ -51,7 +54,7 @@ func (o *CreateAccessToken401ResponseErrorInner) GetCode() string {
 // GetCodeOk returns a tuple with the Code field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *CreateAccessToken401ResponseErrorInner) GetCodeOk() (*string, bool) {
-	if o == nil || o.Code == nil {
+	if o == nil || IsNil(o.Code) {
 		return nil, false
 	}
 	return o.Code, true
@@ -59,7 +62,7 @@ func (o *CreateAccessToken401ResponseErrorInner) GetCodeOk() (*string, bool) {
 
 // HasCode returns a boolean if a field has been set.
 func (o *CreateAccessToken401ResponseErrorInner) HasCode() bool {
-	if o != nil && o.Code != nil {
+	if o != nil && !IsNil(o.Code) {
 		return true
 	}
 
@@ -73,7 +76,7 @@ func (o *CreateAccessToken401ResponseErrorInner) SetCode(v string) {
 
 // GetMessage returns the Message field value if set, zero value otherwise.
 func (o *CreateAccessToken401ResponseErrorInner) GetMessage() string {
-	if o == nil || o.Message == nil {
+	if o == nil || IsNil(o.Message) {
 		var ret string
 		return ret
 	}
@@ -83,7 +86,7 @@ func (o *CreateAccessToken401ResponseErrorInner) GetMessage() string {
 // GetMessageOk returns a tuple with the Message field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *CreateAccessToken401ResponseErrorInner) GetMessageOk() (*string, bool) {
-	if o == nil || o.Message == nil {
+	if o == nil || IsNil(o.Message) {
 		return nil, false
 	}
 	return o.Message, true
@@ -91,7 +94,7 @@ func (o *CreateAccessToken401ResponseErrorInner) GetMessageOk() (*string, bool) 
 
 // HasMessage returns a boolean if a field has been set.
 func (o *CreateAccessToken401ResponseErrorInner) HasMessage() bool {
-	if o != nil && o.Message != nil {
+	if o != nil && !IsNil(o.Message) {
 		return true
 	}
 
@@ -105,7 +108,7 @@ func (o *CreateAccessToken401ResponseErrorInner) SetMessage(v string) {
 
 // GetReason returns the Reason field value if set, zero value otherwise.
 func (o *CreateAccessToken401ResponseErrorInner) GetReason() string {
-	if o == nil || o.Reason == nil {
+	if o == nil || IsNil(o.Reason) {
 		var ret string
 		return ret
 	}
@@ -115,7 +118,7 @@ func (o *CreateAccessToken401ResponseErrorInner) GetReason() string {
 // GetReasonOk returns a tuple with the Reason field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *CreateAccessToken401ResponseErrorInner) GetReasonOk() (*string, bool) {
-	if o == nil || o.Reason == nil {
+	if o == nil || IsNil(o.Reason) {
 		return nil, false
 	}
 	return o.Reason, true
@@ -123,7 +126,7 @@ func (o *CreateAccessToken401ResponseErrorInner) GetReasonOk() (*string, bool) {
 
 // HasReason returns a boolean if a field has been set.
 func (o *CreateAccessToken401ResponseErrorInner) HasReason() bool {
-	if o != nil && o.Reason != nil {
+	if o != nil && !IsNil(o.Reason) {
 		return true
 	}
 
@@ -137,7 +140,7 @@ func (o *CreateAccessToken401ResponseErrorInner) SetReason(v string) {
 
 // GetStatus returns the Status field value if set, zero value otherwise.
 func (o *CreateAccessToken401ResponseErrorInner) GetStatus() string {
-	if o == nil || o.Status == nil {
+	if o == nil || IsNil(o.Status) {
 		var ret string
 		return ret
 	}
@@ -147,7 +150,7 @@ func (o *CreateAccessToken401ResponseErrorInner) GetStatus() string {
 // GetStatusOk returns a tuple with the Status field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *CreateAccessToken401ResponseErrorInner) GetStatusOk() (*string, bool) {
-	if o == nil || o.Status == nil {
+	if o == nil || IsNil(o.Status) {
 		return nil, false
 	}
 	return o.Status, true
@@ -155,7 +158,7 @@ func (o *CreateAccessToken401ResponseErrorInner) GetStatusOk() (*string, bool) {
 
 // HasStatus returns a boolean if a field has been set.
 func (o *CreateAccessToken401ResponseErrorInner) HasStatus() bool {
-	if o != nil && o.Status != nil {
+	if o != nil && !IsNil(o.Status) {
 		return true
 	}
 
@@ -168,20 +171,28 @@ func (o *CreateAccessToken401ResponseErrorInner) SetStatus(v string) {
 }
 
 func (o CreateAccessToken401ResponseErrorInner) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.Code != nil {
-		toSerialize["code"] = o.Code
-	}
-	if o.Message != nil {
-		toSerialize["message"] = o.Message
-	}
-	if o.Reason != nil {
-		toSerialize["reason"] = o.Reason
-	}
-	if o.Status != nil {
-		toSerialize["status"] = o.Status
+	toSerialize, err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
 	}
 	return json.Marshal(toSerialize)
+}
+
+func (o CreateAccessToken401ResponseErrorInner) ToMap() (map[string]interface{}, error) {
+	toSerialize := map[string]interface{}{}
+	if !IsNil(o.Code) {
+		toSerialize["code"] = o.Code
+	}
+	if !IsNil(o.Message) {
+		toSerialize["message"] = o.Message
+	}
+	if !IsNil(o.Reason) {
+		toSerialize["reason"] = o.Reason
+	}
+	if !IsNil(o.Status) {
+		toSerialize["status"] = o.Status
+	}
+	return toSerialize, nil
 }
 
 type NullableCreateAccessToken401ResponseErrorInner struct {

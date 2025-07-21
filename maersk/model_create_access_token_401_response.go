@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the CreateAccessToken401Response type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &CreateAccessToken401Response{}
+
 // CreateAccessToken401Response struct for CreateAccessToken401Response
 type CreateAccessToken401Response struct {
 	Error []CreateAccessToken401ResponseErrorInner `json:"error,omitempty"`
@@ -38,7 +41,7 @@ func NewCreateAccessToken401ResponseWithDefaults() *CreateAccessToken401Response
 
 // GetError returns the Error field value if set, zero value otherwise.
 func (o *CreateAccessToken401Response) GetError() []CreateAccessToken401ResponseErrorInner {
-	if o == nil || o.Error == nil {
+	if o == nil || IsNil(o.Error) {
 		var ret []CreateAccessToken401ResponseErrorInner
 		return ret
 	}
@@ -48,7 +51,7 @@ func (o *CreateAccessToken401Response) GetError() []CreateAccessToken401Response
 // GetErrorOk returns a tuple with the Error field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *CreateAccessToken401Response) GetErrorOk() ([]CreateAccessToken401ResponseErrorInner, bool) {
-	if o == nil || o.Error == nil {
+	if o == nil || IsNil(o.Error) {
 		return nil, false
 	}
 	return o.Error, true
@@ -56,7 +59,7 @@ func (o *CreateAccessToken401Response) GetErrorOk() ([]CreateAccessToken401Respo
 
 // HasError returns a boolean if a field has been set.
 func (o *CreateAccessToken401Response) HasError() bool {
-	if o != nil && o.Error != nil {
+	if o != nil && !IsNil(o.Error) {
 		return true
 	}
 
@@ -69,11 +72,19 @@ func (o *CreateAccessToken401Response) SetError(v []CreateAccessToken401Response
 }
 
 func (o CreateAccessToken401Response) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.Error != nil {
-		toSerialize["error"] = o.Error
+	toSerialize, err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
 	}
 	return json.Marshal(toSerialize)
+}
+
+func (o CreateAccessToken401Response) ToMap() (map[string]interface{}, error) {
+	toSerialize := map[string]interface{}{}
+	if !IsNil(o.Error) {
+		toSerialize["error"] = o.Error
+	}
+	return toSerialize, nil
 }
 
 type NullableCreateAccessToken401Response struct {

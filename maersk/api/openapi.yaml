@@ -41,25 +41,25 @@ paths:
         content:
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/CreateAccessToken_request'
+              $ref: "#/components/schemas/CreateAccessToken_request"
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CreateAccessToken_200_response'
+                $ref: "#/components/schemas/CreateAccessToken_200_response"
           description: Successfully created
         "400":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CreateAccessToken_400_response'
+                $ref: "#/components/schemas/CreateAccessToken_400_response"
           description: Bad Request
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CreateAccessToken_401_response'
+                $ref: "#/components/schemas/CreateAccessToken_401_response"
           description: Unauthorized
       security:
       - ConsumerKey: []
@@ -131,10 +131,6 @@ paths:
         name: eventType
         required: false
         schema:
-          default:
-          - SHIPMENT
-          - TRANSPORT
-          - EQUIPMENT
           items:
             enum:
             - SHIPMENT
@@ -194,22 +190,6 @@ paths:
         name: shipmentEventTypeCode
         required: false
         schema:
-          default:
-          - RECE
-          - DRFT
-          - PENA
-          - PENU
-          - REJE
-          - APPR
-          - ISSU
-          - SURR
-          - SUBM
-          - VOID
-          - CONF
-          - REQS
-          - CMPL
-          - HOLD
-          - RELS
           items:
             enum:
             - RECE
@@ -246,9 +226,6 @@ paths:
         name: transportEventTypeCode
         required: false
         schema:
-          default:
-          - ARRI
-          - DEPA
           items:
             enum:
             - ARRI
@@ -281,18 +258,6 @@ paths:
         name: equipmentEventTypeCode
         required: false
         schema:
-          default:
-          - LOAD
-          - DISC
-          - GTIN
-          - GTOT
-          - STUF
-          - STRP
-          - PICK
-          - DROP
-          - RSEA
-          - RMVD
-          - INSP
           items:
             enum:
             - LOAD
@@ -316,7 +281,6 @@ paths:
         name: limit
         required: false
         schema:
-          default: 100
           format: int32
           minimum: 1
           type: integer
@@ -365,57 +329,57 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Events'
+                $ref: "#/components/schemas/Events"
             application/stream+json:
               schema:
-                $ref: '#/components/schemas/Events'
+                $ref: "#/components/schemas/Events"
             text/event-stream:
               schema:
-                $ref: '#/components/schemas/Events'
+                $ref: "#/components/schemas/Events"
           description: Successful operation
           headers:
             API-Version:
-              $ref: '#/components/headers/API-Version'
+              $ref: "#/components/headers/API-Version"
             Current-Page:
-              $ref: '#/components/headers/Current-Page'
+              $ref: "#/components/headers/Current-Page"
             Next-Page:
-              $ref: '#/components/headers/Next-Page'
+              $ref: "#/components/headers/Next-Page"
             Prev-Page:
-              $ref: '#/components/headers/Prev-Page'
+              $ref: "#/components/headers/Prev-Page"
             Last-Page:
-              $ref: '#/components/headers/Last-Page'
+              $ref: "#/components/headers/Last-Page"
             First-Page:
-              $ref: '#/components/headers/First-Page'
+              $ref: "#/components/headers/First-Page"
         "400":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiError'
+                $ref: "#/components/schemas/ApiError"
           description: Bad request; the request is unacceptable often due to a missing
             or invalid parameter.
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiError'
+                $ref: "#/components/schemas/ApiError"
           description: The client cannot be authenticated by the system
         "403":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiError'
+                $ref: "#/components/schemas/ApiError"
           description: The client does not have permissions to access this endpoint
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiError'
+                $ref: "#/components/schemas/ApiError"
           description: The requested resource cannot be found
         "500":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiError'
+                $ref: "#/components/schemas/ApiError"
           description: Internal server error
       security:
       - ConsumerKey: []
@@ -488,7 +452,7 @@ components:
       - documentReferenceType: TRD
         documentReferenceValue: 85943567-eedb-98d3-f4ed-aed697474ed4
       items:
-        $ref: '#/components/schemas/DocumentReferences_inner'
+        $ref: "#/components/schemas/DocumentReferences_inner"
       type: array
     Vessel:
       properties:
@@ -672,7 +636,7 @@ components:
             \ some are also printed on the B/L. Customers can use these references\
             \ to track shipments in their internal systems."
           items:
-            $ref: '#/components/schemas/Event_references_inner'
+            $ref: "#/components/schemas/Event_references_inner"
           type: array
       required:
       - eventClassifierCode
@@ -721,7 +685,7 @@ components:
           example: SMDG
           type: string
         address:
-          $ref: '#/components/schemas/Address'
+          $ref: "#/components/schemas/Address"
       type: object
     TransportCall:
       properties:
@@ -820,46 +784,275 @@ components:
           - BARGE
           type: string
         location:
-          $ref: '#/components/schemas/Location'
+          $ref: "#/components/schemas/Location"
         vessel:
-          $ref: '#/components/schemas/Vessel'
+          $ref: "#/components/schemas/Vessel"
       required:
       - modeOfTransport
       type: object
     ShipmentEvent:
       allOf:
-      - $ref: '#/components/schemas/Event'
-      - $ref: '#/components/schemas/ShipmentEvent_allOf'
+      - $ref: "#/components/schemas/Event"
+      - properties:
+          eventType:
+            enum:
+            - SHIPMENT
+            example: SHIPMENT
+            nullable: false
+            type: string
+          shipmentEventTypeCode:
+            description: |
+              The status of the document in the process. Possible values are
+              - RECE (Received)
+              - DRFT (Drafted)
+              - PENA (Pending Approval)
+              - PENU (Pending Update)
+              - REJE (Rejected)
+              - APPR (Approved)
+              - ISSU (Issued)
+              - SURR (Surrendered)
+              - SUBM (Submitted)
+              - VOID (Void)
+              - CONF (Confirmed)
+              - REQS (Requested)
+              - CMPL (Completed)
+              - HOLD (On Hold)
+              - RELS (Released)
+
+              Note: Version 1.1 replaces CONF (Confirmed) for RELS (Released) for documentTypeCode SRM (Shipment Release Message).
+            enum:
+            - RECE
+            - DRFT
+            - PENA
+            - PENU
+            - REJE
+            - APPR
+            - ISSU
+            - SURR
+            - SUBM
+            - VOID
+            - CONF
+            - REQS
+            - CMPL
+            - HOLD
+            - RELS
+            example: DRFT
+            type: string
+          documentTypeCode:
+            description: |
+              The code to identify the type of information documentID points to. Can be one of the following values
+              * CBR (Carrier Booking Request Reference)
+              * BKG (Booking)
+              * SHI (Shipping Instruction)
+              * SRM (Shipment Release Message)
+              * TRD (Transport Document)
+              * ARN (Arrival Notice)
+              * VGM (Verified Gross Mass)
+              * CAS (Cargo Survey)
+              * CUS (Customs Inspection)
+              * DGD (Dangerous Goods Declaration)
+              * OOG (Out of Gauge)
+            example: SHI
+            maxLength: 3
+            type: string
+          documentID:
+            description: |
+              The ID of the object defined by the Shipment Information Type. In some cases this is a UUID; in other cases this is a string.
+            example: "205284917"
+            type: string
+          reason:
+            description: Reason field in a Shipment event. This field can be used
+              to explain why a specific event has been sent.
+            example: The following attributes are missing...
+            type: string
+        required:
+        - documentID
+        - documentTypeCode
+        - shipmentEventTypeCode
+        type: object
       description: The shipment event entity is a specialization of the event entity
         to support specification of data that only applies to a shipment event.
+      example:
+        eventClassifierCode: ACT
+        eventID: "6832920321"
+        eventDateTime: 2019-11-12T07:41:00+08:00
+        reason: The following attributes are missing...
+        references:
+        - referenceType: FF
+          referenceValue: my Reference
+        - referenceType: FF
+          referenceValue: my Reference
+        documentTypeCode: SHI
+        shipmentEventTypeCode: DRFT
+        documentID: "205284917"
+        eventType: SHIPMENT
+        eventCreatedDateTime: 2021-01-09T14:12:56Z
     TransportEvent:
       allOf:
-      - $ref: '#/components/schemas/Event'
-      - $ref: '#/components/schemas/TransportEvent_allOf'
-      - $ref: '#/components/schemas/TransportEvent_allOf_1'
+      - $ref: "#/components/schemas/Event"
+      - properties:
+          eventType:
+            enum:
+            - TRANSPORT
+            example: TRANSPORT
+            nullable: false
+            type: string
+          transportEventTypeCode:
+            description: |
+              Identifier for type of Transport event
+              - ARRI (Arrived)
+              - DEPA (Departed)
+            enum:
+            - ARRI
+            - DEPA
+            example: ARRI
+            type: string
+          delayReasonCode:
+            description: |
+              Reason code for the delay. The SMDG-Delay-Reason-Codes are used for this attribute. The code list can be found at http://www.smdg.org/smdg-code-lists/
+            example: WEA
+            maxLength: 3
+            type: string
+          changeRemark:
+            description: Free text information provided by the vessel operator regarding
+              the reasons for the change in schedule and/or plans to mitigate schedule
+              slippage.
+            example: Bad weather
+            maxLength: 250
+            type: string
+          documentReferences:
+            $ref: "#/components/schemas/DocumentReferences"
+        required:
+        - transportEventType
+        type: object
+      - properties:
+          transportCall:
+            $ref: "#/components/schemas/TransportCall"
+        required:
+        - transportCall
+        type: object
       description: The transport event entity is a specialization of the event entity
         to support specification of data that only applies to a transport event.
     EquipmentEvent:
       allOf:
-      - $ref: '#/components/schemas/Event'
-      - $ref: '#/components/schemas/EquipmentEvent_allOf'
+      - $ref: "#/components/schemas/Event"
+      - properties:
+          eventType:
+            enum:
+            - EQUIPMENT
+            example: EQUIPMENT
+            nullable: false
+            type: string
+          equipmentEventTypeCode:
+            description: |
+              Unique identifier for equipmentEventTypeCode.
+              * LOAD (Loaded)
+              * DISC (Discharged)
+              * GTIN (Gated in)
+              * GTOT (Gated out)
+              * STUF (Stuffed)
+              * STRP (Stripped)
+              * PICK (Pick-up)
+              * DROP (Drop-off)
+              * RSEA (Resealed)
+              * RMVD (Removed)
+              * INSP (Inspected)
+            enum:
+            - LOAD
+            - DISC
+            - GTIN
+            - GTOT
+            - STUF
+            - STRP
+            - PICK
+            - DROP
+            - RSEA
+            - RMVD
+            - INSP
+            example: LOAD
+            type: string
+          equipmentReference:
+            description: |
+              The unique identifier for the equipment, which should follow the BIC ISO Container Identification Number where possible. According to ISO 6346, a container identification code consists of a 4-letter prefix and a 7-digit number (composed of a 3-letter owner code, a category identifier, a serial number, and a check-digit). If a container does not comply with ISO 6346, it is suggested to follow Recommendation #2 “Container with non-ISO identification” from SMDG.
+            example: APZU4812090
+            maxLength: 15
+            type: string
+          ISOEquipmentCode:
+            description: Unique code for the different equipment size/type used for
+              transporting commodities. The code is a concatenation of ISO Equipment
+              Size Code and ISO Equipment Type Code A and follows the ISO 6346 standard.
+            example: 42G1
+            maxLength: 4
+            type: string
+          emptyIndicatorCode:
+            description: Code to denote whether the equipment is empty or laden.
+            enum:
+            - EMPTY
+            - LADEN
+            example: EMPTY
+            type: string
+          documentReferences:
+            $ref: "#/components/schemas/DocumentReferences"
+          eventLocation:
+            $ref: "#/components/schemas/Location"
+          transportCall:
+            $ref: "#/components/schemas/TransportCall"
+          seals:
+            items:
+              $ref: "#/components/schemas/Seal"
+            type: array
+        required:
+        - emptyIndicatorCode
+        - equipmentEventType
+        - transportCall
+        type: object
       description: The equipment event entity is a specialization of the event entity
         to support specification of data that only applies to an equipment event.
     Events:
       description: List of events for shipment journey.
       example:
         events:
-        - null
-        - null
+        - eventClassifierCode: ACT
+          eventID: "6832920321"
+          eventDateTime: 2019-11-12T07:41:00+08:00
+          reason: The following attributes are missing...
+          references:
+          - referenceType: FF
+            referenceValue: my Reference
+          - referenceType: FF
+            referenceValue: my Reference
+          documentTypeCode: SHI
+          shipmentEventTypeCode: DRFT
+          documentID: "205284917"
+          eventType: SHIPMENT
+          eventCreatedDateTime: 2021-01-09T14:12:56Z
+        - eventClassifierCode: ACT
+          eventID: "6832920321"
+          eventDateTime: 2019-11-12T07:41:00+08:00
+          reason: The following attributes are missing...
+          references:
+          - referenceType: FF
+            referenceValue: my Reference
+          - referenceType: FF
+            referenceValue: my Reference
+          documentTypeCode: SHI
+          shipmentEventTypeCode: DRFT
+          documentID: "205284917"
+          eventType: SHIPMENT
+          eventCreatedDateTime: 2021-01-09T14:12:56Z
       properties:
         events:
           items:
-            $ref: '#/components/schemas/Events_events_inner'
+            $ref: "#/components/schemas/Events_events_inner"
           type: array
       required:
       - events
       type: object
     ApiValidationError:
+      example:
+        field: field
+        message: message
+        rejectedValue: rejectedValue
       properties:
         field:
           description: The field that has failed validation.
@@ -876,6 +1069,21 @@ components:
       - rejectedValue
       type: object
     ApiError:
+      example:
+        method: method
+        id: id
+        requestUri: requestUri
+        debugMessage: debugMessage
+        message: message
+        status: 0
+        timestamp: timestamp
+        subErrors:
+        - field: field
+          message: message
+          rejectedValue: rejectedValue
+        - field: field
+          message: message
+          rejectedValue: rejectedValue
       properties:
         id:
           type: string
@@ -900,7 +1108,7 @@ components:
         subErrors:
           description: The list of invalid fields in the request.
           items:
-            $ref: '#/components/schemas/ApiValidationError'
+            $ref: "#/components/schemas/ApiValidationError"
           type: array
       required:
       - message
@@ -950,6 +1158,9 @@ components:
       - token_type
       type: object
     CreateAccessToken_400_response:
+      example:
+        error_description: Client authentication failed
+        error: invalid_client
       properties:
         error_description:
           example: Client authentication failed
@@ -959,6 +1170,11 @@ components:
           type: string
       type: object
     CreateAccessToken_401_response_error_inner:
+      example:
+        reason: Invalid or expired Key
+        code: ERR_GW_001
+        message: "API Key Validation Failed, please check the API key"
+        status: "401"
       properties:
         code:
           example: ERR_GW_001
@@ -974,10 +1190,20 @@ components:
           type: string
       type: object
     CreateAccessToken_401_response:
+      example:
+        error:
+        - reason: Invalid or expired Key
+          code: ERR_GW_001
+          message: "API Key Validation Failed, please check the API key"
+          status: "401"
+        - reason: Invalid or expired Key
+          code: ERR_GW_001
+          message: "API Key Validation Failed, please check the API key"
+          status: "401"
       properties:
         error:
           items:
-            $ref: '#/components/schemas/CreateAccessToken_401_response_error_inner'
+            $ref: "#/components/schemas/CreateAccessToken_401_response_error_inner"
           type: array
       type: object
     DocumentReferences_inner:
@@ -998,6 +1224,9 @@ components:
           type: string
       type: object
     Event_references_inner:
+      example:
+        referenceType: FF
+        referenceValue: my Reference
       properties:
         referenceType:
           description: |
@@ -1026,234 +1255,16 @@ components:
       - referenceType
       - referenceValue
       type: object
-    ShipmentEvent_allOf:
-      properties:
-        eventType:
-          enum:
-          - SHIPMENT
-          example: SHIPMENT
-          nullable: false
-          type: string
-        shipmentEventTypeCode:
-          description: |
-            The status of the document in the process. Possible values are
-            - RECE (Received)
-            - DRFT (Drafted)
-            - PENA (Pending Approval)
-            - PENU (Pending Update)
-            - REJE (Rejected)
-            - APPR (Approved)
-            - ISSU (Issued)
-            - SURR (Surrendered)
-            - SUBM (Submitted)
-            - VOID (Void)
-            - CONF (Confirmed)
-            - REQS (Requested)
-            - CMPL (Completed)
-            - HOLD (On Hold)
-            - RELS (Released)
-
-            Note: Version 1.1 replaces CONF (Confirmed) for RELS (Released) for documentTypeCode SRM (Shipment Release Message).
-          enum:
-          - RECE
-          - DRFT
-          - PENA
-          - PENU
-          - REJE
-          - APPR
-          - ISSU
-          - SURR
-          - SUBM
-          - VOID
-          - CONF
-          - REQS
-          - CMPL
-          - HOLD
-          - RELS
-          example: DRFT
-          type: string
-        documentTypeCode:
-          description: |
-            The code to identify the type of information documentID points to. Can be one of the following values
-            * CBR (Carrier Booking Request Reference)
-            * BKG (Booking)
-            * SHI (Shipping Instruction)
-            * SRM (Shipment Release Message)
-            * TRD (Transport Document)
-            * ARN (Arrival Notice)
-            * VGM (Verified Gross Mass)
-            * CAS (Cargo Survey)
-            * CUS (Customs Inspection)
-            * DGD (Dangerous Goods Declaration)
-            * OOG (Out of Gauge)
-          example: SHI
-          maxLength: 3
-          type: string
-        documentID:
-          description: |
-            The ID of the object defined by the Shipment Information Type. In some cases this is a UUID; in other cases this is a string.
-          example: "205284917"
-          type: string
-        reason:
-          description: Reason field in a Shipment event. This field can be used to
-            explain why a specific event has been sent.
-          example: The following attributes are missing...
-          type: string
-      required:
-      - documentID
-      - documentTypeCode
-      - shipmentEventTypeCode
-      type: object
-      example: null
-    TransportEvent_allOf:
-      properties:
-        eventType:
-          enum:
-          - TRANSPORT
-          example: TRANSPORT
-          nullable: false
-          type: string
-        transportEventTypeCode:
-          description: |
-            Identifier for type of Transport event
-            - ARRI (Arrived)
-            - DEPA (Departed)
-          enum:
-          - ARRI
-          - DEPA
-          example: ARRI
-          type: string
-        delayReasonCode:
-          description: |
-            Reason code for the delay. The SMDG-Delay-Reason-Codes are used for this attribute. The code list can be found at http://www.smdg.org/smdg-code-lists/
-          example: WEA
-          maxLength: 3
-          type: string
-        changeRemark:
-          description: Free text information provided by the vessel operator regarding
-            the reasons for the change in schedule and/or plans to mitigate schedule
-            slippage.
-          example: Bad weather
-          maxLength: 250
-          type: string
-        documentReferences:
-          description: An optional list of key-value (documentReferenceType-documentReferenceValue)
-            pairs representing links to objects relevant to the event. The documentReferenceType-field
-            is used to describe where the documentReferenceValue-field is pointing
-            to.
-          example:
-          - documentReferenceType: BKG
-            documentReferenceValue: ABC123123123
-          - documentReferenceType: TRD
-            documentReferenceValue: 85943567-eedb-98d3-f4ed-aed697474ed4
-          items:
-            $ref: '#/components/schemas/DocumentReferences_inner'
-          type: array
-      required:
-      - transportEventType
-      type: object
-      example: null
-    TransportEvent_allOf_1:
-      properties:
-        transportCall:
-          $ref: '#/components/schemas/TransportCall'
-      required:
-      - transportCall
-      type: object
-      example: null
-    EquipmentEvent_allOf:
-      properties:
-        eventType:
-          enum:
-          - EQUIPMENT
-          example: EQUIPMENT
-          nullable: false
-          type: string
-        equipmentEventTypeCode:
-          description: |
-            Unique identifier for equipmentEventTypeCode.
-            * LOAD (Loaded)
-            * DISC (Discharged)
-            * GTIN (Gated in)
-            * GTOT (Gated out)
-            * STUF (Stuffed)
-            * STRP (Stripped)
-            * PICK (Pick-up)
-            * DROP (Drop-off)
-            * RSEA (Resealed)
-            * RMVD (Removed)
-            * INSP (Inspected)
-          enum:
-          - LOAD
-          - DISC
-          - GTIN
-          - GTOT
-          - STUF
-          - STRP
-          - PICK
-          - DROP
-          - RSEA
-          - RMVD
-          - INSP
-          example: LOAD
-          type: string
-        equipmentReference:
-          description: |
-            The unique identifier for the equipment, which should follow the BIC ISO Container Identification Number where possible. According to ISO 6346, a container identification code consists of a 4-letter prefix and a 7-digit number (composed of a 3-letter owner code, a category identifier, a serial number, and a check-digit). If a container does not comply with ISO 6346, it is suggested to follow Recommendation #2 “Container with non-ISO identification” from SMDG.
-          example: APZU4812090
-          maxLength: 15
-          type: string
-        ISOEquipmentCode:
-          description: Unique code for the different equipment size/type used for
-            transporting commodities. The code is a concatenation of ISO Equipment
-            Size Code and ISO Equipment Type Code A and follows the ISO 6346 standard.
-          example: 42G1
-          maxLength: 4
-          type: string
-        emptyIndicatorCode:
-          description: Code to denote whether the equipment is empty or laden.
-          enum:
-          - EMPTY
-          - LADEN
-          example: EMPTY
-          type: string
-        documentReferences:
-          description: An optional list of key-value (documentReferenceType-documentReferenceValue)
-            pairs representing links to objects relevant to the event. The documentReferenceType-field
-            is used to describe where the documentReferenceValue-field is pointing
-            to.
-          example:
-          - documentReferenceType: BKG
-            documentReferenceValue: ABC123123123
-          - documentReferenceType: TRD
-            documentReferenceValue: 85943567-eedb-98d3-f4ed-aed697474ed4
-          items:
-            $ref: '#/components/schemas/DocumentReferences_inner'
-          type: array
-        eventLocation:
-          $ref: '#/components/schemas/Location'
-        transportCall:
-          $ref: '#/components/schemas/TransportCall'
-        seals:
-          items:
-            $ref: '#/components/schemas/Seal'
-          type: array
-      required:
-      - emptyIndicatorCode
-      - equipmentEventType
-      - transportCall
-      type: object
-      example: null
     Events_events_inner:
       anyOf:
-      - $ref: '#/components/schemas/ShipmentEvent'
-      - $ref: '#/components/schemas/TransportEvent'
-      - $ref: '#/components/schemas/EquipmentEvent'
+      - $ref: "#/components/schemas/ShipmentEvent"
+      - $ref: "#/components/schemas/TransportEvent"
+      - $ref: "#/components/schemas/EquipmentEvent"
       discriminator:
         mapping:
-          SHIPMENT: '#/components/schemas/ShipmentEvent'
-          TRANSPORT: '#/components/schemas/TransportEvent'
-          EQUIPMENT: '#/components/schemas/EquipmentEvent'
+          SHIPMENT: "#/components/schemas/ShipmentEvent"
+          TRANSPORT: "#/components/schemas/TransportEvent"
+          EQUIPMENT: "#/components/schemas/EquipmentEvent"
         propertyName: eventType
   securitySchemes:
     ConsumerKey:

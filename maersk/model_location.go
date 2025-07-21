@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the Location type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &Location{}
+
 // Location Generally used to capture location-related data; also for locations without UN Location Codes.
 type Location struct {
 	// The name of the location.
@@ -50,7 +53,7 @@ func NewLocationWithDefaults() *Location {
 
 // GetLocationName returns the LocationName field value if set, zero value otherwise.
 func (o *Location) GetLocationName() string {
-	if o == nil || o.LocationName == nil {
+	if o == nil || IsNil(o.LocationName) {
 		var ret string
 		return ret
 	}
@@ -60,7 +63,7 @@ func (o *Location) GetLocationName() string {
 // GetLocationNameOk returns a tuple with the LocationName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Location) GetLocationNameOk() (*string, bool) {
-	if o == nil || o.LocationName == nil {
+	if o == nil || IsNil(o.LocationName) {
 		return nil, false
 	}
 	return o.LocationName, true
@@ -68,7 +71,7 @@ func (o *Location) GetLocationNameOk() (*string, bool) {
 
 // HasLocationName returns a boolean if a field has been set.
 func (o *Location) HasLocationName() bool {
-	if o != nil && o.LocationName != nil {
+	if o != nil && !IsNil(o.LocationName) {
 		return true
 	}
 
@@ -82,7 +85,7 @@ func (o *Location) SetLocationName(v string) {
 
 // GetLatitude returns the Latitude field value if set, zero value otherwise.
 func (o *Location) GetLatitude() string {
-	if o == nil || o.Latitude == nil {
+	if o == nil || IsNil(o.Latitude) {
 		var ret string
 		return ret
 	}
@@ -92,7 +95,7 @@ func (o *Location) GetLatitude() string {
 // GetLatitudeOk returns a tuple with the Latitude field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Location) GetLatitudeOk() (*string, bool) {
-	if o == nil || o.Latitude == nil {
+	if o == nil || IsNil(o.Latitude) {
 		return nil, false
 	}
 	return o.Latitude, true
@@ -100,7 +103,7 @@ func (o *Location) GetLatitudeOk() (*string, bool) {
 
 // HasLatitude returns a boolean if a field has been set.
 func (o *Location) HasLatitude() bool {
-	if o != nil && o.Latitude != nil {
+	if o != nil && !IsNil(o.Latitude) {
 		return true
 	}
 
@@ -114,7 +117,7 @@ func (o *Location) SetLatitude(v string) {
 
 // GetLongitude returns the Longitude field value if set, zero value otherwise.
 func (o *Location) GetLongitude() string {
-	if o == nil || o.Longitude == nil {
+	if o == nil || IsNil(o.Longitude) {
 		var ret string
 		return ret
 	}
@@ -124,7 +127,7 @@ func (o *Location) GetLongitude() string {
 // GetLongitudeOk returns a tuple with the Longitude field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Location) GetLongitudeOk() (*string, bool) {
-	if o == nil || o.Longitude == nil {
+	if o == nil || IsNil(o.Longitude) {
 		return nil, false
 	}
 	return o.Longitude, true
@@ -132,7 +135,7 @@ func (o *Location) GetLongitudeOk() (*string, bool) {
 
 // HasLongitude returns a boolean if a field has been set.
 func (o *Location) HasLongitude() bool {
-	if o != nil && o.Longitude != nil {
+	if o != nil && !IsNil(o.Longitude) {
 		return true
 	}
 
@@ -146,7 +149,7 @@ func (o *Location) SetLongitude(v string) {
 
 // GetUNLocationCode returns the UNLocationCode field value if set, zero value otherwise.
 func (o *Location) GetUNLocationCode() string {
-	if o == nil || o.UNLocationCode == nil {
+	if o == nil || IsNil(o.UNLocationCode) {
 		var ret string
 		return ret
 	}
@@ -156,7 +159,7 @@ func (o *Location) GetUNLocationCode() string {
 // GetUNLocationCodeOk returns a tuple with the UNLocationCode field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Location) GetUNLocationCodeOk() (*string, bool) {
-	if o == nil || o.UNLocationCode == nil {
+	if o == nil || IsNil(o.UNLocationCode) {
 		return nil, false
 	}
 	return o.UNLocationCode, true
@@ -164,7 +167,7 @@ func (o *Location) GetUNLocationCodeOk() (*string, bool) {
 
 // HasUNLocationCode returns a boolean if a field has been set.
 func (o *Location) HasUNLocationCode() bool {
-	if o != nil && o.UNLocationCode != nil {
+	if o != nil && !IsNil(o.UNLocationCode) {
 		return true
 	}
 
@@ -178,7 +181,7 @@ func (o *Location) SetUNLocationCode(v string) {
 
 // GetFacilityCode returns the FacilityCode field value if set, zero value otherwise.
 func (o *Location) GetFacilityCode() string {
-	if o == nil || o.FacilityCode == nil {
+	if o == nil || IsNil(o.FacilityCode) {
 		var ret string
 		return ret
 	}
@@ -188,7 +191,7 @@ func (o *Location) GetFacilityCode() string {
 // GetFacilityCodeOk returns a tuple with the FacilityCode field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Location) GetFacilityCodeOk() (*string, bool) {
-	if o == nil || o.FacilityCode == nil {
+	if o == nil || IsNil(o.FacilityCode) {
 		return nil, false
 	}
 	return o.FacilityCode, true
@@ -196,7 +199,7 @@ func (o *Location) GetFacilityCodeOk() (*string, bool) {
 
 // HasFacilityCode returns a boolean if a field has been set.
 func (o *Location) HasFacilityCode() bool {
-	if o != nil && o.FacilityCode != nil {
+	if o != nil && !IsNil(o.FacilityCode) {
 		return true
 	}
 
@@ -210,7 +213,7 @@ func (o *Location) SetFacilityCode(v string) {
 
 // GetFacilityCodeListProvider returns the FacilityCodeListProvider field value if set, zero value otherwise.
 func (o *Location) GetFacilityCodeListProvider() string {
-	if o == nil || o.FacilityCodeListProvider == nil {
+	if o == nil || IsNil(o.FacilityCodeListProvider) {
 		var ret string
 		return ret
 	}
@@ -220,7 +223,7 @@ func (o *Location) GetFacilityCodeListProvider() string {
 // GetFacilityCodeListProviderOk returns a tuple with the FacilityCodeListProvider field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Location) GetFacilityCodeListProviderOk() (*string, bool) {
-	if o == nil || o.FacilityCodeListProvider == nil {
+	if o == nil || IsNil(o.FacilityCodeListProvider) {
 		return nil, false
 	}
 	return o.FacilityCodeListProvider, true
@@ -228,7 +231,7 @@ func (o *Location) GetFacilityCodeListProviderOk() (*string, bool) {
 
 // HasFacilityCodeListProvider returns a boolean if a field has been set.
 func (o *Location) HasFacilityCodeListProvider() bool {
-	if o != nil && o.FacilityCodeListProvider != nil {
+	if o != nil && !IsNil(o.FacilityCodeListProvider) {
 		return true
 	}
 
@@ -242,7 +245,7 @@ func (o *Location) SetFacilityCodeListProvider(v string) {
 
 // GetAddress returns the Address field value if set, zero value otherwise.
 func (o *Location) GetAddress() Address {
-	if o == nil || o.Address == nil {
+	if o == nil || IsNil(o.Address) {
 		var ret Address
 		return ret
 	}
@@ -252,7 +255,7 @@ func (o *Location) GetAddress() Address {
 // GetAddressOk returns a tuple with the Address field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Location) GetAddressOk() (*Address, bool) {
-	if o == nil || o.Address == nil {
+	if o == nil || IsNil(o.Address) {
 		return nil, false
 	}
 	return o.Address, true
@@ -260,7 +263,7 @@ func (o *Location) GetAddressOk() (*Address, bool) {
 
 // HasAddress returns a boolean if a field has been set.
 func (o *Location) HasAddress() bool {
-	if o != nil && o.Address != nil {
+	if o != nil && !IsNil(o.Address) {
 		return true
 	}
 
@@ -273,29 +276,37 @@ func (o *Location) SetAddress(v Address) {
 }
 
 func (o Location) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.LocationName != nil {
-		toSerialize["locationName"] = o.LocationName
-	}
-	if o.Latitude != nil {
-		toSerialize["latitude"] = o.Latitude
-	}
-	if o.Longitude != nil {
-		toSerialize["longitude"] = o.Longitude
-	}
-	if o.UNLocationCode != nil {
-		toSerialize["UNLocationCode"] = o.UNLocationCode
-	}
-	if o.FacilityCode != nil {
-		toSerialize["facilityCode"] = o.FacilityCode
-	}
-	if o.FacilityCodeListProvider != nil {
-		toSerialize["facilityCodeListProvider"] = o.FacilityCodeListProvider
-	}
-	if o.Address != nil {
-		toSerialize["address"] = o.Address
+	toSerialize, err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
 	}
 	return json.Marshal(toSerialize)
+}
+
+func (o Location) ToMap() (map[string]interface{}, error) {
+	toSerialize := map[string]interface{}{}
+	if !IsNil(o.LocationName) {
+		toSerialize["locationName"] = o.LocationName
+	}
+	if !IsNil(o.Latitude) {
+		toSerialize["latitude"] = o.Latitude
+	}
+	if !IsNil(o.Longitude) {
+		toSerialize["longitude"] = o.Longitude
+	}
+	if !IsNil(o.UNLocationCode) {
+		toSerialize["UNLocationCode"] = o.UNLocationCode
+	}
+	if !IsNil(o.FacilityCode) {
+		toSerialize["facilityCode"] = o.FacilityCode
+	}
+	if !IsNil(o.FacilityCodeListProvider) {
+		toSerialize["facilityCodeListProvider"] = o.FacilityCodeListProvider
+	}
+	if !IsNil(o.Address) {
+		toSerialize["address"] = o.Address
+	}
+	return toSerialize, nil
 }
 
 type NullableLocation struct {

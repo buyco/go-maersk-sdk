@@ -11,8 +11,13 @@ API version: 1.1.1
 package maersk
 
 import (
+	"bytes"
 	"encoding/json"
+	"fmt"
 )
+
+// checks if the CreateAccessToken200Response type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &CreateAccessToken200Response{}
 
 // CreateAccessToken200Response struct for CreateAccessToken200Response
 type CreateAccessToken200Response struct {
@@ -22,6 +27,8 @@ type CreateAccessToken200Response struct {
 	TokenType   string `json:"token_type"`
 	ExpiresIn   int32  `json:"expires_in"`
 }
+
+type _CreateAccessToken200Response CreateAccessToken200Response
 
 // NewCreateAccessToken200Response instantiates a new CreateAccessToken200Response object
 // This constructor will assign default values to properties that have it defined,
@@ -166,23 +173,62 @@ func (o *CreateAccessToken200Response) SetExpiresIn(v int32) {
 }
 
 func (o CreateAccessToken200Response) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if true {
-		toSerialize["access_token"] = o.AccessToken
-	}
-	if true {
-		toSerialize["scope"] = o.Scope
-	}
-	if true {
-		toSerialize["id_token"] = o.IdToken
-	}
-	if true {
-		toSerialize["token_type"] = o.TokenType
-	}
-	if true {
-		toSerialize["expires_in"] = o.ExpiresIn
+	toSerialize, err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
 	}
 	return json.Marshal(toSerialize)
+}
+
+func (o CreateAccessToken200Response) ToMap() (map[string]interface{}, error) {
+	toSerialize := map[string]interface{}{}
+	toSerialize["access_token"] = o.AccessToken
+	toSerialize["scope"] = o.Scope
+	toSerialize["id_token"] = o.IdToken
+	toSerialize["token_type"] = o.TokenType
+	toSerialize["expires_in"] = o.ExpiresIn
+	return toSerialize, nil
+}
+
+func (o *CreateAccessToken200Response) UnmarshalJSON(data []byte) (err error) {
+	// This validates that all required properties are included in the JSON object
+	// by unmarshalling the object into a generic map with string keys and checking
+	// that every required field exists as a key in the generic map.
+	requiredProperties := []string{
+		"access_token",
+		"scope",
+		"id_token",
+		"token_type",
+		"expires_in",
+	}
+
+	allProperties := make(map[string]interface{})
+
+	err = json.Unmarshal(data, &allProperties)
+
+	if err != nil {
+		return err
+	}
+
+	for _, requiredProperty := range requiredProperties {
+		if _, exists := allProperties[requiredProperty]; !exists {
+			return fmt.Errorf("no value given for required property %v", requiredProperty)
+		}
+	}
+
+	varCreateAccessToken200Response := _CreateAccessToken200Response{}
+
+	decoder := json.NewDecoder(bytes.NewReader(data))
+	decoder.DisallowUnknownFields()
+	err = decoder.Decode(&varCreateAccessToken200Response)
+
+	if err != nil {
+		return err
+	}
+
+	*o = CreateAccessToken200Response(varCreateAccessToken200Response)
+
+	return err
 }
 
 type NullableCreateAccessToken200Response struct {

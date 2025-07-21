@@ -11,8 +11,13 @@ API version: 1.1.1
 package maersk
 
 import (
+	"bytes"
 	"encoding/json"
+	"fmt"
 )
+
+// checks if the ApiError type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &ApiError{}
 
 // ApiError struct for ApiError
 type ApiError struct {
@@ -32,6 +37,8 @@ type ApiError struct {
 	// The list of invalid fields in the request.
 	SubErrors []ApiValidationError `json:"subErrors,omitempty"`
 }
+
+type _ApiError ApiError
 
 // NewApiError instantiates a new ApiError object
 // This constructor will assign default values to properties that have it defined,
@@ -57,7 +64,7 @@ func NewApiErrorWithDefaults() *ApiError {
 
 // GetId returns the Id field value if set, zero value otherwise.
 func (o *ApiError) GetId() string {
-	if o == nil || o.Id == nil {
+	if o == nil || IsNil(o.Id) {
 		var ret string
 		return ret
 	}
@@ -67,7 +74,7 @@ func (o *ApiError) GetId() string {
 // GetIdOk returns a tuple with the Id field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *ApiError) GetIdOk() (*string, bool) {
-	if o == nil || o.Id == nil {
+	if o == nil || IsNil(o.Id) {
 		return nil, false
 	}
 	return o.Id, true
@@ -75,7 +82,7 @@ func (o *ApiError) GetIdOk() (*string, bool) {
 
 // HasId returns a boolean if a field has been set.
 func (o *ApiError) HasId() bool {
-	if o != nil && o.Id != nil {
+	if o != nil && !IsNil(o.Id) {
 		return true
 	}
 
@@ -209,7 +216,7 @@ func (o *ApiError) SetMessage(v string) {
 
 // GetDebugMessage returns the DebugMessage field value if set, zero value otherwise.
 func (o *ApiError) GetDebugMessage() string {
-	if o == nil || o.DebugMessage == nil {
+	if o == nil || IsNil(o.DebugMessage) {
 		var ret string
 		return ret
 	}
@@ -219,7 +226,7 @@ func (o *ApiError) GetDebugMessage() string {
 // GetDebugMessageOk returns a tuple with the DebugMessage field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *ApiError) GetDebugMessageOk() (*string, bool) {
-	if o == nil || o.DebugMessage == nil {
+	if o == nil || IsNil(o.DebugMessage) {
 		return nil, false
 	}
 	return o.DebugMessage, true
@@ -227,7 +234,7 @@ func (o *ApiError) GetDebugMessageOk() (*string, bool) {
 
 // HasDebugMessage returns a boolean if a field has been set.
 func (o *ApiError) HasDebugMessage() bool {
-	if o != nil && o.DebugMessage != nil {
+	if o != nil && !IsNil(o.DebugMessage) {
 		return true
 	}
 
@@ -241,7 +248,7 @@ func (o *ApiError) SetDebugMessage(v string) {
 
 // GetSubErrors returns the SubErrors field value if set, zero value otherwise.
 func (o *ApiError) GetSubErrors() []ApiValidationError {
-	if o == nil || o.SubErrors == nil {
+	if o == nil || IsNil(o.SubErrors) {
 		var ret []ApiValidationError
 		return ret
 	}
@@ -251,7 +258,7 @@ func (o *ApiError) GetSubErrors() []ApiValidationError {
 // GetSubErrorsOk returns a tuple with the SubErrors field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *ApiError) GetSubErrorsOk() ([]ApiValidationError, bool) {
-	if o == nil || o.SubErrors == nil {
+	if o == nil || IsNil(o.SubErrors) {
 		return nil, false
 	}
 	return o.SubErrors, true
@@ -259,7 +266,7 @@ func (o *ApiError) GetSubErrorsOk() ([]ApiValidationError, bool) {
 
 // HasSubErrors returns a boolean if a field has been set.
 func (o *ApiError) HasSubErrors() bool {
-	if o != nil && o.SubErrors != nil {
+	if o != nil && !IsNil(o.SubErrors) {
 		return true
 	}
 
@@ -272,32 +279,71 @@ func (o *ApiError) SetSubErrors(v []ApiValidationError) {
 }
 
 func (o ApiError) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.Id != nil {
-		toSerialize["id"] = o.Id
-	}
-	if true {
-		toSerialize["method"] = o.Method
-	}
-	if true {
-		toSerialize["requestUri"] = o.RequestUri
-	}
-	if true {
-		toSerialize["status"] = o.Status
-	}
-	if true {
-		toSerialize["timestamp"] = o.Timestamp
-	}
-	if true {
-		toSerialize["message"] = o.Message
-	}
-	if o.DebugMessage != nil {
-		toSerialize["debugMessage"] = o.DebugMessage
-	}
-	if o.SubErrors != nil {
-		toSerialize["subErrors"] = o.SubErrors
+	toSerialize, err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
 	}
 	return json.Marshal(toSerialize)
+}
+
+func (o ApiError) ToMap() (map[string]interface{}, error) {
+	toSerialize := map[string]interface{}{}
+	if !IsNil(o.Id) {
+		toSerialize["id"] = o.Id
+	}
+	toSerialize["method"] = o.Method
+	toSerialize["requestUri"] = o.RequestUri
+	toSerialize["status"] = o.Status
+	toSerialize["timestamp"] = o.Timestamp
+	toSerialize["message"] = o.Message
+	if !IsNil(o.DebugMessage) {
+		toSerialize["debugMessage"] = o.DebugMessage
+	}
+	if !IsNil(o.SubErrors) {
+		toSerialize["subErrors"] = o.SubErrors
+	}
+	return toSerialize, nil
+}
+
+func (o *ApiError) UnmarshalJSON(data []byte) (err error) {
+	// This validates that all required properties are included in the JSON object
+	// by unmarshalling the object into a generic map with string keys and checking
+	// that every required field exists as a key in the generic map.
+	requiredProperties := []string{
+		"method",
+		"requestUri",
+		"status",
+		"timestamp",
+		"message",
+	}
+
+	allProperties := make(map[string]interface{})
+
+	err = json.Unmarshal(data, &allProperties)
+
+	if err != nil {
+		return err
+	}
+
+	for _, requiredProperty := range requiredProperties {
+		if _, exists := allProperties[requiredProperty]; !exists {
+			return fmt.Errorf("no value given for required property %v", requiredProperty)
+		}
+	}
+
+	varApiError := _ApiError{}
+
+	decoder := json.NewDecoder(bytes.NewReader(data))
+	decoder.DisallowUnknownFields()
+	err = decoder.Decode(&varApiError)
+
+	if err != nil {
+		return err
+	}
+
+	*o = ApiError(varApiError)
+
+	return err
 }
 
 type NullableApiError struct {

@@ -11,9 +11,14 @@ API version: 1.1.1
 package maersk
 
 import (
+	"bytes"
 	"encoding/json"
+	"fmt"
 	"time"
 )
+
+// checks if the Event type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &Event{}
 
 // Event The event entity is described as a generalization of all the specific event categories. An event always takes place in relation to a shipment and can additionally be linked to a transport or an equipment
 type Event struct {
@@ -30,6 +35,8 @@ type Event struct {
 	// References provided by the shipper or freight forwarder at the time of booking or at the time of providing shipping instruction. Carriers share it back when providing track and trace event updates, some are also printed on the B/L. Customers can use these references to track shipments in their internal systems.
 	References []EventReferencesInner `json:"references,omitempty"`
 }
+
+type _Event Event
 
 // NewEvent instantiates a new Event object
 // This constructor will assign default values to properties that have it defined,
@@ -54,7 +61,7 @@ func NewEventWithDefaults() *Event {
 
 // GetEventID returns the EventID field value if set, zero value otherwise.
 func (o *Event) GetEventID() string {
-	if o == nil || o.EventID == nil {
+	if o == nil || IsNil(o.EventID) {
 		var ret string
 		return ret
 	}
@@ -64,7 +71,7 @@ func (o *Event) GetEventID() string {
 // GetEventIDOk returns a tuple with the EventID field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Event) GetEventIDOk() (*string, bool) {
-	if o == nil || o.EventID == nil {
+	if o == nil || IsNil(o.EventID) {
 		return nil, false
 	}
 	return o.EventID, true
@@ -72,7 +79,7 @@ func (o *Event) GetEventIDOk() (*string, bool) {
 
 // HasEventID returns a boolean if a field has been set.
 func (o *Event) HasEventID() bool {
-	if o != nil && o.EventID != nil {
+	if o != nil && !IsNil(o.EventID) {
 		return true
 	}
 
@@ -182,7 +189,7 @@ func (o *Event) SetEventClassifierCode(v string) {
 
 // GetReferences returns the References field value if set, zero value otherwise.
 func (o *Event) GetReferences() []EventReferencesInner {
-	if o == nil || o.References == nil {
+	if o == nil || IsNil(o.References) {
 		var ret []EventReferencesInner
 		return ret
 	}
@@ -192,7 +199,7 @@ func (o *Event) GetReferences() []EventReferencesInner {
 // GetReferencesOk returns a tuple with the References field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Event) GetReferencesOk() ([]EventReferencesInner, bool) {
-	if o == nil || o.References == nil {
+	if o == nil || IsNil(o.References) {
 		return nil, false
 	}
 	return o.References, true
@@ -200,7 +207,7 @@ func (o *Event) GetReferencesOk() ([]EventReferencesInner, bool) {
 
 // HasReferences returns a boolean if a field has been set.
 func (o *Event) HasReferences() bool {
-	if o != nil && o.References != nil {
+	if o != nil && !IsNil(o.References) {
 		return true
 	}
 
@@ -213,26 +220,66 @@ func (o *Event) SetReferences(v []EventReferencesInner) {
 }
 
 func (o Event) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.EventID != nil {
-		toSerialize["eventID"] = o.EventID
-	}
-	if true {
-		toSerialize["eventType"] = o.EventType
-	}
-	if true {
-		toSerialize["eventDateTime"] = o.EventDateTime
-	}
-	if true {
-		toSerialize["eventCreatedDateTime"] = o.EventCreatedDateTime
-	}
-	if true {
-		toSerialize["eventClassifierCode"] = o.EventClassifierCode
-	}
-	if o.References != nil {
-		toSerialize["references"] = o.References
+	toSerialize, err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
 	}
 	return json.Marshal(toSerialize)
+}
+
+func (o Event) ToMap() (map[string]interface{}, error) {
+	toSerialize := map[string]interface{}{}
+	if !IsNil(o.EventID) {
+		toSerialize["eventID"] = o.EventID
+	}
+	toSerialize["eventType"] = o.EventType
+	toSerialize["eventDateTime"] = o.EventDateTime
+	toSerialize["eventCreatedDateTime"] = o.EventCreatedDateTime
+	toSerialize["eventClassifierCode"] = o.EventClassifierCode
+	if !IsNil(o.References) {
+		toSerialize["references"] = o.References
+	}
+	return toSerialize, nil
+}
+
+func (o *Event) UnmarshalJSON(data []byte) (err error) {
+	// This validates that all required properties are included in the JSON object
+	// by unmarshalling the object into a generic map with string keys and checking
+	// that every required field exists as a key in the generic map.
+	requiredProperties := []string{
+		"eventType",
+		"eventDateTime",
+		"eventCreatedDateTime",
+		"eventClassifierCode",
+	}
+
+	allProperties := make(map[string]interface{})
+
+	err = json.Unmarshal(data, &allProperties)
+
+	if err != nil {
+		return err
+	}
+
+	for _, requiredProperty := range requiredProperties {
+		if _, exists := allProperties[requiredProperty]; !exists {
+			return fmt.Errorf("no value given for required property %v", requiredProperty)
+		}
+	}
+
+	varEvent := _Event{}
+
+	decoder := json.NewDecoder(bytes.NewReader(data))
+	decoder.DisallowUnknownFields()
+	err = decoder.Decode(&varEvent)
+
+	if err != nil {
+		return err
+	}
+
+	*o = Event(varEvent)
+
+	return err
 }
 
 type NullableEvent struct {

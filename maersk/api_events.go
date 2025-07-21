@@ -13,12 +13,12 @@ package maersk
 import (
 	"bytes"
 	"context"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/url"
 )
 
-type EventsApi interface {
+type EventsAPI interface {
 
 	/*
 			ListEvents Find events.
@@ -43,12 +43,12 @@ type EventsApi interface {
 	ListEventsExecute(r ApiListEventsRequest) (*Events, *http.Response, error)
 }
 
-// EventsApiService EventsApi service
-type EventsApiService service
+// EventsAPIService EventsAPI service
+type EventsAPIService service
 
 type ApiListEventsRequest struct {
 	ctx                        context.Context
-	ApiService                 EventsApi
+	ApiService                 EventsAPI
 	consumerKey                *string
 	authorization              *string
 	carrierBookingReference    *string
@@ -161,7 +161,7 @@ For example, shipmentEventTypeCode=DRFT and equipmentEventTypeCode=GTIN; since t
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return ApiListEventsRequest
 */
-func (a *EventsApiService) ListEvents(ctx context.Context) ApiListEventsRequest {
+func (a *EventsAPIService) ListEvents(ctx context.Context) ApiListEventsRequest {
 	return ApiListEventsRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -171,7 +171,7 @@ func (a *EventsApiService) ListEvents(ctx context.Context) ApiListEventsRequest 
 // Execute executes the request
 //
 //	@return Events
-func (a *EventsApiService) ListEventsExecute(r ApiListEventsRequest) (*Events, *http.Response, error) {
+func (a *EventsAPIService) ListEventsExecute(r ApiListEventsRequest) (*Events, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -179,7 +179,7 @@ func (a *EventsApiService) ListEventsExecute(r ApiListEventsRequest) (*Events, *
 		localVarReturnValue *Events
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "EventsApiService.ListEvents")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "EventsAPIService.ListEvents")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -197,34 +197,34 @@ func (a *EventsApiService) ListEventsExecute(r ApiListEventsRequest) (*Events, *
 	}
 
 	if r.carrierBookingReference != nil {
-		localVarQueryParams.Add("carrierBookingReference", parameterToString(*r.carrierBookingReference, ""))
+		parameterAddToHeaderOrQuery(localVarQueryParams, "carrierBookingReference", r.carrierBookingReference, "form", "")
 	}
 	if r.transportDocumentReference != nil {
-		localVarQueryParams.Add("transportDocumentReference", parameterToString(*r.transportDocumentReference, ""))
+		parameterAddToHeaderOrQuery(localVarQueryParams, "transportDocumentReference", r.transportDocumentReference, "form", "")
 	}
 	if r.equipmentReference != nil {
-		localVarQueryParams.Add("equipmentReference", parameterToString(*r.equipmentReference, ""))
+		parameterAddToHeaderOrQuery(localVarQueryParams, "equipmentReference", r.equipmentReference, "form", "")
 	}
 	if r.eventType != nil {
-		localVarQueryParams.Add("eventType", parameterToString(*r.eventType, "csv"))
+		parameterAddToHeaderOrQuery(localVarQueryParams, "eventType", r.eventType, "form", "csv")
 	}
 	if r.eventCreatedDateTime != nil {
-		localVarQueryParams.Add("eventCreatedDateTime", parameterToString(*r.eventCreatedDateTime, ""))
+		parameterAddToHeaderOrQuery(localVarQueryParams, "eventCreatedDateTime", r.eventCreatedDateTime, "form", "")
 	}
 	if r.shipmentEventTypeCode != nil {
-		localVarQueryParams.Add("shipmentEventTypeCode", parameterToString(*r.shipmentEventTypeCode, "csv"))
+		parameterAddToHeaderOrQuery(localVarQueryParams, "shipmentEventTypeCode", r.shipmentEventTypeCode, "form", "csv")
 	}
 	if r.transportEventTypeCode != nil {
-		localVarQueryParams.Add("transportEventTypeCode", parameterToString(*r.transportEventTypeCode, "csv"))
+		parameterAddToHeaderOrQuery(localVarQueryParams, "transportEventTypeCode", r.transportEventTypeCode, "form", "csv")
 	}
 	if r.equipmentEventTypeCode != nil {
-		localVarQueryParams.Add("equipmentEventTypeCode", parameterToString(*r.equipmentEventTypeCode, "csv"))
+		parameterAddToHeaderOrQuery(localVarQueryParams, "equipmentEventTypeCode", r.equipmentEventTypeCode, "form", "csv")
 	}
 	if r.limit != nil {
-		localVarQueryParams.Add("limit", parameterToString(*r.limit, ""))
+		parameterAddToHeaderOrQuery(localVarQueryParams, "limit", r.limit, "form", "")
 	}
 	if r.cursor != nil {
-		localVarQueryParams.Add("cursor", parameterToString(*r.cursor, ""))
+		parameterAddToHeaderOrQuery(localVarQueryParams, "cursor", r.cursor, "form", "")
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -244,10 +244,10 @@ func (a *EventsApiService) ListEventsExecute(r ApiListEventsRequest) (*Events, *
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	if r.aPIVersion != nil {
-		localVarHeaderParams["API-Version"] = parameterToString(*r.aPIVersion, "")
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "API-Version", r.aPIVersion, "simple", "")
 	}
-	localVarHeaderParams["Consumer-Key"] = parameterToString(*r.consumerKey, "")
-	localVarHeaderParams["Authorization"] = parameterToString(*r.authorization, "")
+	parameterAddToHeaderOrQuery(localVarHeaderParams, "Consumer-Key", r.consumerKey, "simple", "")
+	parameterAddToHeaderOrQuery(localVarHeaderParams, "Authorization", r.authorization, "simple", "")
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
@@ -272,9 +272,9 @@ func (a *EventsApiService) ListEventsExecute(r ApiListEventsRequest) (*Events, *
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -291,6 +291,7 @@ func (a *EventsApiService) ListEventsExecute(r ApiListEventsRequest) (*Events, *
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
 			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
@@ -301,6 +302,7 @@ func (a *EventsApiService) ListEventsExecute(r ApiListEventsRequest) (*Events, *
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
 			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
@@ -311,6 +313,7 @@ func (a *EventsApiService) ListEventsExecute(r ApiListEventsRequest) (*Events, *
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
 			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
@@ -321,6 +324,7 @@ func (a *EventsApiService) ListEventsExecute(r ApiListEventsRequest) (*Events, *
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
 			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
@@ -331,6 +335,7 @@ func (a *EventsApiService) ListEventsExecute(r ApiListEventsRequest) (*Events, *
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
 			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
