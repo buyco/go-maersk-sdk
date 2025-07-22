@@ -1,10 +1,10 @@
-# \AuthApi
+# \AuthAPI
 
 All URIs are relative to *https://api.maersk.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**CreateAccessToken**](AuthApi.md#CreateAccessToken) | **Post** /customer-identity/oauth/v2/access_token | 
+[**CreateAccessToken**](AuthAPI.md#CreateAccessToken) | **Post** /customer-identity/oauth/v2/access_token | 
 
 
 
@@ -20,27 +20,27 @@ Method | HTTP request | Description
 package main
 
 import (
-    "context"
-    "fmt"
-    "os"
-    openapiclient "./openapi"
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/buyco/go-maersk-sdk/maersk"
 )
 
 func main() {
-    consumerKey := "consumerKey_example" // string | The Consumer Key issued for your registered application.
-    grantType := "grantType_example" // string | 
-    clientId := "clientId_example" // string | 
-    clientSecret := "clientSecret_example" // string | 
+	consumerKey := "consumerKey_example" // string | The Consumer Key issued for your registered application.
+	grantType := "grantType_example" // string | 
+	clientId := "clientId_example" // string | 
+	clientSecret := "clientSecret_example" // string | 
 
-    configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.AuthApi.CreateAccessToken(context.Background()).ConsumerKey(consumerKey).GrantType(grantType).ClientId(clientId).ClientSecret(clientSecret).Execute()
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `AuthApi.CreateAccessToken``: %v\n", err)
-        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-    }
-    // response from `CreateAccessToken`: CreateAccessToken200Response
-    fmt.Fprintf(os.Stdout, "Response from `AuthApi.CreateAccessToken`: %v\n", resp)
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.AuthAPI.CreateAccessToken(context.Background()).ConsumerKey(consumerKey).GrantType(grantType).ClientId(clientId).ClientSecret(clientSecret).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `AuthAPI.CreateAccessToken``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `CreateAccessToken`: CreateAccessToken200Response
+	fmt.Fprintf(os.Stdout, "Response from `AuthAPI.CreateAccessToken`: %v\n", resp)
 }
 ```
 

@@ -190,7 +190,6 @@ paths:
                 - SHIPMENT
                 - TRANSPORT
                 - EQUIPMENT
-            default: [SHIPMENT,TRANSPORT,EQUIPMENT]
         - name: eventCreatedDateTime
           in: query
           description: |
@@ -257,7 +256,6 @@ paths:
                 - CMPL
                 - HOLD
                 - RELS
-            default: [RECE,DRFT,PENA,PENU,REJE,APPR,ISSU,SURR,SUBM,VOID,CONF,REQS,CMPL,HOLD,RELS]
         - name: transportEventTypeCode
           in: query
           explode: false
@@ -278,7 +276,6 @@ paths:
               enum:
                 - ARRI
                 - DEPA
-            default: [ARRI,DEPA]
         - name: equipmentEventTypeCode
           in: query
           explode: false
@@ -317,7 +314,6 @@ paths:
                 - RSEA
                 - RMVD
                 - INSP
-            default: [LOAD, DISC, GTIN, GTOT, STUF, STRP, PICK, DROP, RSEA, RMVD, INSP]
         - name: limit
           in: query
           description: Maximum number of items to return.
@@ -326,7 +322,6 @@ paths:
             type: integer
             format: int32
             minimum: 1
-            default: 100
           example: 100
         - name: cursor
           in: query

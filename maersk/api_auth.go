@@ -13,12 +13,12 @@ package maersk
 import (
 	"bytes"
 	"context"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/url"
 )
 
-type AuthApi interface {
+type AuthAPI interface {
 
 	/*
 		CreateAccessToken Method for CreateAccessToken
@@ -33,12 +33,12 @@ type AuthApi interface {
 	CreateAccessTokenExecute(r ApiCreateAccessTokenRequest) (*CreateAccessToken200Response, *http.Response, error)
 }
 
-// AuthApiService AuthApi service
-type AuthApiService service
+// AuthAPIService AuthAPI service
+type AuthAPIService service
 
 type ApiCreateAccessTokenRequest struct {
 	ctx          context.Context
-	ApiService   AuthApi
+	ApiService   AuthAPI
 	consumerKey  *string
 	grantType    *string
 	clientId     *string
@@ -76,7 +76,7 @@ CreateAccessToken Method for CreateAccessToken
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return ApiCreateAccessTokenRequest
 */
-func (a *AuthApiService) CreateAccessToken(ctx context.Context) ApiCreateAccessTokenRequest {
+func (a *AuthAPIService) CreateAccessToken(ctx context.Context) ApiCreateAccessTokenRequest {
 	return ApiCreateAccessTokenRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -86,7 +86,7 @@ func (a *AuthApiService) CreateAccessToken(ctx context.Context) ApiCreateAccessT
 // Execute executes the request
 //
 //	@return CreateAccessToken200Response
-func (a *AuthApiService) CreateAccessTokenExecute(r ApiCreateAccessTokenRequest) (*CreateAccessToken200Response, *http.Response, error) {
+func (a *AuthAPIService) CreateAccessTokenExecute(r ApiCreateAccessTokenRequest) (*CreateAccessToken200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -94,7 +94,7 @@ func (a *AuthApiService) CreateAccessTokenExecute(r ApiCreateAccessTokenRequest)
 		localVarReturnValue *CreateAccessToken200Response
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AuthApiService.CreateAccessToken")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AuthAPIService.CreateAccessToken")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -134,10 +134,10 @@ func (a *AuthApiService) CreateAccessTokenExecute(r ApiCreateAccessTokenRequest)
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	localVarHeaderParams["Consumer-Key"] = parameterToString(*r.consumerKey, "")
-	localVarFormParams.Add("grant_type", parameterToString(*r.grantType, ""))
-	localVarFormParams.Add("client_id", parameterToString(*r.clientId, ""))
-	localVarFormParams.Add("client_secret", parameterToString(*r.clientSecret, ""))
+	parameterAddToHeaderOrQuery(localVarHeaderParams, "Consumer-Key", r.consumerKey, "simple", "")
+	parameterAddToHeaderOrQuery(localVarFormParams, "grant_type", r.grantType, "", "")
+	parameterAddToHeaderOrQuery(localVarFormParams, "client_id", r.clientId, "", "")
+	parameterAddToHeaderOrQuery(localVarFormParams, "client_secret", r.clientSecret, "", "")
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
@@ -162,9 +162,9 @@ func (a *AuthApiService) CreateAccessTokenExecute(r ApiCreateAccessTokenRequest)
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -181,6 +181,7 @@ func (a *AuthApiService) CreateAccessTokenExecute(r ApiCreateAccessTokenRequest)
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
 			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
@@ -191,6 +192,7 @@ func (a *AuthApiService) CreateAccessTokenExecute(r ApiCreateAccessTokenRequest)
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
+			newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
 			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr

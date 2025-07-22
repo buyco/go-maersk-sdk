@@ -11,8 +11,13 @@ API version: 1.1.1
 package maersk
 
 import (
+	"bytes"
 	"encoding/json"
+	"fmt"
 )
+
+// checks if the ApiValidationError type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &ApiValidationError{}
 
 // ApiValidationError struct for ApiValidationError
 type ApiValidationError struct {
@@ -23,6 +28,8 @@ type ApiValidationError struct {
 	// The reason and advice for failed validation.
 	Message string `json:"message"`
 }
+
+type _ApiValidationError ApiValidationError
 
 // NewApiValidationError instantiates a new ApiValidationError object
 // This constructor will assign default values to properties that have it defined,
@@ -117,17 +124,58 @@ func (o *ApiValidationError) SetMessage(v string) {
 }
 
 func (o ApiValidationError) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if true {
-		toSerialize["field"] = o.Field
-	}
-	if true {
-		toSerialize["rejectedValue"] = o.RejectedValue
-	}
-	if true {
-		toSerialize["message"] = o.Message
+	toSerialize, err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
 	}
 	return json.Marshal(toSerialize)
+}
+
+func (o ApiValidationError) ToMap() (map[string]interface{}, error) {
+	toSerialize := map[string]interface{}{}
+	toSerialize["field"] = o.Field
+	toSerialize["rejectedValue"] = o.RejectedValue
+	toSerialize["message"] = o.Message
+	return toSerialize, nil
+}
+
+func (o *ApiValidationError) UnmarshalJSON(data []byte) (err error) {
+	// This validates that all required properties are included in the JSON object
+	// by unmarshalling the object into a generic map with string keys and checking
+	// that every required field exists as a key in the generic map.
+	requiredProperties := []string{
+		"field",
+		"rejectedValue",
+		"message",
+	}
+
+	allProperties := make(map[string]interface{})
+
+	err = json.Unmarshal(data, &allProperties)
+
+	if err != nil {
+		return err
+	}
+
+	for _, requiredProperty := range requiredProperties {
+		if _, exists := allProperties[requiredProperty]; !exists {
+			return fmt.Errorf("no value given for required property %v", requiredProperty)
+		}
+	}
+
+	varApiValidationError := _ApiValidationError{}
+
+	decoder := json.NewDecoder(bytes.NewReader(data))
+	decoder.DisallowUnknownFields()
+	err = decoder.Decode(&varApiValidationError)
+
+	if err != nil {
+		return err
+	}
+
+	*o = ApiValidationError(varApiValidationError)
+
+	return err
 }
 
 type NullableApiValidationError struct {

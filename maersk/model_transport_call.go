@@ -11,8 +11,13 @@ API version: 1.1.1
 package maersk
 
 import (
+	"bytes"
 	"encoding/json"
+	"fmt"
 )
+
+// checks if the TransportCall type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &TransportCall{}
 
 // TransportCall struct for TransportCall
 type TransportCall struct {
@@ -45,6 +50,8 @@ type TransportCall struct {
 	Vessel          *Vessel   `json:"vessel,omitempty"`
 }
 
+type _TransportCall TransportCall
+
 // NewTransportCall instantiates a new TransportCall object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
@@ -65,7 +72,7 @@ func NewTransportCallWithDefaults() *TransportCall {
 
 // GetTransportCallID returns the TransportCallID field value if set, zero value otherwise.
 func (o *TransportCall) GetTransportCallID() string {
-	if o == nil || o.TransportCallID == nil {
+	if o == nil || IsNil(o.TransportCallID) {
 		var ret string
 		return ret
 	}
@@ -75,7 +82,7 @@ func (o *TransportCall) GetTransportCallID() string {
 // GetTransportCallIDOk returns a tuple with the TransportCallID field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *TransportCall) GetTransportCallIDOk() (*string, bool) {
-	if o == nil || o.TransportCallID == nil {
+	if o == nil || IsNil(o.TransportCallID) {
 		return nil, false
 	}
 	return o.TransportCallID, true
@@ -83,7 +90,7 @@ func (o *TransportCall) GetTransportCallIDOk() (*string, bool) {
 
 // HasTransportCallID returns a boolean if a field has been set.
 func (o *TransportCall) HasTransportCallID() bool {
-	if o != nil && o.TransportCallID != nil {
+	if o != nil && !IsNil(o.TransportCallID) {
 		return true
 	}
 
@@ -97,7 +104,7 @@ func (o *TransportCall) SetTransportCallID(v string) {
 
 // GetCarrierServiceCode returns the CarrierServiceCode field value if set, zero value otherwise.
 func (o *TransportCall) GetCarrierServiceCode() string {
-	if o == nil || o.CarrierServiceCode == nil {
+	if o == nil || IsNil(o.CarrierServiceCode) {
 		var ret string
 		return ret
 	}
@@ -107,7 +114,7 @@ func (o *TransportCall) GetCarrierServiceCode() string {
 // GetCarrierServiceCodeOk returns a tuple with the CarrierServiceCode field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *TransportCall) GetCarrierServiceCodeOk() (*string, bool) {
-	if o == nil || o.CarrierServiceCode == nil {
+	if o == nil || IsNil(o.CarrierServiceCode) {
 		return nil, false
 	}
 	return o.CarrierServiceCode, true
@@ -115,7 +122,7 @@ func (o *TransportCall) GetCarrierServiceCodeOk() (*string, bool) {
 
 // HasCarrierServiceCode returns a boolean if a field has been set.
 func (o *TransportCall) HasCarrierServiceCode() bool {
-	if o != nil && o.CarrierServiceCode != nil {
+	if o != nil && !IsNil(o.CarrierServiceCode) {
 		return true
 	}
 
@@ -130,7 +137,7 @@ func (o *TransportCall) SetCarrierServiceCode(v string) {
 // GetCarrierVoyageNumber returns the CarrierVoyageNumber field value if set, zero value otherwise.
 // Deprecated
 func (o *TransportCall) GetCarrierVoyageNumber() string {
-	if o == nil || o.CarrierVoyageNumber == nil {
+	if o == nil || IsNil(o.CarrierVoyageNumber) {
 		var ret string
 		return ret
 	}
@@ -141,7 +148,7 @@ func (o *TransportCall) GetCarrierVoyageNumber() string {
 // and a boolean to check if the value has been set.
 // Deprecated
 func (o *TransportCall) GetCarrierVoyageNumberOk() (*string, bool) {
-	if o == nil || o.CarrierVoyageNumber == nil {
+	if o == nil || IsNil(o.CarrierVoyageNumber) {
 		return nil, false
 	}
 	return o.CarrierVoyageNumber, true
@@ -149,7 +156,7 @@ func (o *TransportCall) GetCarrierVoyageNumberOk() (*string, bool) {
 
 // HasCarrierVoyageNumber returns a boolean if a field has been set.
 func (o *TransportCall) HasCarrierVoyageNumber() bool {
-	if o != nil && o.CarrierVoyageNumber != nil {
+	if o != nil && !IsNil(o.CarrierVoyageNumber) {
 		return true
 	}
 
@@ -164,7 +171,7 @@ func (o *TransportCall) SetCarrierVoyageNumber(v string) {
 
 // GetExportVoyageNumber returns the ExportVoyageNumber field value if set, zero value otherwise.
 func (o *TransportCall) GetExportVoyageNumber() string {
-	if o == nil || o.ExportVoyageNumber == nil {
+	if o == nil || IsNil(o.ExportVoyageNumber) {
 		var ret string
 		return ret
 	}
@@ -174,7 +181,7 @@ func (o *TransportCall) GetExportVoyageNumber() string {
 // GetExportVoyageNumberOk returns a tuple with the ExportVoyageNumber field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *TransportCall) GetExportVoyageNumberOk() (*string, bool) {
-	if o == nil || o.ExportVoyageNumber == nil {
+	if o == nil || IsNil(o.ExportVoyageNumber) {
 		return nil, false
 	}
 	return o.ExportVoyageNumber, true
@@ -182,7 +189,7 @@ func (o *TransportCall) GetExportVoyageNumberOk() (*string, bool) {
 
 // HasExportVoyageNumber returns a boolean if a field has been set.
 func (o *TransportCall) HasExportVoyageNumber() bool {
-	if o != nil && o.ExportVoyageNumber != nil {
+	if o != nil && !IsNil(o.ExportVoyageNumber) {
 		return true
 	}
 
@@ -196,7 +203,7 @@ func (o *TransportCall) SetExportVoyageNumber(v string) {
 
 // GetImportVoyageNumber returns the ImportVoyageNumber field value if set, zero value otherwise.
 func (o *TransportCall) GetImportVoyageNumber() string {
-	if o == nil || o.ImportVoyageNumber == nil {
+	if o == nil || IsNil(o.ImportVoyageNumber) {
 		var ret string
 		return ret
 	}
@@ -206,7 +213,7 @@ func (o *TransportCall) GetImportVoyageNumber() string {
 // GetImportVoyageNumberOk returns a tuple with the ImportVoyageNumber field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *TransportCall) GetImportVoyageNumberOk() (*string, bool) {
-	if o == nil || o.ImportVoyageNumber == nil {
+	if o == nil || IsNil(o.ImportVoyageNumber) {
 		return nil, false
 	}
 	return o.ImportVoyageNumber, true
@@ -214,7 +221,7 @@ func (o *TransportCall) GetImportVoyageNumberOk() (*string, bool) {
 
 // HasImportVoyageNumber returns a boolean if a field has been set.
 func (o *TransportCall) HasImportVoyageNumber() bool {
-	if o != nil && o.ImportVoyageNumber != nil {
+	if o != nil && !IsNil(o.ImportVoyageNumber) {
 		return true
 	}
 
@@ -228,7 +235,7 @@ func (o *TransportCall) SetImportVoyageNumber(v string) {
 
 // GetTransportCallSequenceNumber returns the TransportCallSequenceNumber field value if set, zero value otherwise.
 func (o *TransportCall) GetTransportCallSequenceNumber() int32 {
-	if o == nil || o.TransportCallSequenceNumber == nil {
+	if o == nil || IsNil(o.TransportCallSequenceNumber) {
 		var ret int32
 		return ret
 	}
@@ -238,7 +245,7 @@ func (o *TransportCall) GetTransportCallSequenceNumber() int32 {
 // GetTransportCallSequenceNumberOk returns a tuple with the TransportCallSequenceNumber field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *TransportCall) GetTransportCallSequenceNumberOk() (*int32, bool) {
-	if o == nil || o.TransportCallSequenceNumber == nil {
+	if o == nil || IsNil(o.TransportCallSequenceNumber) {
 		return nil, false
 	}
 	return o.TransportCallSequenceNumber, true
@@ -246,7 +253,7 @@ func (o *TransportCall) GetTransportCallSequenceNumberOk() (*int32, bool) {
 
 // HasTransportCallSequenceNumber returns a boolean if a field has been set.
 func (o *TransportCall) HasTransportCallSequenceNumber() bool {
-	if o != nil && o.TransportCallSequenceNumber != nil {
+	if o != nil && !IsNil(o.TransportCallSequenceNumber) {
 		return true
 	}
 
@@ -260,7 +267,7 @@ func (o *TransportCall) SetTransportCallSequenceNumber(v int32) {
 
 // GetUNLocationCode returns the UNLocationCode field value if set, zero value otherwise.
 func (o *TransportCall) GetUNLocationCode() string {
-	if o == nil || o.UNLocationCode == nil {
+	if o == nil || IsNil(o.UNLocationCode) {
 		var ret string
 		return ret
 	}
@@ -270,7 +277,7 @@ func (o *TransportCall) GetUNLocationCode() string {
 // GetUNLocationCodeOk returns a tuple with the UNLocationCode field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *TransportCall) GetUNLocationCodeOk() (*string, bool) {
-	if o == nil || o.UNLocationCode == nil {
+	if o == nil || IsNil(o.UNLocationCode) {
 		return nil, false
 	}
 	return o.UNLocationCode, true
@@ -278,7 +285,7 @@ func (o *TransportCall) GetUNLocationCodeOk() (*string, bool) {
 
 // HasUNLocationCode returns a boolean if a field has been set.
 func (o *TransportCall) HasUNLocationCode() bool {
-	if o != nil && o.UNLocationCode != nil {
+	if o != nil && !IsNil(o.UNLocationCode) {
 		return true
 	}
 
@@ -292,7 +299,7 @@ func (o *TransportCall) SetUNLocationCode(v string) {
 
 // GetFacilityCode returns the FacilityCode field value if set, zero value otherwise.
 func (o *TransportCall) GetFacilityCode() string {
-	if o == nil || o.FacilityCode == nil {
+	if o == nil || IsNil(o.FacilityCode) {
 		var ret string
 		return ret
 	}
@@ -302,7 +309,7 @@ func (o *TransportCall) GetFacilityCode() string {
 // GetFacilityCodeOk returns a tuple with the FacilityCode field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *TransportCall) GetFacilityCodeOk() (*string, bool) {
-	if o == nil || o.FacilityCode == nil {
+	if o == nil || IsNil(o.FacilityCode) {
 		return nil, false
 	}
 	return o.FacilityCode, true
@@ -310,7 +317,7 @@ func (o *TransportCall) GetFacilityCodeOk() (*string, bool) {
 
 // HasFacilityCode returns a boolean if a field has been set.
 func (o *TransportCall) HasFacilityCode() bool {
-	if o != nil && o.FacilityCode != nil {
+	if o != nil && !IsNil(o.FacilityCode) {
 		return true
 	}
 
@@ -324,7 +331,7 @@ func (o *TransportCall) SetFacilityCode(v string) {
 
 // GetFacilityCodeListProvider returns the FacilityCodeListProvider field value if set, zero value otherwise.
 func (o *TransportCall) GetFacilityCodeListProvider() string {
-	if o == nil || o.FacilityCodeListProvider == nil {
+	if o == nil || IsNil(o.FacilityCodeListProvider) {
 		var ret string
 		return ret
 	}
@@ -334,7 +341,7 @@ func (o *TransportCall) GetFacilityCodeListProvider() string {
 // GetFacilityCodeListProviderOk returns a tuple with the FacilityCodeListProvider field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *TransportCall) GetFacilityCodeListProviderOk() (*string, bool) {
-	if o == nil || o.FacilityCodeListProvider == nil {
+	if o == nil || IsNil(o.FacilityCodeListProvider) {
 		return nil, false
 	}
 	return o.FacilityCodeListProvider, true
@@ -342,7 +349,7 @@ func (o *TransportCall) GetFacilityCodeListProviderOk() (*string, bool) {
 
 // HasFacilityCodeListProvider returns a boolean if a field has been set.
 func (o *TransportCall) HasFacilityCodeListProvider() bool {
-	if o != nil && o.FacilityCodeListProvider != nil {
+	if o != nil && !IsNil(o.FacilityCodeListProvider) {
 		return true
 	}
 
@@ -356,7 +363,7 @@ func (o *TransportCall) SetFacilityCodeListProvider(v string) {
 
 // GetFacilityTypeCode returns the FacilityTypeCode field value if set, zero value otherwise.
 func (o *TransportCall) GetFacilityTypeCode() string {
-	if o == nil || o.FacilityTypeCode == nil {
+	if o == nil || IsNil(o.FacilityTypeCode) {
 		var ret string
 		return ret
 	}
@@ -366,7 +373,7 @@ func (o *TransportCall) GetFacilityTypeCode() string {
 // GetFacilityTypeCodeOk returns a tuple with the FacilityTypeCode field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *TransportCall) GetFacilityTypeCodeOk() (*string, bool) {
-	if o == nil || o.FacilityTypeCode == nil {
+	if o == nil || IsNil(o.FacilityTypeCode) {
 		return nil, false
 	}
 	return o.FacilityTypeCode, true
@@ -374,7 +381,7 @@ func (o *TransportCall) GetFacilityTypeCodeOk() (*string, bool) {
 
 // HasFacilityTypeCode returns a boolean if a field has been set.
 func (o *TransportCall) HasFacilityTypeCode() bool {
-	if o != nil && o.FacilityTypeCode != nil {
+	if o != nil && !IsNil(o.FacilityTypeCode) {
 		return true
 	}
 
@@ -388,7 +395,7 @@ func (o *TransportCall) SetFacilityTypeCode(v string) {
 
 // GetOtherFacility returns the OtherFacility field value if set, zero value otherwise.
 func (o *TransportCall) GetOtherFacility() string {
-	if o == nil || o.OtherFacility == nil {
+	if o == nil || IsNil(o.OtherFacility) {
 		var ret string
 		return ret
 	}
@@ -398,7 +405,7 @@ func (o *TransportCall) GetOtherFacility() string {
 // GetOtherFacilityOk returns a tuple with the OtherFacility field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *TransportCall) GetOtherFacilityOk() (*string, bool) {
-	if o == nil || o.OtherFacility == nil {
+	if o == nil || IsNil(o.OtherFacility) {
 		return nil, false
 	}
 	return o.OtherFacility, true
@@ -406,7 +413,7 @@ func (o *TransportCall) GetOtherFacilityOk() (*string, bool) {
 
 // HasOtherFacility returns a boolean if a field has been set.
 func (o *TransportCall) HasOtherFacility() bool {
-	if o != nil && o.OtherFacility != nil {
+	if o != nil && !IsNil(o.OtherFacility) {
 		return true
 	}
 
@@ -444,7 +451,7 @@ func (o *TransportCall) SetModeOfTransport(v string) {
 
 // GetLocation returns the Location field value if set, zero value otherwise.
 func (o *TransportCall) GetLocation() Location {
-	if o == nil || o.Location == nil {
+	if o == nil || IsNil(o.Location) {
 		var ret Location
 		return ret
 	}
@@ -454,7 +461,7 @@ func (o *TransportCall) GetLocation() Location {
 // GetLocationOk returns a tuple with the Location field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *TransportCall) GetLocationOk() (*Location, bool) {
-	if o == nil || o.Location == nil {
+	if o == nil || IsNil(o.Location) {
 		return nil, false
 	}
 	return o.Location, true
@@ -462,7 +469,7 @@ func (o *TransportCall) GetLocationOk() (*Location, bool) {
 
 // HasLocation returns a boolean if a field has been set.
 func (o *TransportCall) HasLocation() bool {
-	if o != nil && o.Location != nil {
+	if o != nil && !IsNil(o.Location) {
 		return true
 	}
 
@@ -476,7 +483,7 @@ func (o *TransportCall) SetLocation(v Location) {
 
 // GetVessel returns the Vessel field value if set, zero value otherwise.
 func (o *TransportCall) GetVessel() Vessel {
-	if o == nil || o.Vessel == nil {
+	if o == nil || IsNil(o.Vessel) {
 		var ret Vessel
 		return ret
 	}
@@ -486,7 +493,7 @@ func (o *TransportCall) GetVessel() Vessel {
 // GetVesselOk returns a tuple with the Vessel field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *TransportCall) GetVesselOk() (*Vessel, bool) {
-	if o == nil || o.Vessel == nil {
+	if o == nil || IsNil(o.Vessel) {
 		return nil, false
 	}
 	return o.Vessel, true
@@ -494,7 +501,7 @@ func (o *TransportCall) GetVesselOk() (*Vessel, bool) {
 
 // HasVessel returns a boolean if a field has been set.
 func (o *TransportCall) HasVessel() bool {
-	if o != nil && o.Vessel != nil {
+	if o != nil && !IsNil(o.Vessel) {
 		return true
 	}
 
@@ -507,50 +514,93 @@ func (o *TransportCall) SetVessel(v Vessel) {
 }
 
 func (o TransportCall) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.TransportCallID != nil {
-		toSerialize["transportCallID"] = o.TransportCallID
-	}
-	if o.CarrierServiceCode != nil {
-		toSerialize["carrierServiceCode"] = o.CarrierServiceCode
-	}
-	if o.CarrierVoyageNumber != nil {
-		toSerialize["carrierVoyageNumber"] = o.CarrierVoyageNumber
-	}
-	if o.ExportVoyageNumber != nil {
-		toSerialize["exportVoyageNumber"] = o.ExportVoyageNumber
-	}
-	if o.ImportVoyageNumber != nil {
-		toSerialize["importVoyageNumber"] = o.ImportVoyageNumber
-	}
-	if o.TransportCallSequenceNumber != nil {
-		toSerialize["transportCallSequenceNumber"] = o.TransportCallSequenceNumber
-	}
-	if o.UNLocationCode != nil {
-		toSerialize["UNLocationCode"] = o.UNLocationCode
-	}
-	if o.FacilityCode != nil {
-		toSerialize["facilityCode"] = o.FacilityCode
-	}
-	if o.FacilityCodeListProvider != nil {
-		toSerialize["facilityCodeListProvider"] = o.FacilityCodeListProvider
-	}
-	if o.FacilityTypeCode != nil {
-		toSerialize["facilityTypeCode"] = o.FacilityTypeCode
-	}
-	if o.OtherFacility != nil {
-		toSerialize["otherFacility"] = o.OtherFacility
-	}
-	if true {
-		toSerialize["modeOfTransport"] = o.ModeOfTransport
-	}
-	if o.Location != nil {
-		toSerialize["location"] = o.Location
-	}
-	if o.Vessel != nil {
-		toSerialize["vessel"] = o.Vessel
+	toSerialize, err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
 	}
 	return json.Marshal(toSerialize)
+}
+
+func (o TransportCall) ToMap() (map[string]interface{}, error) {
+	toSerialize := map[string]interface{}{}
+	if !IsNil(o.TransportCallID) {
+		toSerialize["transportCallID"] = o.TransportCallID
+	}
+	if !IsNil(o.CarrierServiceCode) {
+		toSerialize["carrierServiceCode"] = o.CarrierServiceCode
+	}
+	if !IsNil(o.CarrierVoyageNumber) {
+		toSerialize["carrierVoyageNumber"] = o.CarrierVoyageNumber
+	}
+	if !IsNil(o.ExportVoyageNumber) {
+		toSerialize["exportVoyageNumber"] = o.ExportVoyageNumber
+	}
+	if !IsNil(o.ImportVoyageNumber) {
+		toSerialize["importVoyageNumber"] = o.ImportVoyageNumber
+	}
+	if !IsNil(o.TransportCallSequenceNumber) {
+		toSerialize["transportCallSequenceNumber"] = o.TransportCallSequenceNumber
+	}
+	if !IsNil(o.UNLocationCode) {
+		toSerialize["UNLocationCode"] = o.UNLocationCode
+	}
+	if !IsNil(o.FacilityCode) {
+		toSerialize["facilityCode"] = o.FacilityCode
+	}
+	if !IsNil(o.FacilityCodeListProvider) {
+		toSerialize["facilityCodeListProvider"] = o.FacilityCodeListProvider
+	}
+	if !IsNil(o.FacilityTypeCode) {
+		toSerialize["facilityTypeCode"] = o.FacilityTypeCode
+	}
+	if !IsNil(o.OtherFacility) {
+		toSerialize["otherFacility"] = o.OtherFacility
+	}
+	toSerialize["modeOfTransport"] = o.ModeOfTransport
+	if !IsNil(o.Location) {
+		toSerialize["location"] = o.Location
+	}
+	if !IsNil(o.Vessel) {
+		toSerialize["vessel"] = o.Vessel
+	}
+	return toSerialize, nil
+}
+
+func (o *TransportCall) UnmarshalJSON(data []byte) (err error) {
+	// This validates that all required properties are included in the JSON object
+	// by unmarshalling the object into a generic map with string keys and checking
+	// that every required field exists as a key in the generic map.
+	requiredProperties := []string{
+		"modeOfTransport",
+	}
+
+	allProperties := make(map[string]interface{})
+
+	err = json.Unmarshal(data, &allProperties)
+
+	if err != nil {
+		return err
+	}
+
+	for _, requiredProperty := range requiredProperties {
+		if _, exists := allProperties[requiredProperty]; !exists {
+			return fmt.Errorf("no value given for required property %v", requiredProperty)
+		}
+	}
+
+	varTransportCall := _TransportCall{}
+
+	decoder := json.NewDecoder(bytes.NewReader(data))
+	decoder.DisallowUnknownFields()
+	err = decoder.Decode(&varTransportCall)
+
+	if err != nil {
+		return err
+	}
+
+	*o = TransportCall(varTransportCall)
+
+	return err
 }
 
 type NullableTransportCall struct {

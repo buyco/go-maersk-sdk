@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the CreateAccessToken400Response type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &CreateAccessToken400Response{}
+
 // CreateAccessToken400Response struct for CreateAccessToken400Response
 type CreateAccessToken400Response struct {
 	ErrorDescription *string `json:"error_description,omitempty"`
@@ -39,7 +42,7 @@ func NewCreateAccessToken400ResponseWithDefaults() *CreateAccessToken400Response
 
 // GetErrorDescription returns the ErrorDescription field value if set, zero value otherwise.
 func (o *CreateAccessToken400Response) GetErrorDescription() string {
-	if o == nil || o.ErrorDescription == nil {
+	if o == nil || IsNil(o.ErrorDescription) {
 		var ret string
 		return ret
 	}
@@ -49,7 +52,7 @@ func (o *CreateAccessToken400Response) GetErrorDescription() string {
 // GetErrorDescriptionOk returns a tuple with the ErrorDescription field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *CreateAccessToken400Response) GetErrorDescriptionOk() (*string, bool) {
-	if o == nil || o.ErrorDescription == nil {
+	if o == nil || IsNil(o.ErrorDescription) {
 		return nil, false
 	}
 	return o.ErrorDescription, true
@@ -57,7 +60,7 @@ func (o *CreateAccessToken400Response) GetErrorDescriptionOk() (*string, bool) {
 
 // HasErrorDescription returns a boolean if a field has been set.
 func (o *CreateAccessToken400Response) HasErrorDescription() bool {
-	if o != nil && o.ErrorDescription != nil {
+	if o != nil && !IsNil(o.ErrorDescription) {
 		return true
 	}
 
@@ -71,7 +74,7 @@ func (o *CreateAccessToken400Response) SetErrorDescription(v string) {
 
 // GetError returns the Error field value if set, zero value otherwise.
 func (o *CreateAccessToken400Response) GetError() string {
-	if o == nil || o.Error == nil {
+	if o == nil || IsNil(o.Error) {
 		var ret string
 		return ret
 	}
@@ -81,7 +84,7 @@ func (o *CreateAccessToken400Response) GetError() string {
 // GetErrorOk returns a tuple with the Error field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *CreateAccessToken400Response) GetErrorOk() (*string, bool) {
-	if o == nil || o.Error == nil {
+	if o == nil || IsNil(o.Error) {
 		return nil, false
 	}
 	return o.Error, true
@@ -89,7 +92,7 @@ func (o *CreateAccessToken400Response) GetErrorOk() (*string, bool) {
 
 // HasError returns a boolean if a field has been set.
 func (o *CreateAccessToken400Response) HasError() bool {
-	if o != nil && o.Error != nil {
+	if o != nil && !IsNil(o.Error) {
 		return true
 	}
 
@@ -102,14 +105,22 @@ func (o *CreateAccessToken400Response) SetError(v string) {
 }
 
 func (o CreateAccessToken400Response) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.ErrorDescription != nil {
-		toSerialize["error_description"] = o.ErrorDescription
-	}
-	if o.Error != nil {
-		toSerialize["error"] = o.Error
+	toSerialize, err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
 	}
 	return json.Marshal(toSerialize)
+}
+
+func (o CreateAccessToken400Response) ToMap() (map[string]interface{}, error) {
+	toSerialize := map[string]interface{}{}
+	if !IsNil(o.ErrorDescription) {
+		toSerialize["error_description"] = o.ErrorDescription
+	}
+	if !IsNil(o.Error) {
+		toSerialize["error"] = o.Error
+	}
+	return toSerialize, nil
 }
 
 type NullableCreateAccessToken400Response struct {

@@ -11,8 +11,13 @@ API version: 1.1.1
 package maersk
 
 import (
+	"bytes"
 	"encoding/json"
+	"fmt"
 )
+
+// checks if the Seal type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &Seal{}
 
 // Seal Addresses the seal-related information associated with the shipment equipment. A seal is put on a shipment equipment once it is loaded. This seal is meant to stay on until the shipment equipment reaches its final destination.
 type Seal struct {
@@ -23,6 +28,8 @@ type Seal struct {
 	// The type of seal. This attribute links to the Seal Type ID defined in the Seal Type reference data entity. * KLP (Keyless padlock) * BLT (Bolt) * WIR (Wire)
 	SealType string `json:"sealType"`
 }
+
+type _Seal Seal
 
 // NewSeal instantiates a new Seal object
 // This constructor will assign default values to properties that have it defined,
@@ -69,7 +76,7 @@ func (o *Seal) SetSealNumber(v string) {
 
 // GetSealSource returns the SealSource field value if set, zero value otherwise.
 func (o *Seal) GetSealSource() string {
-	if o == nil || o.SealSource == nil {
+	if o == nil || IsNil(o.SealSource) {
 		var ret string
 		return ret
 	}
@@ -79,7 +86,7 @@ func (o *Seal) GetSealSource() string {
 // GetSealSourceOk returns a tuple with the SealSource field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Seal) GetSealSourceOk() (*string, bool) {
-	if o == nil || o.SealSource == nil {
+	if o == nil || IsNil(o.SealSource) {
 		return nil, false
 	}
 	return o.SealSource, true
@@ -87,7 +94,7 @@ func (o *Seal) GetSealSourceOk() (*string, bool) {
 
 // HasSealSource returns a boolean if a field has been set.
 func (o *Seal) HasSealSource() bool {
-	if o != nil && o.SealSource != nil {
+	if o != nil && !IsNil(o.SealSource) {
 		return true
 	}
 
@@ -124,17 +131,59 @@ func (o *Seal) SetSealType(v string) {
 }
 
 func (o Seal) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if true {
-		toSerialize["sealNumber"] = o.SealNumber
-	}
-	if o.SealSource != nil {
-		toSerialize["sealSource"] = o.SealSource
-	}
-	if true {
-		toSerialize["sealType"] = o.SealType
+	toSerialize, err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
 	}
 	return json.Marshal(toSerialize)
+}
+
+func (o Seal) ToMap() (map[string]interface{}, error) {
+	toSerialize := map[string]interface{}{}
+	toSerialize["sealNumber"] = o.SealNumber
+	if !IsNil(o.SealSource) {
+		toSerialize["sealSource"] = o.SealSource
+	}
+	toSerialize["sealType"] = o.SealType
+	return toSerialize, nil
+}
+
+func (o *Seal) UnmarshalJSON(data []byte) (err error) {
+	// This validates that all required properties are included in the JSON object
+	// by unmarshalling the object into a generic map with string keys and checking
+	// that every required field exists as a key in the generic map.
+	requiredProperties := []string{
+		"sealNumber",
+		"sealType",
+	}
+
+	allProperties := make(map[string]interface{})
+
+	err = json.Unmarshal(data, &allProperties)
+
+	if err != nil {
+		return err
+	}
+
+	for _, requiredProperty := range requiredProperties {
+		if _, exists := allProperties[requiredProperty]; !exists {
+			return fmt.Errorf("no value given for required property %v", requiredProperty)
+		}
+	}
+
+	varSeal := _Seal{}
+
+	decoder := json.NewDecoder(bytes.NewReader(data))
+	decoder.DisallowUnknownFields()
+	err = decoder.Decode(&varSeal)
+
+	if err != nil {
+		return err
+	}
+
+	*o = Seal(varSeal)
+
+	return err
 }
 
 type NullableSeal struct {

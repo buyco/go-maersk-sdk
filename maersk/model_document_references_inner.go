@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the DocumentReferencesInner type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &DocumentReferencesInner{}
+
 // DocumentReferencesInner struct for DocumentReferencesInner
 type DocumentReferencesInner struct {
 	// Describes where the documentReferenceValue is pointing to * BKG (Booking) * TRD (Transport Document)
@@ -41,7 +44,7 @@ func NewDocumentReferencesInnerWithDefaults() *DocumentReferencesInner {
 
 // GetDocumentReferenceType returns the DocumentReferenceType field value if set, zero value otherwise.
 func (o *DocumentReferencesInner) GetDocumentReferenceType() string {
-	if o == nil || o.DocumentReferenceType == nil {
+	if o == nil || IsNil(o.DocumentReferenceType) {
 		var ret string
 		return ret
 	}
@@ -51,7 +54,7 @@ func (o *DocumentReferencesInner) GetDocumentReferenceType() string {
 // GetDocumentReferenceTypeOk returns a tuple with the DocumentReferenceType field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *DocumentReferencesInner) GetDocumentReferenceTypeOk() (*string, bool) {
-	if o == nil || o.DocumentReferenceType == nil {
+	if o == nil || IsNil(o.DocumentReferenceType) {
 		return nil, false
 	}
 	return o.DocumentReferenceType, true
@@ -59,7 +62,7 @@ func (o *DocumentReferencesInner) GetDocumentReferenceTypeOk() (*string, bool) {
 
 // HasDocumentReferenceType returns a boolean if a field has been set.
 func (o *DocumentReferencesInner) HasDocumentReferenceType() bool {
-	if o != nil && o.DocumentReferenceType != nil {
+	if o != nil && !IsNil(o.DocumentReferenceType) {
 		return true
 	}
 
@@ -73,7 +76,7 @@ func (o *DocumentReferencesInner) SetDocumentReferenceType(v string) {
 
 // GetDocumentReferenceValue returns the DocumentReferenceValue field value if set, zero value otherwise.
 func (o *DocumentReferencesInner) GetDocumentReferenceValue() string {
-	if o == nil || o.DocumentReferenceValue == nil {
+	if o == nil || IsNil(o.DocumentReferenceValue) {
 		var ret string
 		return ret
 	}
@@ -83,7 +86,7 @@ func (o *DocumentReferencesInner) GetDocumentReferenceValue() string {
 // GetDocumentReferenceValueOk returns a tuple with the DocumentReferenceValue field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *DocumentReferencesInner) GetDocumentReferenceValueOk() (*string, bool) {
-	if o == nil || o.DocumentReferenceValue == nil {
+	if o == nil || IsNil(o.DocumentReferenceValue) {
 		return nil, false
 	}
 	return o.DocumentReferenceValue, true
@@ -91,7 +94,7 @@ func (o *DocumentReferencesInner) GetDocumentReferenceValueOk() (*string, bool) 
 
 // HasDocumentReferenceValue returns a boolean if a field has been set.
 func (o *DocumentReferencesInner) HasDocumentReferenceValue() bool {
-	if o != nil && o.DocumentReferenceValue != nil {
+	if o != nil && !IsNil(o.DocumentReferenceValue) {
 		return true
 	}
 
@@ -104,14 +107,22 @@ func (o *DocumentReferencesInner) SetDocumentReferenceValue(v string) {
 }
 
 func (o DocumentReferencesInner) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.DocumentReferenceType != nil {
-		toSerialize["documentReferenceType"] = o.DocumentReferenceType
-	}
-	if o.DocumentReferenceValue != nil {
-		toSerialize["documentReferenceValue"] = o.DocumentReferenceValue
+	toSerialize, err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
 	}
 	return json.Marshal(toSerialize)
+}
+
+func (o DocumentReferencesInner) ToMap() (map[string]interface{}, error) {
+	toSerialize := map[string]interface{}{}
+	if !IsNil(o.DocumentReferenceType) {
+		toSerialize["documentReferenceType"] = o.DocumentReferenceType
+	}
+	if !IsNil(o.DocumentReferenceValue) {
+		toSerialize["documentReferenceValue"] = o.DocumentReferenceValue
+	}
+	return toSerialize, nil
 }
 
 type NullableDocumentReferencesInner struct {
