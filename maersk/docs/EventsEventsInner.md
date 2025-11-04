@@ -14,7 +14,7 @@ Name | Type | Description | Notes
 **DocumentTypeCode** | **string** | The code to identify the type of information documentID points to. Can be one of the following values * CBR (Carrier Booking Request Reference) * BKG (Booking) * SHI (Shipping Instruction) * SRM (Shipment Release Message) * TRD (Transport Document) * ARN (Arrival Notice) * VGM (Verified Gross Mass) * CAS (Cargo Survey) * CUS (Customs Inspection) * DGD (Dangerous Goods Declaration) * OOG (Out of Gauge)  | 
 **DocumentID** | **string** | The ID of the object defined by the Shipment Information Type. In some cases this is a UUID; in other cases this is a string.  | 
 **Reason** | Pointer to **string** | Reason field in a Shipment event. This field can be used to explain why a specific event has been sent. | [optional] 
-**TransportEventTypeCode** | Pointer to **string** | Identifier for type of Transport event - ARRI (Arrived) - DEPA (Departed)  | [optional] 
+**TransportEventTypeCode** | **string** | Identifier for type of Transport event - ARRI (Arrived) - DEPA (Departed)  | 
 **DelayReasonCode** | Pointer to **string** | Reason code for the delay. The SMDG-Delay-Reason-Codes are used for this attribute. The code list can be found at http://www.smdg.org/smdg-code-lists/  | [optional] 
 **ChangeRemark** | Pointer to **string** | Free text information provided by the vessel operator regarding the reasons for the change in schedule and/or plans to mitigate schedule slippage. | [optional] 
 **DocumentReferences** | Pointer to [**[]DocumentReferencesInner**](DocumentReferencesInner.md) | An optional list of key-value (documentReferenceType-documentReferenceValue) pairs representing links to objects relevant to the event. The documentReferenceType-field is used to describe where the documentReferenceValue-field is pointing to. | [optional] 
@@ -30,7 +30,7 @@ Name | Type | Description | Notes
 
 ### NewEventsEventsInner
 
-`func NewEventsEventsInner(eventType string, eventDateTime string, eventCreatedDateTime time.Time, eventClassifierCode string, shipmentEventTypeCode string, documentTypeCode string, documentID string, transportCall TransportCall, emptyIndicatorCode string, ) *EventsEventsInner`
+`func NewEventsEventsInner(eventType string, eventDateTime string, eventCreatedDateTime time.Time, eventClassifierCode string, shipmentEventTypeCode string, documentTypeCode string, documentID string, transportEventTypeCode string, transportCall TransportCall, emptyIndicatorCode string, ) *EventsEventsInner`
 
 NewEventsEventsInner instantiates a new EventsEventsInner object
 This constructor will assign default values to properties that have it defined,
@@ -279,11 +279,6 @@ and a boolean to check if the value has been set.
 
 SetTransportEventTypeCode sets TransportEventTypeCode field to given value.
 
-### HasTransportEventTypeCode
-
-`func (o *EventsEventsInner) HasTransportEventTypeCode() bool`
-
-HasTransportEventTypeCode returns a boolean if a field has been set.
 
 ### GetDelayReasonCode
 

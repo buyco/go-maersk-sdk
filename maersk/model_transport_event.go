@@ -34,7 +34,7 @@ type TransportEvent struct {
 	// References provided by the shipper or freight forwarder at the time of booking or at the time of providing shipping instruction. Carriers share it back when providing track and trace event updates, some are also printed on the B/L. Customers can use these references to track shipments in their internal systems.
 	References []EventReferencesInner `json:"references,omitempty"`
 	// Identifier for type of Transport event - ARRI (Arrived) - DEPA (Departed)
-	TransportEventTypeCode *string `json:"transportEventTypeCode,omitempty"`
+	TransportEventTypeCode string `json:"transportEventTypeCode"`
 	// Reason code for the delay. The SMDG-Delay-Reason-Codes are used for this attribute. The code list can be found at http://www.smdg.org/smdg-code-lists/
 	DelayReasonCode *string `json:"delayReasonCode,omitempty"`
 	// Free text information provided by the vessel operator regarding the reasons for the change in schedule and/or plans to mitigate schedule slippage.
@@ -50,12 +50,13 @@ type _TransportEvent TransportEvent
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewTransportEvent(eventType string, eventDateTime string, eventCreatedDateTime time.Time, eventClassifierCode string, transportCall TransportCall) *TransportEvent {
+func NewTransportEvent(eventType string, eventDateTime string, eventCreatedDateTime time.Time, eventClassifierCode string, transportEventTypeCode string, transportCall TransportCall) *TransportEvent {
 	this := TransportEvent{}
 	this.EventType = eventType
 	this.EventDateTime = eventDateTime
 	this.EventCreatedDateTime = eventCreatedDateTime
 	this.EventClassifierCode = eventClassifierCode
+	this.TransportEventTypeCode = transportEventTypeCode
 	this.TransportCall = transportCall
 	return &this
 }
@@ -228,36 +229,28 @@ func (o *TransportEvent) SetReferences(v []EventReferencesInner) {
 	o.References = v
 }
 
-// GetTransportEventTypeCode returns the TransportEventTypeCode field value if set, zero value otherwise.
+// GetTransportEventTypeCode returns the TransportEventTypeCode field value
 func (o *TransportEvent) GetTransportEventTypeCode() string {
-	if o == nil || IsNil(o.TransportEventTypeCode) {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.TransportEventTypeCode
+
+	return o.TransportEventTypeCode
 }
 
-// GetTransportEventTypeCodeOk returns a tuple with the TransportEventTypeCode field value if set, nil otherwise
+// GetTransportEventTypeCodeOk returns a tuple with the TransportEventTypeCode field value
 // and a boolean to check if the value has been set.
 func (o *TransportEvent) GetTransportEventTypeCodeOk() (*string, bool) {
-	if o == nil || IsNil(o.TransportEventTypeCode) {
+	if o == nil {
 		return nil, false
 	}
-	return o.TransportEventTypeCode, true
+	return &o.TransportEventTypeCode, true
 }
 
-// HasTransportEventTypeCode returns a boolean if a field has been set.
-func (o *TransportEvent) HasTransportEventTypeCode() bool {
-	if o != nil && !IsNil(o.TransportEventTypeCode) {
-		return true
-	}
-
-	return false
-}
-
-// SetTransportEventTypeCode gets a reference to the given string and assigns it to the TransportEventTypeCode field.
+// SetTransportEventTypeCode sets field value
 func (o *TransportEvent) SetTransportEventTypeCode(v string) {
-	o.TransportEventTypeCode = &v
+	o.TransportEventTypeCode = v
 }
 
 // GetDelayReasonCode returns the DelayReasonCode field value if set, zero value otherwise.
@@ -400,9 +393,7 @@ func (o TransportEvent) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.References) {
 		toSerialize["references"] = o.References
 	}
-	if !IsNil(o.TransportEventTypeCode) {
-		toSerialize["transportEventTypeCode"] = o.TransportEventTypeCode
-	}
+	toSerialize["transportEventTypeCode"] = o.TransportEventTypeCode
 	if !IsNil(o.DelayReasonCode) {
 		toSerialize["delayReasonCode"] = o.DelayReasonCode
 	}
@@ -425,6 +416,7 @@ func (o *TransportEvent) UnmarshalJSON(data []byte) (err error) {
 		"eventDateTime",
 		"eventCreatedDateTime",
 		"eventClassifierCode",
+		"transportEventTypeCode",
 		"transportCall",
 	}
 
