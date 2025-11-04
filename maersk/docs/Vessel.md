@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**VesselIMONumber** | **string** | The unique reference for a registered Vessel. The reference is the International Maritime Organisation (IMO) number, also sometimes known as the Lloyd&#39;s register code, which does not change during the lifetime of the vessel | 
+**VesselIMONumber** | Pointer to **string** | The unique reference for a registered Vessel. The reference is the International Maritime Organisation (IMO) number, also sometimes known as the Lloyd&#39;s register code, which does not change during the lifetime of the vessel | [optional] 
 **VesselName** | Pointer to **string** | The name of the Vessel given by the Vessel Operator and registered with IMO. | [optional] 
 **VesselFlag** | Pointer to **string** | The flag of the nation whose laws the vessel is registered under. This is the ISO 3166 two-letter country code | [optional] 
 **VesselCallSignNumber** | Pointer to **string** | A unique alphanumeric identity that belongs to the vessel and is assigned by the International Telecommunication Union (ITU). It consists of a three letter alphanumeric prefix that indicates nationality, followed by one to four characters to identify the individual vessel. For instance, vessels registered under Denmark are assigned the prefix ranges 5PA-5QZ, OUAOZZ, and XPA-XPZ. The Call Sign changes whenever a vessel changes its flag. | [optional] 
@@ -15,7 +15,7 @@ Name | Type | Description | Notes
 
 ### NewVessel
 
-`func NewVessel(vesselIMONumber string, ) *Vessel`
+`func NewVessel() *Vessel`
 
 NewVessel instantiates a new Vessel object
 This constructor will assign default values to properties that have it defined,
@@ -49,6 +49,11 @@ and a boolean to check if the value has been set.
 
 SetVesselIMONumber sets VesselIMONumber field to given value.
 
+### HasVesselIMONumber
+
+`func (o *Vessel) HasVesselIMONumber() bool`
+
+HasVesselIMONumber returns a boolean if a field has been set.
 
 ### GetVesselName
 

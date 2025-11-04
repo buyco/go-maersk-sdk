@@ -434,8 +434,6 @@ components:
           documentReferenceValue: 85943567-eedb-98d3-f4ed-aed697474ed4
     Vessel:
       type: object
-      required:
-        - vesselIMONumber
       properties:
         vesselIMONumber:
           description: The unique reference for a registered Vessel. The reference is the International Maritime Organisation (IMO) number, also sometimes known as the Lloyd's register code, which does not change during the lifetime of the vessel
@@ -878,7 +876,7 @@ components:
             documentReferences:
               $ref: '#/components/schemas/DocumentReferences'
           required:
-            - transportEventType
+            - transportEventTypeCode
         - type: object
           properties:
             transportCall:

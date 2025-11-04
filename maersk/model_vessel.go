@@ -11,9 +11,7 @@ API version: 1.1.1
 package maersk
 
 import (
-	"bytes"
 	"encoding/json"
-	"fmt"
 )
 
 // checks if the Vessel type satisfies the MappedNullable interface at compile time
@@ -22,7 +20,7 @@ var _ MappedNullable = &Vessel{}
 // Vessel struct for Vessel
 type Vessel struct {
 	// The unique reference for a registered Vessel. The reference is the International Maritime Organisation (IMO) number, also sometimes known as the Lloyd's register code, which does not change during the lifetime of the vessel
-	VesselIMONumber string `json:"vesselIMONumber"`
+	VesselIMONumber *string `json:"vesselIMONumber,omitempty"`
 	// The name of the Vessel given by the Vessel Operator and registered with IMO.
 	VesselName *string `json:"vesselName,omitempty"`
 	// The flag of the nation whose laws the vessel is registered under. This is the ISO 3166 two-letter country code
@@ -35,15 +33,12 @@ type Vessel struct {
 	VesselOperatorCarrierCodeListProvider *string `json:"vesselOperatorCarrierCodeListProvider,omitempty"`
 }
 
-type _Vessel Vessel
-
 // NewVessel instantiates a new Vessel object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewVessel(vesselIMONumber string) *Vessel {
+func NewVessel() *Vessel {
 	this := Vessel{}
-	this.VesselIMONumber = vesselIMONumber
 	return &this
 }
 
@@ -55,28 +50,36 @@ func NewVesselWithDefaults() *Vessel {
 	return &this
 }
 
-// GetVesselIMONumber returns the VesselIMONumber field value
+// GetVesselIMONumber returns the VesselIMONumber field value if set, zero value otherwise.
 func (o *Vessel) GetVesselIMONumber() string {
-	if o == nil {
+	if o == nil || IsNil(o.VesselIMONumber) {
 		var ret string
 		return ret
 	}
-
-	return o.VesselIMONumber
+	return *o.VesselIMONumber
 }
 
-// GetVesselIMONumberOk returns a tuple with the VesselIMONumber field value
+// GetVesselIMONumberOk returns a tuple with the VesselIMONumber field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Vessel) GetVesselIMONumberOk() (*string, bool) {
-	if o == nil {
+	if o == nil || IsNil(o.VesselIMONumber) {
 		return nil, false
 	}
-	return &o.VesselIMONumber, true
+	return o.VesselIMONumber, true
 }
 
-// SetVesselIMONumber sets field value
+// HasVesselIMONumber returns a boolean if a field has been set.
+func (o *Vessel) HasVesselIMONumber() bool {
+	if o != nil && !IsNil(o.VesselIMONumber) {
+		return true
+	}
+
+	return false
+}
+
+// SetVesselIMONumber gets a reference to the given string and assigns it to the VesselIMONumber field.
 func (o *Vessel) SetVesselIMONumber(v string) {
-	o.VesselIMONumber = v
+	o.VesselIMONumber = &v
 }
 
 // GetVesselName returns the VesselName field value if set, zero value otherwise.
@@ -249,7 +252,9 @@ func (o Vessel) MarshalJSON() ([]byte, error) {
 
 func (o Vessel) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["vesselIMONumber"] = o.VesselIMONumber
+	if !IsNil(o.VesselIMONumber) {
+		toSerialize["vesselIMONumber"] = o.VesselIMONumber
+	}
 	if !IsNil(o.VesselName) {
 		toSerialize["vesselName"] = o.VesselName
 	}
@@ -266,43 +271,6 @@ func (o Vessel) ToMap() (map[string]interface{}, error) {
 		toSerialize["vesselOperatorCarrierCodeListProvider"] = o.VesselOperatorCarrierCodeListProvider
 	}
 	return toSerialize, nil
-}
-
-func (o *Vessel) UnmarshalJSON(data []byte) (err error) {
-	// This validates that all required properties are included in the JSON object
-	// by unmarshalling the object into a generic map with string keys and checking
-	// that every required field exists as a key in the generic map.
-	requiredProperties := []string{
-		"vesselIMONumber",
-	}
-
-	allProperties := make(map[string]interface{})
-
-	err = json.Unmarshal(data, &allProperties)
-
-	if err != nil {
-		return err
-	}
-
-	for _, requiredProperty := range requiredProperties {
-		if _, exists := allProperties[requiredProperty]; !exists {
-			return fmt.Errorf("no value given for required property %v", requiredProperty)
-		}
-	}
-
-	varVessel := _Vessel{}
-
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varVessel)
-
-	if err != nil {
-		return err
-	}
-
-	*o = Vessel(varVessel)
-
-	return err
 }
 
 type NullableVessel struct {
